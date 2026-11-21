@@ -1,6 +1,6 @@
 # Current architecture
 
-The Expo Router client connects to the Node bridge. The bridge authenticates browser sessions and relays `/gemini` WebSockets to Gemini Live. Explicit OpenClaw tool routes are loaded only when `ENABLE_OPENCLAW_ROUTES=true`; the offline test path never loads a gateway.
+The Expo Router client connects to the Node bridge. The bridge authenticates browser sessions and relays `/gemini` WebSockets to Gemini Live. Explicit OpenClaw tool routes are loaded only when `BRIDGE_ENABLE_OPENCLAW_ROUTES=1`; the offline test path never loads a gateway.
 
 ```mermaid
 flowchart LR
