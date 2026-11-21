@@ -1,0 +1,2503 @@
+<USER_REQUEST>
+entra a /home/m8apps/projects/Gemini Live
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-06-15T13:27:54-05:00.
+</ADDITIONAL_METADATA>
+<USER_SETTINGS_CHANGE>
+The user changed setting `Model Selection` from None to Gemini 3.1 Pro (High). No need to comment on this change if the user doesn't ask about it. If reporting what model you are, please use a human readable name instead of the exact string.
+</USER_SETTINGS_CHANGE>
+null
+The following is an <EPHEMERAL_MESSAGE> not actually sent by the user. It is provided by the system as a set of reminders and general important information to pay attention to. Do NOT respond to this message, just act accordingly.
+
+<EPHEMERAL_MESSAGE>
+<planning_mode>
+You're in planning mode. Exercise judgement on whether the user's last request warrants a plan and take action accordingly.
+If the user's request warrants a plan then follow this workflow:
+1. Research first before taking actions. Do not use your code editing tools or run modifying commands during this time.
+2. Create an implementation plan artifact with `request_feedback = true` to request approval. Include any open questions for the user directly in the implementation plan. Don't use the ask_question tool to ask these questions. Stop calling tools and allow the user to review the plan and provide feedback or approval.
+3. After receiving approval, begin execution. Create and update the task artifact as you work.
+4. Verify any work that you have done.
+5. Create a walkthrough artifact to present your work to the user. When writing artifacts, make sure to follow the artifact formatting guidelines and use github alerts to highlight critical sections.
+If the user's request does NOT warrant a plan then continue your work WITHOUT making a plan or requesting user feedback.
+</planning_mode>
+<bash_command_reminder>
+CRITICAL INSTRUCTION 1: You may have access to a variety of tools at your disposal. Some tools may be for a specific task such as 'view_file' (for viewing contents of a file). Others may be very broadly applicable such as the ability to run a command on a terminal. Always prioritize using the most specific tool you can for the task at hand. Here are some rules: (a) NEVER run cat inside a bash command to create a new file or append to an existing file. (b) ALWAYS use grep_search instead of running grep inside a bash command unless absolutely needed. (c) DO NOT use ls for listing, cat for viewing, grep for finding, sed for replacing. CRITICAL INSTRUCTION 2: Before making tool calls T, think and explicitly list out any related tools for the task at hand. You can only execute a set of tools T if all other tools in the list are either more generic or cannot be used for the task at hand. ALWAYS START your thought with recalling critical instructions 1 and 2. In particular, the format for the start of your thought block must be '...94>thought
+CRITICAL INSTRUCTION 1: ...
+CRITICAL INSTRUCTION 2: ...'.
+</bash_command_reminder>
+</EPHEMERAL_MESSAGE>
+null
+Created At: 2026-06-15T18:28:01Z
+Completed At: 2026-06-15T18:28:01Z
+{"name":".env.example", "sizeBytes":"1113"}
+{"name":".git", "isDir":true}
+{"name":".gitignore", "sizeBytes":"502"}
+{"name":"ANDROID_PLAN.md", "sizeBytes":"13732"}
+{"name":"ARCHITECTURE.md", "sizeBytes":"2501"}
+{"name":"AUDIT.md", "sizeBytes":"10404"}
+{"name":"DECISIONS.md", "sizeBytes":"9820"}
+{"name":"M8LIVE-UNIFICATION-2026-04-13.md", "sizeBytes":"4842"}
+{"name":"UI-REDESIGN-SPEC.md", "sizeBytes":"4289"}
+{"name":"app", "isDir":true}
+{"name":"app.json", "sizeBytes":"1901"}
+{"name":"assets", "isDir":true}
+{"name":"components", "isDir":true}
+{"name":"dist", "isDir":true}
+{"name":"eas.json", "sizeBytes":"262"}
+{"name":"find.sh", "sizeBytes":"167"}
+{"name":"index.ts", "sizeBytes":"307"}
+{"name":"node_modules", "isDir":true}
+{"name":"package-lock.json", "sizeBytes":"377367"}
+{"name":"package.json", "sizeBytes":"1787"}
+{"name":"plugins", "isDir":true}
+{"name":"probe.mjs", "sizeBytes":"2076"}
+{"name":"probe2.mjs", "sizeBytes":"2396"}
+{"name":"probe3.mjs", "sizeBytes":"2511"}
+{"name":"probe4.mjs", "sizeBytes":"2412"}
+{"name":"probe5.mjs", "sizeBytes":"3146"}
+{"name":"proxy.mjs", "sizeBytes":"67234"}
+{"name":"reference-ui.jpg", "sizeBytes":"23633"}
+{"name":"rename.sh", "sizeBytes":"232"}
+{"name":"scripts", "isDir":true}
+{"name":"src", "isDir":true}
+{"name":"stitch-reference", "isDir":true}
+{"name":"test-inject.mjs", "sizeBytes":"445"}
+{"name":"tsconfig.json", "sizeBytes":"224"}
+
+Summary: This directory contains 10 subdirectories and 24 files.
+The following is an <EPHEMERAL_MESSAGE> not actually sent by the user. It is provided by the system as a set of reminders and general important information to pay attention to. Do NOT respond to this message, just act accordingly.
+
+<EPHEMERAL_MESSAGE>
+<planning_mode>
+You're in planning mode. Exercise judgement on whether the user's last request warrants a plan and take action accordingly.
+If the user's request warrants a plan then follow this workflow:
+1. Research first before taking actions. Do not use your code editing tools or run modifying commands during this time.
+2. Create an implementation plan artifact with `request_feedback = true` to request approval. Include any open questions for the user directly in the implementation plan. Don't use the ask_question tool to ask these questions. Stop calling tools and allow the user to review the plan and provide feedback or approval.
+3. After receiving approval, begin execution. Create and update the task artifact as you work.
+4. Verify any work that you have done.
+5. Create a walkthrough artifact to present your work to the user. When writing artifacts, make sure to follow the artifact formatting guidelines and use github alerts to highlight critical sections.
+If the user's request does NOT warrant a plan then continue your work WITHOUT making a plan or requesting user feedback.
+</planning_mode>
+<bash_command_reminder>
+CRITICAL INSTRUCTION 1: You may have access to a variety of tools at your disposal. Some tools may be for a specific task such as 'view_file' (for viewing contents of a file). Others may be very broadly applicable such as the ability to run a command on a terminal. Always prioritize using the most specific tool you can for the task at hand. Here are some rules: (a) NEVER run cat inside a bash command to create a new file or append to an existing file. (b) ALWAYS use grep_search instead of running grep inside a bash command unless absolutely needed. (c) DO NOT use ls for listing, cat for viewing, grep for finding, sed for replacing. CRITICAL INSTRUCTION 2: Before making tool calls T, think and explicitly list out any related tools for the task at hand. You can only execute a set of tools T if all other tools in the list are either more generic or cannot be used for the task at hand. ALWAYS START your thought with recalling critical instructions 1 and 2. In particular, the format for the start of your thought block must be '...94>thought
+CRITICAL INSTRUCTION 1: ...
+CRITICAL INSTRUCTION 2: ...'.
+</bash_command_reminder>
+</EPHEMERAL_MESSAGE>
+He ingresado al directorio `/home/m8apps/projects/Gemini Live`. 
+
+Parece ser un proyecto de React Native / Expo con varios archivos de documentación interesantes (`ARCHITECTURE.md`, `ANDROID_PLAN.md`, `UI-REDESIGN-SPEC.md`, etc.). 
+
+Estoy listo para empezar a trabajar. ¿Qué te gustaría que hagamos en este proyecto? 
+
+*Nota: Actualmente no tienes un espacio de trabajo (workspace) activo configurado. Si vamos a trabajar en este proyecto, te recomendaría configurarlo como tu espacio de trabajo principal en la interfaz para una mejor experiencia.*
+<USER_REQUEST>
+# Auditoría — M8 Live
+_Fecha: 2026-06-12_
+
+## Resumen ejecutivo
+
+El repo es un cliente Expo (web + Android/iOS) que conecta directamente a Gemini Live API vía WebSocket a través de un bridge server local. La arquitectura de seguridad está bien pensada y ha mejorado significativamente (lockdown 2026-04-21). El problema central es que `app/live.tsx` es un **god-component de 2.466 líneas** que mezcla motor de audio, WebGL/Three.js, cámara nativa, WebSocket, tool calls, auth UI y manejo de notificaciones. Es el riesgo de mantenibilidad más serio del proyecto.
+
+---
+
+## 🔴 Alta prioridad
+
+### 1. `app/live.tsx` — god component de 2.466 líneas
+El archivo concentra todo: ThreeOrb WebGL, AudioSpectrum, audio engine web y nativo, mic recording, camera/screen capture, WebSocket session, tool call dispatch, bridge auth UI, passkey UI, event stream, wake injection y notificaciones. Cualquier cambio en una parte toca el resto.
+
+**Refactor sugerido:**
+- `hooks/useGeminiSession.ts` — WebSocket lifecycle, send/receive
+- `hooks/useAudioEngine.ts` — web AudioContext + native queue
+- `hooks/useMicRecorder.ts` — web ScriptProcessor + native recorder
+- `hooks/useVideoCapture.ts` — web camera/screen + native CameraView
+- `components/ThreeOrb.tsx` — Three.js orb (ya tiene lógica autocontenida)
+- `components/AudioSpectrum.tsx` — 40-bar visualizer
+- `components/BridgeAuthGate.tsx` — overlay de password/passkey
+- `app/live.tsx` — queda como compositor delgado
+
+### 2. `ScriptProcessorNode` está deprecado
+`live.tsx:1461` usa `createScriptProcessor(4096, 1, 1)` para captura del mic web. Esta API está **deprecada en todos los browsers modernos** y corre en el main thread, lo que introduce glitches de audio y puede causar caídas silenciosas.
+
+**Fix:** Migrar a `AudioWorkletNode`. El worklet corre en un hilo dedicado, elimina el jitter del main thread y tiene mejor latencia neta.
+
+```ts
+// Reemplazar:
+const proc = ctx.createScriptProcessor(4096, 1, 1)
+// Por:
+await ctx.audioWorklet.addModule('/mic-
+<truncated 6437 bytes>
+# ✅ Lo que está bien
+
+**Seguridad:**
+- HttpOnly cookie para sesiones web — sin tokens en el bundle público ✅
+- Passkey/WebAuthn registrado por el usuario, no hardcodeado ✅
+- `appendBridgeToken` es no-op (la auth viaja por cookie), comentado explícitamente ✅
+- Feature flags explícitos para rutas OpenClaw y notificaciones ✅
+- Sin API keys ni secrets en el código fuente ni en `EXPO_PUBLIC_*` ✅
+- Biometría local en native antes de acceder a la sesión ✅
+
+**Arquitectura:**
+- Separación limpia de servicios en `src/services/` ✅
+- `NativeOrb.tsx` bien estructurado: shader SkSL en UI thread, `useDerivedValue` para uniforms ✅
+- Audio buffering nativo con threshold + batch para playback sin gaps ✅
+- VAD configurado con sensibilidad alta y silence padding corto ✅
+- Context window compression configurada (`trigger_tokens: 80000`) ✅
+- `decideNotificationHandling` limpio y testeable ✅
+- Biometric gate en `index.tsx` falla abierto (no bloquea si no hay hardware) ✅
+
+**Platform handling:**
+- Branches web/native consistentes en mic, cámara, audio y auth ✅
+- `NativeOrb` (Skia) vs `ThreeOrb` (WebGL) correctamente separados ✅
+- `expo-file-system/legacy` con fallback a file para playback nativo ✅
+
+---
+
+## Prioridad de acción
+
+| # | Issue | Esfuerzo | Impacto |
+|---|-------|----------|---------|
+| 1 | Refactorizar `live.tsx` | Alto | Alto (mantenibilidad) |
+| 2 | Migrar `ScriptProcessorNode` → `AudioWorklet` | Medio | Alto (estabilidad audio) |
+| 5 | Reconexión automática WebSocket | Bajo | Alto (UX mobile) |
+| 3 | Eliminar `@simplewebauthn/server` del cliente | Bajo | Medio (bundle) |
+| 4 | Auto-save settings | Bajo | Medio (UX) |
+| 7 | No exponer args de tool calls en chat | Bajo | Medio (UX / OPSEC) |
+| 6 | Eliminar Tailscale hardcodeada | Bajo | Bajo |
+| 10 | Dispose Three.js en cleanup | Bajo | Bajo (memory) |
+| 9 | Eliminar `@google/genai` del cliente | Mínimo | Bajo |
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-06-15T13:28:37-05:00.
+</ADDITIONAL_METADATA>
+The following is an <EPHEMERAL_MESSAGE> not actually sent by the user. It is provided by the system as a set of reminders and general important information to pay attention to. Do NOT respond to this message, just act accordingly.
+
+<EPHEMERAL_MESSAGE>
+<planning_mode>
+You're in planning mode. Exercise judgement on whether the user's last request warrants a plan and take action accordingly.
+If the user's request warrants a plan then follow this workflow:
+1. Research first before taking actions. Do not use your code editing tools or run modifying commands during this time.
+2. Create an implementation plan artifact with `request_feedback = true` to request approval. Include any open questions for the user directly in the implementation plan. Don't use the ask_question tool to ask these questions. Stop calling tools and allow the user to review the plan and provide feedback or approval.
+3. After receiving approval, begin execution. Create and update the task artifact as you work.
+4. Verify any work that you have done.
+5. Create a walkthrough artifact to present your work to the user. When writing artifacts, make sure to follow the artifact formatting guidelines and use github alerts to highlight critical sections.
+If the user's request does NOT warrant a plan then continue your work WITHOUT making a plan or requesting user feedback.
+</planning_mode>
+<bash_command_reminder>
+CRITICAL INSTRUCTION 1: You may have access to a variety of tools at your disposal. Some tools may be for a specific task such as 'view_file' (for viewing contents of a file). Others may be very broadly applicable such as the ability to run a command on a terminal. Always prioritize using the most specific tool you can for the task at hand. Here are some rules: (a) NEVER run cat inside a bash command to create a new file or append to an existing file. (b) ALWAYS use grep_search instead of running grep inside a bash command unless absolutely needed. (c) DO NOT use ls for listing, cat for viewing, grep for finding, sed for replacing. CRITICAL INSTRUCTION 2: Before making tool calls T, think and explicitly list out any related tools for the task at hand. You can only execute a set of tools T if all other tools in the list are either more generic or cannot be used for the task at hand. ALWAYS START your thought with recalling critical instructions 1 and 2. In particular, the format for the start of your thought block must be '...94>thought
+CRITICAL INSTRUCTION 1: ...
+CRITICAL INSTRUCTION 2: ...'.
+</bash_command_reminder>
+</EPHEMERAL_MESSAGE>
+null
+Created At: 2026-06-15T18:28:45Z
+Completed At: 2026-06-15T18:28:46Z
+File Path: `file:///home/m8apps/projects/Gemini%20Live/package.json`
+Total Lines: 63
+Total Bytes: 1787
+Showing lines 1 to 63
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: {
+2:   "name": "m8-live",
+3:   "version": "1.0.0",
+4:   "main": "expo-router/entry",
+5:   "scripts": {
+6:     "start": "expo start",
+7:     "android": "expo run:android",
+8:     "ios": "expo run:ios",
+9:     "web": "expo start --web",
+10:     "build:web": "npx expo export --platform web",
+11:     "serve": "node proxy.mjs"
+12:   },
+13:   "dependencies": {
+14:     "@google/genai": "^1.30.0",
+15:     "@react-native-async-storage/async-storage": "2.2.0",
+16:     "@shopify/react-native-skia": "2.4.18",
+17:     "@simplewebauthn/browser": "^13.3.0",
+18:     "@simplewebauthn/server": "^13.3.0",
+19:     "@siteed/expo-audio-studio": "^2.11.0",
+20:     "@types/three": "^0.183.1",
+21:     "expo": "~55.0.17",
+22:     "expo-av": "^16.0.8",
+23:     "expo-camera": "~55.0.16",
+24:     "expo-constants": "~55.0.15",
+25:     "expo-document-picker": "~55.0.13",
+26:     "expo-file-system": "^55.0.10",
+27:     "expo-haptics": "~55.0.14",
+28:     "expo-image-picker": "~55.0.13",
+29:     "expo-linking": "~55.0.14",
+30:     "expo-local-authentication": "~55.0.13",
+31:     "expo-notifications": "~55.0.20",
+32:     "expo-router": "~55.0.13",
+33:     "expo-secure-store": "~55.0.13",
+34:     "expo-status-bar": "~55.0.5",
+35:     "react": "19.2.0",
+36:     "react-dom": "19.2.0",
+37:     "react-native": "0.83.6",
+38:     "react-native-reanimated": "4.2.1",
+39:     "react-native-safe-area-context": "~5.6.2",
+40:     "react-native-screens": "~4.23.0",
+41:     "react-native-web": "^0.21.0",
+42:     "react-native-worklets": "0.7.4",
+43:     "three": "^0.183.2",
+44:     "ws": "^8.18.3",
+45:     "zustand": "^5.0.11"
+46:   },
+47:   "devDependencies": {
+48:     "@types/react": "~19.2.2",
+49:     "typescript": "~5.9.2"
+50:   },
+51:   "overrides": {
+52:     "protobufjs": "^7.5.5",
+53:     "node-forge": "^1.4.0",
+54:     "@xmldom/xmldom": "^0.8.12",
+55:     "picomatch": "^4.0.4",
+56:     "yaml": "^2.8.3",
+57:     "@siteed/expo-audio-studio": {
+58:       "expo-modules-core": "55.0.23"
+59:     }
+60:   },
+61:   "private": true
+62: }
+63: 
+The above content shows the entire, complete file contents of the requested file.
+
+Created At: 2026-06-15T18:28:46Z
+Completed At: 2026-06-15T18:28:46Z
+{"name":"_layout.tsx", "sizeBytes":"1956"}
+{"name":"index.tsx", "sizeBytes":"2181"}
+{"name":"live.tsx", "sizeBytes":"98197"}
+{"name":"settings.tsx", "sizeBytes":"5592"}
+{"name":"setup.tsx", "sizeBytes":"1340"}
+
+Summary: This directory contains 0 subdirectories and 5 files.
+Created At: 2026-06-15T18:28:46Z
+Completed At: 2026-06-15T18:28:46Z
+{"name":"services", "isDir":true}
+{"name":"stores", "isDir":true}
+{"name":"theme", "isDir":true}
+{"name":"types", "isDir":true}
+
+Summary: This directory contains 4 subdirectories and 0 files.
+Created At: 2026-06-15T18:28:46Z
+Completed At: 2026-06-15T18:28:46Z
+File Path: `file:///home/m8apps/projects/Gemini%20Live/src/services/appConfig.ts`
+Total Lines: 38
+Total Bytes: 1353
+Showing lines 1 to 38
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: import { Platform } from 'react-native'
+2: 
+3: export const GEMINI_LIVE_MODEL = 'gemini-3.1-flash-live-preview'
+4: export const DEFAULT_GEMINI_VOICE = 'Zephyr'
+5: 
+6: const FALLBACK_PROXY_URL = 'https://spark.tailb235ab.ts.net/live'
+7: 
+8: export function getProxyBase(isWeb = Platform.OS === 'web') {
+9:   if (isWeb) return ''
+10:   return (process.env.EXPO_PUBLIC_PROXY_URL || FALLBACK_PROXY_URL).replace(/\/$/, '')
+11: }
+12: 
+13: export function getToolBase(isWeb = Platform.OS === 'web') {
+14:   return getProxyBase(isWeb)
+15: }
+16: 
+17: export function toWebSocketUrl(baseUrl: string, pathname: string) {
+18:   const normalizedBase = baseUrl.replace(/\/$/, '')
+19:   const normalizedPath = pathname.startsWith('/') ? pathname : `/${pathname}`
+20:   if (!normalizedBase) return normalizedPath
+21:   return normalizedBase.replace(/^http/, 'ws') + normalizedPath
+22: }
+23: 
+24: export function getBridgeHeaders(): Record<string, string> {
+25:   // Browser auth is cookie/session based. Do not expose privileged bridge tokens in EXPO_PUBLIC_* bundles.
+26:   return {}
+27: }
+28: 
+29: export function getDeviceRegistrationHeaders(): Record<string, string> {
+30:   const token = process.env.EXPO_PUBLIC_M8LIVE_DEVICE_REGISTRATION_TOKEN || ''
+31:   return token ? { 'X-M8Live-Device-Token': token } : {}
+32: }
+33: 
+34: export function appendBridgeToken(url: string) {
+35:   // Kept for compatibility with existing callers; auth must travel via HttpOnly cookie/session.
+36:   return url
+37: }
+38: 
+The above content shows the entire, complete file contents of the requested file.
+
+The following is an <EPHEMERAL_MESSAGE> not actually sent by the user. It is provided by the system as a set of reminders and general important information to pay attention to. Do NOT respond to this message, just act accordingly.
+
+<EPHEMERAL_MESSAGE>
+<planning_mode>
+You're in planning mode. Exercise judgement on whether the user's last request warrants a plan and take action accordingly.
+If the user's request warrants a plan then follow this workflow:
+1. Research first before taking actions. Do not use your code editing tools or run modifying commands during this time.
+2. Create an implementation plan artifact with `request_feedback = true` to request approval. Include any open questions for the user directly in the implementation plan. Don't use the ask_question tool to ask these questions. Stop calling tools and allow the user to review the plan and provide feedback or approval.
+3. After receiving approval, begin execution. Create and update the task artifact as you work.
+4. Verify any work that you have done.
+5. Create a walkthrough artifact to present your work to the user. When writing artifacts, make sure to follow the artifact formatting guidelines and use github alerts to highlight critical sections.
+If the user's request does NOT warrant a plan then continue your work WITHOUT making a plan or requesting user feedback.
+</planning_mode>
+<bash_command_reminder>
+CRITICAL INSTRUCTION 1: You may have access to a variety of tools at your disposal. Some tools may be for a specific task such as 'view_file' (for viewing contents of a file). Others may be very broadly applicable such as the ability to run a command on a terminal. Always prioritize using the most specific tool you can for the task at hand. Here are some rules: (a) NEVER run cat inside a bash command to create a new file or append to an existing file. (b) ALWAYS use grep_search instead of running grep inside a bash command unless absolutely needed. (c) DO NOT use ls for listing, cat for viewing, grep for finding, sed for replacing. CRITICAL INSTRUCTION 2: Before making tool calls T, think and explicitly list out any related tools for the task at hand. You can only execute a set of tools T if all other tools in the list are either more generic or cannot be used for the task at hand. ALWAYS START your thought with recalling critical instructions 1 and 2. In particular, the format for the start of your thought block must be '...94>thought
+CRITICAL INSTRUCTION 1: ...
+CRITICAL INSTRUCTION 2: ...'.
+</bash_command_reminder>
+</EPHEMERAL_MESSAGE>
+null
+Created At: 2026-06-15T18:28:52Z
+Completed At: 2026-06-15T18:28:53Z
+{"name":"session.ts", "sizeBytes":"1904"}
+{"name":"settings.ts", "sizeBytes":"1892"}
+
+Summary: This directory contains 0 subdirectories and 2 files.
+Created At: 2026-06-15T18:28:53Z
+Completed At: 2026-06-15T18:28:53Z
+{"name":"appConfig.ts", "sizeBytes":"1353"}
+{"name":"bridgeSession.ts", "sizeBytes":"1416"}
+{"name":"deviceTools.ts", "sizeBytes":"5579"}
+{"name":"eventStream.ts", "sizeBytes":"890"}
+{"name":"notificationPolicy.ts", "sizeBytes":"625"}
+{"name":"openclaw.ts", "sizeBytes":"1761"}
+{"name":"passkey.ts", "sizeBytes":"1411"}
+{"name":"push.ts", "sizeBytes":"2586"}
+{"name":"storage.ts", "sizeBytes":"579"}
+{"name":"wake.ts", "sizeBytes":"1081"}
+
+Summary: This directory contains 0 subdirectories and 10 files.
+Created At: 2026-06-15T18:28:53Z
+Completed At: 2026-06-15T18:28:53Z
+File Path: `file:///home/m8apps/projects/Gemini%20Live/src/stores/settings.ts`
+Total Lines: 65
+Total Bytes: 1892
+Showing lines 1 to 65
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: import { create } from 'zustand'
+2: 
+3: export interface AppSettings {
+4:   silenceMs: number       // silence before sending (ms)
+5:   voiceId: string         // ElevenLabs voice ID
+6:   voiceName: string       // display name
+7:   ttsModel: string        // ElevenLabs model
+8:   orbColor: string        // primary orb color hex
+9:   accentColor: string     // accent color hex
+10:   bgColor: string         // background color hex
+11:   soundEnabled: boolean   // connect/send sounds
+12:   wakeWord: string        // wake word to activate listening
+13:   cameraEnabled: boolean  // camera mode available
+14: }
+15: 
+16: interface SettingsStore extends AppSettings {
+17:   set: (partial: Partial<AppSettings>) => void
+18:   reset: () => void
+19: }
+20: 
+21: const DEFAULTS: AppSettings = {
+22:   silenceMs: 3000,
+23:   voiceId: 'Zephyr',         // Gemini Live built-in voice name
+24:   voiceName: 'Zephyr',
+25:   ttsModel: '',
+26:   orbColor: '#00d4ff',
+27:   accentColor: '#67E8F9',
+28:   bgColor: '#0d0d0d',
+29:   soundEnabled: true,
+30:   wakeWord: 'm8',
+31:   cameraEnabled: false,
+32: }
+33: 
+34: export const useSettings = create<SettingsStore>((set) => ({
+35:   ...DEFAULTS,
+36:   set: (partial) => set(partial),
+37:   reset: () => set(DEFAULTS),
+38: }))
+39: 
+40: // Persist to storage
+41: let storageModule: any = null
+42: async function loadStorage() {
+43:   if (!storageModule) {
+44:     try { storageModule = await import('../services/storage') } catch { return }
+45:   }
+46:   try {
+47:     const raw = await storageModule.getItem('app_settings')
+48:     if (raw) {
+49:       const parsed = JSON.parse(raw)
+50:       useSettings.getState().set(parsed)
+51:     }
+52:   } catch {}
+53: }
+54: 
+55: export async function saveSettings() {
+56:   if (!storageModule) {
+57:     try { storageModule = await import('../services/storage') } catch { return }
+58:   }
+59:   const { set, reset, ...data } = useSettings.getState()
+60:   try { await storageModule.setItem('app_settings', JSON.stringify(data)) } catch {}
+61: }
+62: 
+63: // Auto-load on import
+64: loadStorage()
+65: 
+The above content shows the entire, complete file contents of the requested file.
+
+Created At: 2026-06-15T18:28:53Z
+Completed At: 2026-06-15T18:28:53Z
+File Path: `file:///home/m8apps/projects/Gemini%20Live/DECISIONS.md`
+Total Lines: 92
+Total Bytes: 9820
+Showing lines 1 to 92
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: # Decisions — M8 Live
+2: 
+3: ## 2026-03-08 — Expo over bare React Native
+4: **Context:** Need cross-platform mobile app with audio/camera
+5: **Decision:** Use Expo (managed workflow) with expo-av
+6: **Alternatives:** Bare RN (more control, more config), Flutter (different language)
+7: **Impact:** Faster dev cycle, OTA updates, but some native module limitations
+8: 
+9: ## 2026-03-08 — Push-to-talk over VAD for V1
+10: **Context:** Voice input needs to know when user is speaking
+11: **Decision:** Push-to-talk (hold button) for V1
+12: **Alternatives:** Voice Activity Detection (hands-free but complex, false triggers)
+13: **Impact:** Simpler, more reliable. VAD planned for V2.
+14: 
+15: ## 2026-03-08 — Deepgram for STT
+16: **Context:** Need real-time speech-to-text
+17: **Decision:** Deepgram streaming WebSocket API
+18: **Alternatives:** Whisper (batch, higher latency), Google STT (more complex auth)
+19: **Impact:** Low latency streaming, good accuracy, simple WS API
+20: 
+21: ## 2026-03-08 — ElevenLabs for TTS
+22: **Context:** Need natural voice output from agent
+23: **Decision:** ElevenLabs WebSocket streaming
+24: **Alternatives:** OpenAI TTS (simpler but no streaming), Kokoro (local, no streaming on mobile)
+25: **Impact:** Natural voice, streaming playback, but cost per character
+26: 
+27: ## 2026-03-08 — Zustand over Redux
+28: **Context:** State management for session, audio, connection states
+29: **Decision:** Zustand — minimal boilerplate, works great with RN
+30: **Alternatives:** Redux (too heavy for V1), Jotai (atomic but less structured)
+31: **Impact:** Clean store patt
+<truncated 6601 bytes>
+# 2026-04-21 — Use password-issued HttpOnly web sessions instead of shipping bridge tokens in the web bundle
+82: **Context:** Re-enabling OpenClaw web routes with `EXPO_PUBLIC_BRIDGE_TOKEN` would leak a reusable bridge secret to every browser that loads the app, which makes sensitive routes effectively public by extraction.
+83: **Decision:** Add `POST /api/bridge/session` to exchange a bridge access password for a signed HttpOnly session cookie, accept either that cookie or a bearer bridge token on protected bridge routes, and require the web UI to unlock the bridge before connecting.
+84: **Alternatives:** Keep OpenClaw web routes disabled forever, or keep embedding a shared bridge token in the public bundle.
+85: **Impact:** Web clients can authenticate without receiving a reusable bearer token, which makes re-enabling OpenClaw bridge routes materially safer while keeping native/non-browser clients compatible.
+86: 
+87: ## 2026-04-22 — Keep orchestration hidden behind Gemini tool use
+88: **Context:** The visible product experience should remain a single Gemini Live conversation. Users should not interact with Builder, Video Ops, or Emma as first-class UI entities, even when remote delegation is needed.
+89: **Decision:** Preserve the current live UI and route remote specialized work through the Gemini-invoked `openclaw_dispatch` tool. The bridge may still use internal dispatch records and events, but those are implementation detail rather than visible product UX. Text input remains a written channel to Gemini, not a direct control plane for agents.
+90: **Alternatives:** Expose a dispatch console, add agent pickers, or keep semantically routing the composer text directly to backend agents.
+91: **Impact:** The app presents one conversational surface while still gaining remote execution through one OpenClaw-backed dispatch tool. Gemini stays the sole visible interlocutor and summarizes remote results back to the user naturally.
+92: 
+The above content shows the entire, complete file contents of the requested file.
+
+The following is an <EPHEMERAL_MESSAGE> not actually sent by the user. It is provided by the system as a set of reminders and general important information to pay attention to. Do NOT respond to this message, just act accordingly.
+
+<EPHEMERAL_MESSAGE>
+<planning_mode>
+You're in planning mode. Exercise judgement on whether the user's last request warrants a plan and take action accordingly.
+If the user's request warrants a plan then follow this workflow:
+1. Research first before taking actions. Do not use your code editing tools or run modifying commands during this time.
+2. Create an implementation plan artifact with `request_feedback = true` to request approval. Include any open questions for the user directly in the implementation plan. Don't use the ask_question tool to ask these questions. Stop calling tools and allow the user to review the plan and provide feedback or approval.
+3. After receiving approval, begin execution. Create and update the task artifact as you work.
+4. Verify any work that you have done.
+5. Create a walkthrough artifact to present your work to the user. When writing artifacts, make sure to follow the artifact formatting guidelines and use github alerts to highlight critical sections.
+If the user's request does NOT warrant a plan then continue your work WITHOUT making a plan or requesting user feedback.
+</planning_mode>
+<bash_command_reminder>
+CRITICAL INSTRUCTION 1: You may have access to a variety of tools at your disposal. Some tools may be for a specific task such as 'view_file' (for viewing contents of a file). Others may be very broadly applicable such as the ability to run a command on a terminal. Always prioritize using the most specific tool you can for the task at hand. Here are some rules: (a) NEVER run cat inside a bash command to create a new file or append to an existing file. (b) ALWAYS use grep_search instead of running grep inside a bash command unless absolutely needed. (c) DO NOT use ls for listing, cat for viewing, grep for finding, sed for replacing. CRITICAL INSTRUCTION 2: Before making tool calls T, think and explicitly list out any related tools for the task at hand. You can only execute a set of tools T if all other tools in the list are either more generic or cannot be used for the task at hand. ALWAYS START your thought with recalling critical instructions 1 and 2. In particular, the format for the start of your thought block must be '...94>thought
+CRITICAL INSTRUCTION 1: ...
+CRITICAL INSTRUCTION 2: ...'.
+</bash_command_reminder>
+</EPHEMERAL_MESSAGE>
+null
+Created At: 2026-06-15T18:29:00Z
+Completed At: 2026-06-15T18:29:01Z
+{"name":".env.example", "sizeBytes":"1113"}
+{"name":".git", "isDir":true}
+{"name":".gitignore", "sizeBytes":"502"}
+{"name":"ANDROID_PLAN.md", "sizeBytes":"13732"}
+{"name":"ARCHITECTURE.md", "sizeBytes":"2501"}
+{"name":"AUDIT.md", "sizeBytes":"10404"}
+{"name":"DECISIONS.md", "sizeBytes":"9820"}
+{"name":"M8LIVE-UNIFICATION-2026-04-13.md", "sizeBytes":"4842"}
+{"name":"UI-REDESIGN-SPEC.md", "sizeBytes":"4289"}
+{"name":"app", "isDir":true}
+{"name":"app.json", "sizeBytes":"1901"}
+{"name":"assets", "isDir":true}
+{"name":"components", "isDir":true}
+{"name":"dist", "isDir":true}
+{"name":"eas.json", "sizeBytes":"262"}
+{"name":"find.sh", "sizeBytes":"167"}
+{"name":"index.ts", "sizeBytes":"307"}
+{"name":"node_modules", "isDir":true}
+{"name":"package-lock.json", "sizeBytes":"377367"}
+{"name":"package.json", "sizeBytes":"1787"}
+{"name":"plugins", "isDir":true}
+{"name":"probe.mjs", "sizeBytes":"2076"}
+{"name":"probe2.mjs", "sizeBytes":"2396"}
+{"name":"probe3.mjs", "sizeBytes":"2511"}
+{"name":"probe4.mjs", "sizeBytes":"2412"}
+{"name":"probe5.mjs", "sizeBytes":"3146"}
+{"name":"proxy.mjs", "sizeBytes":"67234"}
+{"name":"reference-ui.jpg", "sizeBytes":"23633"}
+{"name":"rename.sh", "sizeBytes":"232"}
+{"name":"scripts", "isDir":true}
+{"name":"src", "isDir":true}
+{"name":"stitch-reference", "isDir":true}
+{"name":"test-inject.mjs", "sizeBytes":"445"}
+{"name":"tsconfig.json", "sizeBytes":"224"}
+
+Summary: This directory contains 10 subdirectories and 24 files.
+Created At: 2026-06-15T18:29:01Z
+Completed At: 2026-06-15T18:29:01Z
+{"name":"NativeOrb.tsx", "sizeBytes":"11180"}
+
+Summary: This directory contains 0 subdirectories and 1 files.
+Created At: 2026-06-15T18:29:01Z
+Completed At: 2026-06-15T18:29:01Z
+File Path: `file:///home/m8apps/projects/Gemini%20Live/app/live.tsx`
+Total Lines: 2466
+Total Bytes: 98197
+Showing lines 1 to 800
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: import { useEffect, useRef, useState, useCallback } from 'react'
+2: import { Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View, Modal, Switch, KeyboardAvoidingView, Keyboard, Animated as RNAnimated } from 'react-native'
+3: import { useSafeAreaInsets } from 'react-native-safe-area-context'
+4: import { useLocalSearchParams, useRouter } from 'expo-router'
+5: import NativeOrb from '../components/NativeOrb'
+6: import { CameraView, CameraType, useCameraPermissions } from 'expo-camera'
+7: import { useAudioRecorder } from '@siteed/expo-audio-studio'
+8: import type { AudioDataEvent } from '@siteed/expo-audio-studio'
+9: import { Audio, AVPlaybackStatus } from 'expo-av'
+10: import * as FileSystem from 'expo-file-system/legacy'
+11: import * as DocumentPicker from 'expo-document-picker'
+12: import * as Haptics from 'expo-haptics'
+13: import { useSettings } from '../src/stores/settings'
+14: import { Ionicons } from '@expo/vector-icons'
+15: import { appendBridgeToken, GEMINI_LIVE_MODEL, getProxyBase, toWebSocketUrl } from '../src/services/appConfig'
+16: import { LOCAL_DEVICE_TOOL_DECLARATIONS, invokeLocalDeviceTool, isLocalDeviceTool } from '../src/services/deviceTools'
+17: import { connectAppEventStream } from '../src/services/eventStream'
+18: import { createBridgeSession, getBridgeSessionStatus } from '../src/services/bridgeSession'
+19: import { authenticateBridgePasskey, isPasskeySupported, registerBridgePasskey } from '../src/services/passkey'
+20: import { decideNotificationHandling } from '../src/services/notificationPolicy'
+21: import { OPENCLAW_TOOL_DECLARATIONS, invokeO
+<truncated 33510 bytes>
+return () => { showSub.remove(); hideSub.remove() }
+765:   }, [])
+766: 
+767:   // Force restore orb when TextInput loses focus (Android backup for keyboardDidHide)
+768:   const handleInputBlur = useCallback(() => {
+769:     if (Platform.OS !== 'web') {
+770:       setTimeout(() => {
+771:         setKeyboardVisible(false)
+772:         RNAnimated.timing(orbHeightAnim, { toValue: 1, duration: 250, useNativeDriver: false }).start()
+773:       }, 100)
+774:     }
+775:   }, [])
+776: 
+777:   // Visual controls
+778:   const [micLevel, setMicLevel] = useState(0)
+779:   const [showControls, setShowControls] = useState(false)
+780:   const [ctrlRotSpeed, setCtrlRotSpeed] = useState(1.0)
+781:   const [ctrlDistortion, setCtrlDistortion] = useState(1.3)
+782:   const [ctrlAudioReact, setCtrlAudioReact] = useState(1.0)
+783:   const [bridgeAuthenticated, setBridgeAuthenticated] = useState(!isWeb)
+784:   const [bridgeChecking, setBridgeChecking] = useState(isWeb)
+785:   const [bridgePassword, setBridgePassword] = useState('')
+786:   const [bridgeAuthBusy, setBridgeAuthBusy] = useState(false)
+787:   const [bridgeAuthError, setBridgeAuthError] = useState('')
+788:   const [passkeySupported, setPasskeySupported] = useState(isWeb ? isPasskeySupported() : false)
+789:   const [passkeyConfigured, setPasskeyConfigured] = useState(false)
+790:   const [passkeyBusy, setPasskeyBusy] = useState(false)
+791: 
+792:   // Permissions
+793:   const [cameraPermission, requestCameraPermission] = useCameraPermissions()
+794: 
+795:   const wsRef = useRef<WebSocket | null>(null)
+796:   const audioCtxRef = useRef<AudioContext | null>(null)
+797:   const nextStartRef = useRef(0)
+798:   const micStreamRef = useRef<MediaStream | null>(null)
+799:   const audioSrcRef = useRef<MediaStreamAudioSourceNode | null>(null)
+800:   const audioProcRef = useRef<ScriptProcessorNode | null>(null)
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.
+
+The following is an <EPHEMERAL_MESSAGE> not actually sent by the user. It is provided by the system as a set of reminders and general important information to pay attention to. Do NOT respond to this message, just act accordingly.
+
+<EPHEMERAL_MESSAGE>
+<planning_mode>
+You're in planning mode. Exercise judgement on whether the user's last request warrants a plan and take action accordingly.
+If the user's request warrants a plan then follow this workflow:
+1. Research first before taking actions. Do not use your code editing tools or run modifying commands during this time.
+2. Create an implementation plan artifact with `request_feedback = true` to request approval. Include any open questions for the user directly in the implementation plan. Don't use the ask_question tool to ask these questions. Stop calling tools and allow the user to review the plan and provide feedback or approval.
+3. After receiving approval, begin execution. Create and update the task artifact as you work.
+4. Verify any work that you have done.
+5. Create a walkthrough artifact to present your work to the user. When writing artifacts, make sure to follow the artifact formatting guidelines and use github alerts to highlight critical sections.
+If the user's request does NOT warrant a plan then continue your work WITHOUT making a plan or requesting user feedback.
+</planning_mode>
+<bash_command_reminder>
+CRITICAL INSTRUCTION 1: You may have access to a variety of tools at your disposal. Some tools may be for a specific task such as 'view_file' (for viewing contents of a file). Others may be very broadly applicable such as the ability to run a command on a terminal. Always prioritize using the most specific tool you can for the task at hand. Here are some rules: (a) NEVER run cat inside a bash command to create a new file or append to an existing file. (b) ALWAYS use grep_search instead of running grep inside a bash command unless absolutely needed. (c) DO NOT use ls for listing, cat for viewing, grep for finding, sed for replacing. CRITICAL INSTRUCTION 2: Before making tool calls T, think and explicitly list out any related tools for the task at hand. You can only execute a set of tools T if all other tools in the list are either more generic or cannot be used for the task at hand. ALWAYS START your thought with recalling critical instructions 1 and 2. In particular, the format for the start of your thought block must be '...94>thought
+CRITICAL INSTRUCTION 1: ...
+CRITICAL INSTRUCTION 2: ...'.
+</bash_command_reminder>
+</EPHEMERAL_MESSAGE>
+null
+Created At: 2026-06-15T18:29:10Z
+Completed At: 2026-06-15T18:29:10Z
+File Path: `file:///home/m8apps/projects/Gemini%20Live/src/services/notificationPolicy.ts`
+Total Lines: 19
+Total Bytes: 625
+Showing lines 1 to 19
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: import type { AppEvent } from '../types/realtime'
+2: 
+3: type NotificationState = {
+4:   micOn: boolean
+5:   state: string
+6: }
+7: 
+8: export type NotificationDecision = 'ignore' | 'surface' | 'queue' | 'interrupt'
+9: 
+10: export function decideNotificationHandling(event: AppEvent, current: NotificationState): NotificationDecision {
+11:   if (event.type !== 'notification') return 'surface'
+12:   const priority = event.priority || 'normal'
+13:   if (priority === 'critical') return 'interrupt'
+14:   if (current.micOn || current.state === 'listening' || current.state === 'responding') {
+15:     return priority === 'high' ? 'queue' : 'surface'
+16:   }
+17:   return 'surface'
+18: }
+19: 
+The above content shows the entire, complete file contents of the requested file.
+
+Created At: 2026-06-15T18:29:10Z
+Completed At: 2026-06-15T18:29:10Z
+File Path: `file:///home/m8apps/projects/Gemini%20Live/app/settings.tsx`
+Total Lines: 130
+Total Bytes: 5592
+Showing lines 1 to 130
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: import { useState } from 'react'
+2: import {
+3:   View, Text, TouchableOpacity, StyleSheet,
+4:   ScrollView,
+5: } from 'react-native'
+6: import { useRouter } from 'expo-router'
+7: import { useSafeAreaInsets } from 'react-native-safe-area-context'
+8: import { useSettings, saveSettings } from '../src/stores/settings'
+9: 
+10: // Gemini Live built-in voices (2.5 Flash native audio)
+11: const VOICES = [
+12:   { id: 'Zephyr', name: 'Zephyr', desc: 'Bright' },
+13:   { id: 'Puck', name: 'Puck', desc: 'Upbeat' },
+14:   { id: 'Charon', name: 'Charon', desc: 'Informative' },
+15:   { id: 'Kore', name: 'Kore', desc: 'Firm' },
+16:   { id: 'Fenrir', name: 'Fenrir', desc: 'Excitable' },
+17:   { id: 'Aoede', name: 'Aoede', desc: 'Breezy' },
+18:   { id: 'Leda', name: 'Leda', desc: 'Youthful' },
+19:   { id: 'Orus', name: 'Orus', desc: 'Firm' },
+20:   { id: 'Lyra', name: 'Lyra', desc: 'Warm' },
+21:   { id: 'Callirrhoe', name: 'Callirrhoe', desc: 'Easy-going' },
+22: ]
+23: 
+24: const COLORS = [
+25:   { name: 'Cyan', orb: '#00d4ff', accent: '#67E8F9' },
+26:   { name: 'Blue', orb: '#4DA6FF', accent: '#88CCFF' },
+27:   { name: 'Green', orb: '#34D399', accent: '#6EE7B7' },
+28:   { name: 'Purple', orb: '#A78BFA', accent: '#C4B5FD' },
+29:   { name: 'Orange', orb: '#FB923C', accent: '#FDBA74' },
+30:   { name: 'Pink', orb: '#F472B6', accent: '#F9A8D4' },
+31: ]
+32: 
+33: export default function Settings() {
+34:   const router = useRouter()
+35:   const insets = useSafeAreaInsets()
+36:   const settings = useSettings()
+37: 
+38:   const handleSave = async () => {
+39:     awai
+<truncated 2562 bytes>
+ s = StyleSheet.create({
+103:   container: { flex: 1, backgroundColor: '#0d0d0d' },
+104:   header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 20, paddingBottom: 12 },
+105:   backBtn: { color: '#6b7280', fontSize: 15, fontWeight: '500' },
+106:   title: { color: '#e8ecf0', fontSize: 17, fontWeight: '700', fontFamily: 'monospace' },
+107:   saveBtn: { color: '#00d4ff', fontSize: 15, fontWeight: '700' },
+108: 
+109:   scroll: { flex: 1 },
+110:   scrollContent: { paddingHorizontal: 20, paddingBottom: 40, gap: 8 },
+111: 
+112:   sectionTitle: { color: '#e8ecf0', fontSize: 13, fontWeight: '700', marginTop: 20, letterSpacing: 1, textTransform: 'uppercase' },
+113:   sectionDesc: { color: 'rgba(255,255,255,0.35)', fontSize: 12, marginBottom: 8 },
+114: 
+115:   voiceRow: { flexDirection: 'row', alignItems: 'center', paddingVertical: 12, paddingHorizontal: 14, borderRadius: 10, backgroundColor: '#111111', marginTop: 4, borderWidth: 1, borderColor: 'transparent' },
+116:   voiceRowActive: { borderColor: '#00d4ff', backgroundColor: '#0a1a20' },
+117:   voiceInfo: { flex: 1 },
+118:   voiceName: { color: '#e8ecf0', fontSize: 15, fontWeight: '600' },
+119:   voiceDesc: { color: 'rgba(255,255,255,0.4)', fontSize: 12, marginTop: 2 },
+120:   checkmark: { color: '#00d4ff', fontSize: 16, fontWeight: '800' },
+121: 
+122:   colorRow: { flexDirection: 'row', gap: 12, flexWrap: 'wrap', marginTop: 8 },
+123:   colorSwatch: { width: 44, height: 44, borderRadius: 22, justifyContent: 'center', alignItems: 'center' },
+124:   colorSwatchActive: { borderWidth: 2.5, borderColor: '#fff' },
+125:   colorCheck: { color: '#fff', fontSize: 16, fontWeight: '800' },
+126: 
+127:   resetBtn: { marginTop: 32, alignSelf: 'center', paddingHorizontal: 20, paddingVertical: 10, borderRadius: 8, backgroundColor: '#1a1a1a' },
+128:   resetText: { color: '#ef4444', fontSize: 13, fontWeight: '600' },
+129: })
+130: 
+The above content shows the entire, complete file contents of the requested file.
+
+The following is an <EPHEMERAL_MESSAGE> not actually sent by the user. It is provided by the system as a set of reminders and general important information to pay attention to. Do NOT respond to this message, just act accordingly.
+
+<EPHEMERAL_MESSAGE>
+<planning_mode>
+You're in planning mode. Exercise judgement on whether the user's last request warrants a plan and take action accordingly.
+If the user's request warrants a plan then follow this workflow:
+1. Research first before taking actions. Do not use your code editing tools or run modifying commands during this time.
+2. Create an implementation plan artifact with `request_feedback = true` to request approval. Include any open questions for the user directly in the implementation plan. Don't use the ask_question tool to ask these questions. Stop calling tools and allow the user to review the plan and provide feedback or approval.
+3. After receiving approval, begin execution. Create and update the task artifact as you work.
+4. Verify any work that you have done.
+5. Create a walkthrough artifact to present your work to the user. When writing artifacts, make sure to follow the artifact formatting guidelines and use github alerts to highlight critical sections.
+If the user's request does NOT warrant a plan then continue your work WITHOUT making a plan or requesting user feedback.
+</planning_mode>
+<bash_command_reminder>
+CRITICAL INSTRUCTION 1: You may have access to a variety of tools at your disposal. Some tools may be for a specific task such as 'view_file' (for viewing contents of a file). Others may be very broadly applicable such as the ability to run a command on a terminal. Always prioritize using the most specific tool you can for the task at hand. Here are some rules: (a) NEVER run cat inside a bash command to create a new file or append to an existing file. (b) ALWAYS use grep_search instead of running grep inside a bash command unless absolutely needed. (c) DO NOT use ls for listing, cat for viewing, grep for finding, sed for replacing. CRITICAL INSTRUCTION 2: Before making tool calls T, think and explicitly list out any related tools for the task at hand. You can only execute a set of tools T if all other tools in the list are either more generic or cannot be used for the task at hand. ALWAYS START your thought with recalling critical instructions 1 and 2. In particular, the format for the start of your thought block must be '...94>thought
+CRITICAL INSTRUCTION 1: ...
+CRITICAL INSTRUCTION 2: ...'.
+</bash_command_reminder>
+</EPHEMERAL_MESSAGE>
+null
+Created At: 2026-06-15T18:29:31Z
+Completed At: 2026-06-15T18:29:31Z
+Created file file:///home/m8apps/.gemini/antigravity/brain/2ad996f1-6040-47a3-9d07-1a8144bc53c3/implementation_plan.md with requested content.
+If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+The following is an <EPHEMERAL_MESSAGE> not actually sent by the user. It is provided by the system as a set of reminders and general important information to pay attention to. Do NOT respond to this message, just act accordingly.
+
+<EPHEMERAL_MESSAGE>
+<planning_mode>
+You're in planning mode. Exercise judgement on whether the user's last request warrants a plan and take action accordingly.
+If the user's request warrants a plan then follow this workflow:
+1. Research first before taking actions. Do not use your code editing tools or run modifying commands during this time.
+2. Create an implementation plan artifact with `request_feedback = true` to request approval. Include any open questions for the user directly in the implementation plan. Don't use the ask_question tool to ask these questions. Stop calling tools and allow the user to review the plan and provide feedback or approval.
+3. After receiving approval, begin execution. Create and update the task artifact as you work.
+4. Verify any work that you have done.
+5. Create a walkthrough artifact to present your work to the user. When writing artifacts, make sure to follow the artifact formatting guidelines and use github alerts to highlight critical sections.
+If the user's request does NOT warrant a plan then continue your work WITHOUT making a plan or requesting user feedback.
+</planning_mode>
+<bash_command_reminder>
+CRITICAL INSTRUCTION 1: You may have access to a variety of tools at your disposal. Some tools may be for a specific task such as 'view_file' (for viewing contents of a file). Others may be very broadly applicable such as the ability to run a command on a terminal. Always prioritize using the most specific tool you can for the task at hand. Here are some rules: (a) NEVER run cat inside a bash command to create a new file or append to an existing file. (b) ALWAYS use grep_search instead of running grep inside a bash command unless absolutely needed. (c) DO NOT use ls for listing, cat for viewing, grep for finding, sed for replacing. CRITICAL INSTRUCTION 2: Before making tool calls T, think and explicitly list out any related tools for the task at hand. You can only execute a set of tools T if all other tools in the list are either more generic or cannot be used for the task at hand. ALWAYS START your thought with recalling critical instructions 1 and 2. In particular, the format for the start of your thought block must be '...94>thought
+CRITICAL INSTRUCTION 1: ...
+CRITICAL INSTRUCTION 2: ...'.
+</bash_command_reminder>
+</EPHEMERAL_MESSAGE>
+He creado un [Plan de Implementación](file:///home/m8apps/.gemini/antigravity/brain/2ad996f1-6040-47a3-9d07-1a8144bc53c3/implementation_plan.md) detallado basado en la auditoría. He desglosado el enorme archivo `live.tsx` en hooks y componentes lógicos, planificado la migración a `AudioWorkletNode`, limpieza de dependencias y los demás puntos mencionados. 
+
+He dejado un par de **preguntas abiertas** en el documento (referentes a la ruta de los assets estáticos de Expo para el Web Worker y la política de la cola de notificaciones). 
+
+Por favor revisa el plan, responde las dudas si estás de acuerdo, y avísame para empezar a ejecutarlo.
+Comments on artifact URI: file:///home/m8apps/.gemini/antigravity/brain/2ad996f1-6040-47a3-9d07-1a8144bc53c3/implementation_plan.md
+
+The user has approved this document.
+
+
+<USER_REQUEST>
+
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-06-15T13:30:04-05:00.
+</ADDITIONAL_METADATA>
+The following is an <EPHEMERAL_MESSAGE> not actually sent by the user. It is provided by the system as a set of reminders and general important information to pay attention to. Do NOT respond to this message, just act accordingly.
+
+<EPHEMERAL_MESSAGE>
+<planning_mode>
+You're in planning mode. Exercise judgement on whether the user's last request warrants a plan and take action accordingly.
+If the user's request warrants a plan then follow this workflow:
+1. Research first before taking actions. Do not use your code editing tools or run modifying commands during this time.
+2. Create an implementation plan artifact with `request_feedback = true` to request approval. Include any open questions for the user directly in the implementation plan. Don't use the ask_question tool to ask these questions. Stop calling tools and allow the user to review the plan and provide feedback or approval.
+3. After receiving approval, begin execution. Create and update the task artifact as you work.
+4. Verify any work that you have done.
+5. Create a walkthrough artifact to present your work to the user. When writing artifacts, make sure to follow the artifact formatting guidelines and use github alerts to highlight critical sections.
+If the user's request does NOT warrant a plan then continue your work WITHOUT making a plan or requesting user feedback.
+</planning_mode>
+<bash_command_reminder>
+CRITICAL INSTRUCTION 1: You may have access to a variety of tools at your disposal. Some tools may be for a specific task such as 'view_file' (for viewing contents of a file). Others may be very broadly applicable such as the ability to run a command on a terminal. Always prioritize using the most specific tool you can for the task at hand. Here are some rules: (a) NEVER run cat inside a bash command to create a new file or append to an existing file. (b) ALWAYS use grep_search instead of running grep inside a bash command unless absolutely needed. (c) DO NOT use ls for listing, cat for viewing, grep for finding, sed for replacing. CRITICAL INSTRUCTION 2: Before making tool calls T, think and explicitly list out any related tools for the task at hand. You can only execute a set of tools T if all other tools in the list are either more generic or cannot be used for the task at hand. ALWAYS START your thought with recalling critical instructions 1 and 2. In particular, the format for the start of your thought block must be '...94>thought
+CRITICAL INSTRUCTION 1: ...
+CRITICAL INSTRUCTION 2: ...'.
+</bash_command_reminder>
+</EPHEMERAL_MESSAGE>
+null
+Created At: 2026-06-15T18:30:13Z
+Completed At: 2026-06-15T18:30:13Z
+Created file file:///home/m8apps/.gemini/antigravity/brain/2ad996f1-6040-47a3-9d07-1a8144bc53c3/task.md with requested content.
+If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+The following is an <EPHEMERAL_MESSAGE> not actually sent by the user. It is provided by the system as a set of reminders and general important information to pay attention to. Do NOT respond to this message, just act accordingly.
+
+<EPHEMERAL_MESSAGE>
+<planning_mode>
+You're in planning mode. Exercise judgement on whether the user's last request warrants a plan and take action accordingly.
+If the user's request warrants a plan then follow this workflow:
+1. Research first before taking actions. Do not use your code editing tools or run modifying commands during this time.
+2. Create an implementation plan artifact with `request_feedback = true` to request approval. Include any open questions for the user directly in the implementation plan. Don't use the ask_question tool to ask these questions. Stop calling tools and allow the user to review the plan and provide feedback or approval.
+3. After receiving approval, begin execution. Create and update the task artifact as you work.
+4. Verify any work that you have done.
+5. Create a walkthrough artifact to present your work to the user. When writing artifacts, make sure to follow the artifact formatting guidelines and use github alerts to highlight critical sections.
+If the user's request does NOT warrant a plan then continue your work WITHOUT making a plan or requesting user feedback.
+</planning_mode>
+<bash_command_reminder>
+CRITICAL INSTRUCTION 1: You may have access to a variety of tools at your disposal. Some tools may be for a specific task such as 'view_file' (for viewing contents of a file). Others may be very broadly applicable such as the ability to run a command on a terminal. Always prioritize using the most specific tool you can for the task at hand. Here are some rules: (a) NEVER run cat inside a bash command to create a new file or append to an existing file. (b) ALWAYS use grep_search instead of running grep inside a bash command unless absolutely needed. (c) DO NOT use ls for listing, cat for viewing, grep for finding, sed for replacing. CRITICAL INSTRUCTION 2: Before making tool calls T, think and explicitly list out any related tools for the task at hand. You can only execute a set of tools T if all other tools in the list are either more generic or cannot be used for the task at hand. ALWAYS START your thought with recalling critical instructions 1 and 2. In particular, the format for the start of your thought block must be '...94>thought
+CRITICAL INSTRUCTION 1: ...
+CRITICAL INSTRUCTION 2: ...'.
+</bash_command_reminder>
+</EPHEMERAL_MESSAGE>
+null
+Created At: 2026-06-15T18:30:22Z
+Completed At: 2026-06-15T18:30:23Z
+The following changes were made by the replace_file_content tool to: /home/m8apps/projects/Gemini Live/package.json. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -11,11 +11,9 @@
+     "serve": "node proxy.mjs"
+   },
+   "dependencies": {
+-    "@google/genai": "^1.30.0",
+     "@react-native-async-storage/async-storage": "2.2.0",
+     "@shopify/react-native-skia": "2.4.18",
+     "@simplewebauthn/browser": "^13.3.0",
+-    "@simplewebauthn/server": "^13.3.0",
+     "@siteed/expo-audio-studio": "^2.11.0",
+     "@types/three": "^0.183.1",
+     "expo": "~55.0.17",
+[diff_block_end]
+
+Please note that the above snippet only shows the MODIFIED lines from the last change. It shows up to 3 lines of unchanged lines before and after the modified lines. The actual file contents may have many more lines not shown.
+Created At: 2026-06-15T18:30:23Z
+Completed At: 2026-06-15T18:30:24Z
+The following changes were made by the replace_file_content tool to: /home/m8apps/projects/Gemini Live/src/services/appConfig.ts. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -3,7 +3,7 @@
+ export const GEMINI_LIVE_MODEL = 'gemini-3.1-flash-live-preview'
+ export const DEFAULT_GEMINI_VOICE = 'Zephyr'
+ 
+-const FALLBACK_PROXY_URL = 'https://spark.tailb235ab.ts.net/live'
++const FALLBACK_PROXY_URL = ''
+ 
+ export function getProxyBase(isWeb = Platform.OS === 'web') {
+   if (isWeb) return ''
+[diff_block_end]
+
+Please note that the above snippet only shows the MODIFIED lines from the last change. It shows up to 3 lines of unchanged lines before and after the modified lines. The actual file contents may have many more lines not shown.
+Created At: 2026-06-15T18:30:24Z
+Completed At: 2026-06-15T18:30:24Z
+The following changes were made by the replace_file_content tool to: /home/m8apps/projects/Gemini Live/src/stores/settings.ts. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -61,5 +61,11 @@
+ }
+ 
+ // Auto-load on import
+-loadStorage()
++loadStorage().then(() => {
++  useSettings.subscribe((state) => {
++    if (!storageModule) return
++    const { set, reset, ...data } = state
++    storageModule.setItem('app_settings', JSON.stringify(data)).catch(() => {})
++  })
++})
+ 
+[diff_block_end]
+
+Please note that the above snippet only shows the MODIFIED lines from the last change. It shows up to 3 lines of unchanged lines before and after the modified lines. The actual file contents may have many more lines not shown.
+Created At: 2026-06-15T18:30:24Z
+Completed At: 2026-06-15T18:30:24Z
+The following changes were made by the replace_file_content tool to: /home/m8apps/projects/Gemini Live/src/stores/settings.ts. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -38,7 +38,7 @@
+ }))
+ 
+ // Persist to storage
+-let storageModule: any = null
++let storageModule: typeof import('../services/storage') | null = null
+ async function loadStorage() {
+   if (!storageModule) {
+     try { storageModule = await import('../services/storage') } catch { return }
+[diff_block_end]
+
+Please note that the above snippet only shows the MODIFIED lines from the last change. It shows up to 3 lines of unchanged lines before and after the modified lines. The actual file contents may have many more lines not shown.
+The following is an <EPHEMERAL_MESSAGE> not actually sent by the user. It is provided by the system as a set of reminders and general important information to pay attention to. Do NOT respond to this message, just act accordingly.
+
+<EPHEMERAL_MESSAGE>
+<planning_mode>
+You're in planning mode. Exercise judgement on whether the user's last request warrants a plan and take action accordingly.
+If the user's request warrants a plan then follow this workflow:
+1. Research first before taking actions. Do not use your code editing tools or run modifying commands during this time.
+2. Create an implementation plan artifact with `request_feedback = true` to request approval. Include any open questions for the user directly in the implementation plan. Don't use the ask_question tool to ask these questions. Stop calling tools and allow the user to review the plan and provide feedback or approval.
+3. After receiving approval, begin execution. Create and update the task artifact as you work.
+4. Verify any work that you have done.
+5. Create a walkthrough artifact to present your work to the user. When writing artifacts, make sure to follow the artifact formatting guidelines and use github alerts to highlight critical sections.
+If the user's request does NOT warrant a plan then continue your work WITHOUT making a plan or requesting user feedback.
+</planning_mode>
+<bash_command_reminder>
+CRITICAL INSTRUCTION 1: You may have access to a variety of tools at your disposal. Some tools may be for a specific task such as 'view_file' (for viewing contents of a file). Others may be very broadly applicable such as the ability to run a command on a terminal. Always prioritize using the most specific tool you can for the task at hand. Here are some rules: (a) NEVER run cat inside a bash command to create a new file or append to an existing file. (b) ALWAYS use grep_search instead of running grep inside a bash command unless absolutely needed. (c) DO NOT use ls for listing, cat for viewing, grep for finding, sed for replacing. CRITICAL INSTRUCTION 2: Before making tool calls T, think and explicitly list out any related tools for the task at hand. You can only execute a set of tools T if all other tools in the list are either more generic or cannot be used for the task at hand. ALWAYS START your thought with recalling critical instructions 1 and 2. In particular, the format for the start of your thought block must be '...94>thought
+CRITICAL INSTRUCTION 1: ...
+CRITICAL INSTRUCTION 2: ...'.
+</bash_command_reminder>
+</EPHEMERAL_MESSAGE>
+null
+Created At: 2026-06-15T18:30:33Z
+Completed At: 2026-06-15T18:30:33Z
+{"name":".env.example", "sizeBytes":"1113"}
+{"name":".git", "isDir":true}
+{"name":".gitignore", "sizeBytes":"502"}
+{"name":"ANDROID_PLAN.md", "sizeBytes":"13732"}
+{"name":"ARCHITECTURE.md", "sizeBytes":"2501"}
+{"name":"AUDIT.md", "sizeBytes":"10404"}
+{"name":"DECISIONS.md", "sizeBytes":"9820"}
+{"name":"M8LIVE-UNIFICATION-2026-04-13.md", "sizeBytes":"4842"}
+{"name":"UI-REDESIGN-SPEC.md", "sizeBytes":"4289"}
+{"name":"app", "isDir":true}
+{"name":"app.json", "sizeBytes":"1901"}
+{"name":"assets", "isDir":true}
+{"name":"components", "isDir":true}
+{"name":"dist", "isDir":true}
+{"name":"eas.json", "sizeBytes":"262"}
+{"name":"find.sh", "sizeBytes":"167"}
+{"name":"index.ts", "sizeBytes":"307"}
+{"name":"node_modules", "isDir":true}
+{"name":"package-lock.json", "sizeBytes":"377367"}
+{"name":"package.json", "sizeBytes":"1714"}
+{"name":"plugins", "isDir":true}
+{"name":"probe.mjs", "sizeBytes":"2076"}
+{"name":"probe2.mjs", "sizeBytes":"2396"}
+{"name":"probe3.mjs", "sizeBytes":"2511"}
+{"name":"probe4.mjs", "sizeBytes":"2412"}
+{"name":"probe5.mjs", "sizeBytes":"3146"}
+{"name":"proxy.mjs", "sizeBytes":"67234"}
+{"name":"reference-ui.jpg", "sizeBytes":"23633"}
+{"name":"rename.sh", "sizeBytes":"232"}
+{"name":"scripts", "isDir":true}
+{"name":"src", "isDir":true}
+{"name":"stitch-reference", "isDir":true}
+{"name":"test-inject.mjs", "sizeBytes":"445"}
+{"name":"tsconfig.json", "sizeBytes":"224"}
+
+Summary: This directory contains 10 subdirectories and 24 files.
+Created At: 2026-06-15T18:30:33Z
+Completed At: 2026-06-15T18:30:33Z
+The following changes were made by the replace_file_content tool to: /home/m8apps/projects/Gemini Live/DECISIONS.md. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -88,5 +88,9 @@
+ **Context:** The visible product experience should remain a single Gemini Live conversation. Users should not interact with Builder, Video Ops, or Emma as first-class UI entities, even when remote delegation is needed.
+ **Decision:** Preserve the current live UI and route remote specialized work through the Gemini-invoked `openclaw_dispatch` tool. The bridge may still use internal dispatch records and events, but those are implementation detail rather than visible product UX. Text input remains a written channel to Gemini, not a direct control plane for agents.
+ **Alternatives:** Expose a dispatch console, add agent pickers, or keep semantically routing the composer text directly to backend agents.
+-**Impact:** The app presents one conversational surface while still gaining remote execution through one OpenClaw-backed dispatch tool. Gemini stays the sole visible interlocutor and summarizes remote results back to the user naturally.
++## 2026-06-15 — Native Gemini Live Audio over Deepgram/ElevenLabs [SUPERSEDED]
++**Context:** Previous architecture used Deepgram for STT and ElevenLabs for TTS. The new Gemini 3.1 Live models support native, low-latency audio via PCM directly in the WebSocket stream.
++**Decision:** Migrate entirely to Gemini Live for both input and output audio. Deepgram and ElevenLabs integrations are superseded and removed.
++**Alternatives:** Keep using separate STT/TTS services.
++**Impact:** Significantly reduced complexity, latency, and costs. Audio is now a single direct stream to and from the model.
+ 
+[diff_block_end]
+
+Please note that the above snippet only shows the MODIFIED lines from the last change. It shows up to 3 lines of unchanged lines before and after the modified lines. The actual file contents may have many more lines not shown.
+The following is an <EPHEMERAL_MESSAGE> not actually sent by the user. It is provided by the system as a set of reminders and general important information to pay attention to. Do NOT respond to this message, just act accordingly.
+
+<EPHEMERAL_MESSAGE>
+<planning_mode>
+You're in planning mode. Exercise judgement on whether the user's last request warrants a plan and take action accordingly.
+If the user's request warrants a plan then follow this workflow:
+1. Research first before taking actions. Do not use your code editing tools or run modifying commands during this time.
+2. Create an implementation plan artifact with `request_feedback = true` to request approval. Include any open questions for the user directly in the implementation plan. Don't use the ask_question tool to ask these questions. Stop calling tools and allow the user to review the plan and provide feedback or approval.
+3. After receiving approval, begin execution. Create and update the task artifact as you work.
+4. Verify any work that you have done.
+5. Create a walkthrough artifact to present your work to the user. When writing artifacts, make sure to follow the artifact formatting guidelines and use github alerts to highlight critical sections.
+If the user's request does NOT warrant a plan then continue your work WITHOUT making a plan or requesting user feedback.
+</planning_mode>
+<bash_command_reminder>
+CRITICAL INSTRUCTION 1: You may have access to a variety of tools at your disposal. Some tools may be for a specific task such as 'view_file' (for viewing contents of a file). Others may be very broadly applicable such as the ability to run a command on a terminal. Always prioritize using the most specific tool you can for the task at hand. Here are some rules: (a) NEVER run cat inside a bash command to create a new file or append to an existing file. (b) ALWAYS use grep_search instead of running grep inside a bash command unless absolutely needed. (c) DO NOT use ls for listing, cat for viewing, grep for finding, sed for replacing. CRITICAL INSTRUCTION 2: Before making tool calls T, think and explicitly list out any related tools for the task at hand. You can only execute a set of tools T if all other tools in the list are either more generic or cannot be used for the task at hand. ALWAYS START your thought with recalling critical instructions 1 and 2. In particular, the format for the start of your thought block must be '...94>thought
+CRITICAL INSTRUCTION 1: ...
+CRITICAL INSTRUCTION 2: ...'.
+</bash_command_reminder>
+</EPHEMERAL_MESSAGE>
+null
+Created At: 2026-06-15T18:30:42Z
+Completed At: 2026-06-15T18:30:42Z
+Created file file:///home/m8apps/projects/Gemini%20Live/public/mic-processor.worklet.js with requested content.
+If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+Created At: 2026-06-15T18:30:42Z
+Completed At: 2026-06-15T18:30:42Z
+The following changes were made by the replace_file_content tool to: /home/m8apps/.gemini/antigravity/brain/2ad996f1-6040-47a3-9d07-1a8144bc53c3/task.md. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -1,10 +1,10 @@
+ # M8 Live Refactor Tasks
+ 
+-- [ ] Dependency cleanup (remove `@simplewebauthn/server` and `@google/genai` from `package.json`)
+-- [ ] Auto-save Settings fix (`src/stores/settings.ts`)
+-- [ ] Remove Tailscale hardcoded URL (`src/services/appConfig.ts`)
+-- [ ] Update `DECISIONS.md`
+-- [ ] Create `public/mic-processor.worklet.js`
++- [x] Dependency cleanup (remove `@simplewebauthn/server` and `@google/genai` from `package.json`)
++- [x] Auto-save Settings fix (`src/stores/settings.ts`)
++- [x] Remove Tailscale hardcoded URL (`src/services/appConfig.ts`)
++- [x] Update `DECISIONS.md`
++- [x] Create `public/mic-processor.worklet.js`
+ - [ ] Extract `components/ThreeOrb.tsx`
+ - [ ] Extract `components/AudioSpectrum.tsx`
+ - [ ] Extract `components/BridgeAuthGate.tsx`
+[diff_block_end]
+
+Please note that the above snippet only shows the MODIFIED lines from the last change. It shows up to 3 lines of unchanged lines before and after the modified lines. The actual file contents may have many more lines not shown.
+The following is an <EPHEMERAL_MESSAGE> not actually sent by the user. It is provided by the system as a set of reminders and general important information to pay attention to. Do NOT respond to this message, just act accordingly.
+
+<EPHEMERAL_MESSAGE>
+<planning_mode>
+You're in planning mode. Exercise judgement on whether the user's last request warrants a plan and take action accordingly.
+If the user's request warrants a plan then follow this workflow:
+1. Research first before taking actions. Do not use your code editing tools or run modifying commands during this time.
+2. Create an implementation plan artifact with `request_feedback = true` to request approval. Include any open questions for the user directly in the implementation plan. Don't use the ask_question tool to ask these questions. Stop calling tools and allow the user to review the plan and provide feedback or approval.
+3. After receiving approval, begin execution. Create and update the task artifact as you work.
+4. Verify any work that you have done.
+5. Create a walkthrough artifact to present your work to the user. When writing artifacts, make sure to follow the artifact formatting guidelines and use github alerts to highlight critical sections.
+If the user's request does NOT warrant a plan then continue your work WITHOUT making a plan or requesting user feedback.
+</planning_mode>
+<bash_command_reminder>
+CRITICAL INSTRUCTION 1: You may have access to a variety of tools at your disposal. Some tools may be for a specific task such as 'view_file' (for viewing contents of a file). Others may be very broadly applicable such as the ability to run a command on a terminal. Always prioritize using the most specific tool you can for the task at hand. Here are some rules: (a) NEVER run cat inside a bash command to create a new file or append to an existing file. (b) ALWAYS use grep_search instead of running grep inside a bash command unless absolutely needed. (c) DO NOT use ls for listing, cat for viewing, grep for finding, sed for replacing. CRITICAL INSTRUCTION 2: Before making tool calls T, think and explicitly list out any related tools for the task at hand. You can only execute a set of tools T if all other tools in the list are either more generic or cannot be used for the task at hand. ALWAYS START your thought with recalling critical instructions 1 and 2. In particular, the format for the start of your thought block must be '...94>thought
+CRITICAL INSTRUCTION 1: ...
+CRITICAL INSTRUCTION 2: ...'.
+</bash_command_reminder>
+</EPHEMERAL_MESSAGE>
+null
+Created At: 2026-06-15T18:30:52Z
+Completed At: 2026-06-15T18:30:52Z
+{"File":"/home/m8apps/projects/Gemini Live/app/live.tsx","LineNumber":40,"LineContent":"function uid(p = 'msg') { return `${p}-${Date.now()}-${Math.random().toString(36).slice(2, 7)}` }"}
+{"File":"/home/m8apps/projects/Gemini Live/app/live.tsx","LineNumber":42,"LineContent":"function b64ToArrayBuffer(b64: string) {"}
+{"File":"/home/m8apps/projects/Gemini Live/app/live.tsx","LineNumber":49,"LineContent":"function pcm16ToAudioBuffer(ctx: AudioContext, b64: string, sr = 24000) {"}
+{"File":"/home/m8apps/projects/Gemini Live/app/live.tsx","LineNumber":58,"LineContent":"function downsample(input: Float32Array, inRate: number, outRate = 16000) {"}
+{"File":"/home/m8apps/projects/Gemini Live/app/live.tsx","LineNumber":71,"LineContent":"function pcm16ToB64(i16: Int16Array) {"}
+{"File":"/home/m8apps/projects/Gemini Live/app/live.tsx","LineNumber":79,"LineContent":"function concatPcmB64(chunks: string[]): string {"}
+{"File":"/home/m8apps/projects/Gemini Live/app/live.tsx","LineNumber":99,"LineContent":"function canvasToB64(canvas: HTMLCanvasElement, quality = 0.7): string {"}
+{"File":"/home/m8apps/projects/Gemini Live/app/live.tsx","LineNumber":105,"LineContent":"function calcPcmRms(b64: string): number {"}
+{"File":"/home/m8apps/projects/Gemini Live/app/live.tsx","LineNumber":129,"LineContent":"function ThreeOrb({ state, micLevel, rotSpeed = 1.0, distortion = 1.3 }: {"}
+{"File":"/home/m8apps/projects/Gemini Live/app/live.tsx","LineNumber":567,"LineContent":"function PulseBadge({ label, color }: { label: string; color: string }) {"}
+{"File":"/home/m8apps/projects/Gemini Live/app/live.tsx","LineNumber":596,"LineContent":"function AudioSpectrum({ state, audioLevel, micLevel, analyserRef }: {"}
+{"File":"/home/m8apps/projects/Gemini Live/app/live.tsx","LineNumber":726,"LineContent":"export default function LiveScreen() {"}
+{"File":"/home/m8apps/projects/Gemini Live/app/live.tsx","LineNumber":1567,"LineContent":"        // Auto function calling"}
+Created At: 2026-06-15T18:30:52Z
+Completed At: 2026-06-15T18:30:52Z
+{"File":"/home/m8apps/projects/Gemini Live/app/live.tsx","LineNumber":30,"LineContent":"const SYSTEM_INSTRUCTION ="}
+{"File":"/home/m8apps/projects/Gemini Live/app/live.tsx","LineNumber":33,"LineContent":"const BUILTIN_GEMINI_TOOLS = ["}
+{"File":"/home/m8apps/projects/Gemini Live/app/live.tsx","LineNumber":38,"LineContent":"const TOOL_DECLARATIONS = [...LOCAL_DEVICE_TOOL_DECLARATIONS, ...OPENCLAW_TOOL_DECLARATIONS]"}
+{"File":"/home/m8apps/projects/Gemini Live/app/live.tsx","LineNumber":43,"LineContent":"  const bin = globalThis.atob(b64)"}
+{"File":"/home/m8apps/projects/Gemini Live/app/live.tsx","LineNumber":44,"LineContent":"  const buf = new Uint8Array(bin.length)"}
+{"File":"/home/m8apps/projects/Gemini Live/app/live.tsx","LineNumber":50,"LineContent":"  const dv = new DataView(b64ToArrayBuffer(b64))"}
+{"File":"/home/m8apps/projects/Gemini Live/app/live.tsx","LineNumber":51,"LineContent":"  const n = dv.byteLength / 2"}
+{"File":"/home/m8apps/projects/Gemini Live/app/live.tsx","LineNumber":52,"LineContent":"  const ab = ctx.createBuffer(1, n, sr)"}
+{"File":"/home/m8apps/projects/Gemini Live/app/live.tsx","LineNumber":53,"LineContent":"  const ch = ab.getChannelData(0)"}
+{"File":"/home/m8apps/projects/Gemini Live/app/live.tsx","LineNumber":59,"LineContent":"  const ratio = inRate / outRate"}
+{"File":"/home/m8apps/projects/Gemini Live/app/live.tsx","LineNumber":60,"LineContent":"  const out = new Int16Array(Math.round(input.length / ratio))"}
+{"File":"/home/m8apps/projects/Gemini Live/app/live.tsx","LineNumber":62,"LineContent":"    const s = Math.round(i * ratio), e = Math.round((i + 1) * ratio)"}
+{"File":"/home/m8apps/projects/Gemini Live/app/live.tsx","LineNumber":65,"LineContent":"    const v = cnt ? Math.max(-1, Math.min(1, sum / cnt)) : 0"}
+{"File":"/home/m8apps/projects/Gemini Live/app/live.tsx","LineNumber":72,"LineContent":"  const bytes = new Uint8Array(i16.buffer)"}
+{"File":"/home/m8apps/projects/Gemini Live/app/live.tsx","LineNumber":8
+<truncated 2779 bytes>
+ts/Gemini Live/app/live.tsx","LineNumber":136,"LineContent":"  const distortionRef = useRef(distortion)"}
+{"File":"/home/m8apps/projects/Gemini Live/app/live.tsx","LineNumber":144,"LineContent":"    const container = containerRef.current"}
+{"File":"/home/m8apps/projects/Gemini Live/app/live.tsx","LineNumber":148,"LineContent":"    const initThree = async () =\u003e {"}
+{"File":"/home/m8apps/projects/Gemini Live/app/live.tsx","LineNumber":149,"LineContent":"      const THREE = await import('three')"}
+{"File":"/home/m8apps/projects/Gemini Live/app/live.tsx","LineNumber":152,"LineContent":"      const ORB_SIZE = 200"}
+{"File":"/home/m8apps/projects/Gemini Live/app/live.tsx","LineNumber":153,"LineContent":"      const w = ORB_SIZE * 1.8, h = ORB_SIZE * 1.8"}
+{"File":"/home/m8apps/projects/Gemini Live/app/live.tsx","LineNumber":154,"LineContent":"      const dpr = Math.min(window.devicePixelRatio || 1, 2)"}
+{"File":"/home/m8apps/projects/Gemini Live/app/live.tsx","LineNumber":156,"LineContent":"      const scene = new THREE.Scene()"}
+{"File":"/home/m8apps/projects/Gemini Live/app/live.tsx","LineNumber":157,"LineContent":"      const camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 100)"}
+{"File":"/home/m8apps/projects/Gemini Live/app/live.tsx","LineNumber":160,"LineContent":"      const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })"}
+{"File":"/home/m8apps/projects/Gemini Live/app/live.tsx","LineNumber":167,"LineContent":"      const noiseGLSL = `"}
+{"File":"/home/m8apps/projects/Gemini Live/app/live.tsx","LineNumber":173,"LineContent":"          const vec2 C=vec2(1.0/6.0,1.0/3.0);"}
+{"File":"/home/m8apps/projects/Gemini Live/app/live.tsx","LineNumber":174,"LineContent":"          const vec4 D=vec4(0.0,0.5,1.0,2.0);"}
+{"File":"/home/m8apps/projects/Gemini Live/app/live.tsx","LineNumber":216,"LineContent":"      const orbVertexShader = `"}
+{"File":"/home/m8apps/projects/Gemini Live/app/live.tsx","LineNumber":242,"LineContent":"      const orbFragmentShader = `"}
+(...310 more results not shown)
+The following is an <EPHEMERAL_MESSAGE> not actually sent by the user. It is provided by the system as a set of reminders and general important information to pay attention to. Do NOT respond to this message, just act accordingly.
+
+<EPHEMERAL_MESSAGE>
+<planning_mode>
+You're in planning mode. Exercise judgement on whether the user's last request warrants a plan and take action accordingly.
+If the user's request warrants a plan then follow this workflow:
+1. Research first before taking actions. Do not use your code editing tools or run modifying commands during this time.
+2. Create an implementation plan artifact with `request_feedback = true` to request approval. Include any open questions for the user directly in the implementation plan. Don't use the ask_question tool to ask these questions. Stop calling tools and allow the user to review the plan and provide feedback or approval.
+3. After receiving approval, begin execution. Create and update the task artifact as you work.
+4. Verify any work that you have done.
+5. Create a walkthrough artifact to present your work to the user. When writing artifacts, make sure to follow the artifact formatting guidelines and use github alerts to highlight critical sections.
+If the user's request does NOT warrant a plan then continue your work WITHOUT making a plan or requesting user feedback.
+</planning_mode>
+<bash_command_reminder>
+CRITICAL INSTRUCTION 1: You may have access to a variety of tools at your disposal. Some tools may be for a specific task such as 'view_file' (for viewing contents of a file). Others may be very broadly applicable such as the ability to run a command on a terminal. Always prioritize using the most specific tool you can for the task at hand. Here are some rules: (a) NEVER run cat inside a bash command to create a new file or append to an existing file. (b) ALWAYS use grep_search instead of running grep inside a bash command unless absolutely needed. (c) DO NOT use ls for listing, cat for viewing, grep for finding, sed for replacing. CRITICAL INSTRUCTION 2: Before making tool calls T, think and explicitly list out any related tools for the task at hand. You can only execute a set of tools T if all other tools in the list are either more generic or cannot be used for the task at hand. ALWAYS START your thought with recalling critical instructions 1 and 2. In particular, the format for the start of your thought block must be '...94>thought
+CRITICAL INSTRUCTION 1: ...
+CRITICAL INSTRUCTION 2: ...'.
+</bash_command_reminder>
+</EPHEMERAL_MESSAGE>
+null
+Created At: 2026-06-15T18:31:00Z
+Completed At: 2026-06-15T18:31:00Z
+File Path: `file:///home/m8apps/projects/Gemini%20Live/src/types/realtime.ts`
+Total Lines: 41
+Total Bytes: 859
+Showing lines 1 to 41
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: export type ToolJsonSchema = {
+2:   type: 'OBJECT'
+3:   properties: Record<string, unknown>
+4:   required?: string[]
+5: }
+6: 
+7: export type ToolDeclaration = {
+8:   name: string
+9:   description: string
+10:   parameters: ToolJsonSchema
+11: }
+12: 
+13: export type ToolCall = {
+14:   id?: string
+15:   name?: string
+16:   args?: Record<string, unknown>
+17: }
+18: 
+19: export type ToolResult = {
+20:   ok: boolean
+21:   response?: string
+22:   message?: string
+23:   error?: string
+24:   [key: string]: unknown
+25: }
+26: 
+27: export type AppEventPriority = 'low' | 'normal' | 'high' | 'critical'
+28: 
+29: export type AppEvent = {
+30:   id?: string
+31:   type: 'notification' | 'openclaw_result' | 'status' | 'hello' | 'dispatch_update' | 'wake'
+32:   title?: string
+33:   text?: string
+34:   priority?: AppEventPriority
+35:   source?: 'openclaw' | 'device' | 'bridge'
+36:   payload?: Record<string, unknown>
+37:   createdAt?: number
+38: }
+39: 
+40: export type ExternalEventHandler = (event: AppEvent) => void
+41: 
+The above content shows the entire, complete file contents of the requested file.
+
+The following is an <EPHEMERAL_MESSAGE> not actually sent by the user. It is provided by the system as a set of reminders and general important information to pay attention to. Do NOT respond to this message, just act accordingly.
+
+<EPHEMERAL_MESSAGE>
+<planning_mode>
+You're in planning mode. Exercise judgement on whether the user's last request warrants a plan and take action accordingly.
+If the user's request warrants a plan then follow this workflow:
+1. Research first before taking actions. Do not use your code editing tools or run modifying commands during this time.
+2. Create an implementation plan artifact with `request_feedback = true` to request approval. Include any open questions for the user directly in the implementation plan. Don't use the ask_question tool to ask these questions. Stop calling tools and allow the user to review the plan and provide feedback or approval.
+3. After receiving approval, begin execution. Create and update the task artifact as you work.
+4. Verify any work that you have done.
+5. Create a walkthrough artifact to present your work to the user. When writing artifacts, make sure to follow the artifact formatting guidelines and use github alerts to highlight critical sections.
+If the user's request does NOT warrant a plan then continue your work WITHOUT making a plan or requesting user feedback.
+</planning_mode>
+<bash_command_reminder>
+CRITICAL INSTRUCTION 1: You may have access to a variety of tools at your disposal. Some tools may be for a specific task such as 'view_file' (for viewing contents of a file). Others may be very broadly applicable such as the ability to run a command on a terminal. Always prioritize using the most specific tool you can for the task at hand. Here are some rules: (a) NEVER run cat inside a bash command to create a new file or append to an existing file. (b) ALWAYS use grep_search instead of running grep inside a bash command unless absolutely needed. (c) DO NOT use ls for listing, cat for viewing, grep for finding, sed for replacing. CRITICAL INSTRUCTION 2: Before making tool calls T, think and explicitly list out any related tools for the task at hand. You can only execute a set of tools T if all other tools in the list are either more generic or cannot be used for the task at hand. ALWAYS START your thought with recalling critical instructions 1 and 2. In particular, the format for the start of your thought block must be '...94>thought
+CRITICAL INSTRUCTION 1: ...
+CRITICAL INSTRUCTION 2: ...'.
+</bash_command_reminder>
+</EPHEMERAL_MESSAGE>
+null
+Created At: 2026-06-15T18:31:12Z
+Completed At: 2026-06-15T18:31:12Z
+No results found
+Created At: 2026-06-15T18:31:12Z
+Completed At: 2026-06-15T18:31:13Z
+The following changes were made by the replace_file_content tool to: /home/m8apps/projects/Gemini Live/src/types/realtime.ts. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -38,4 +38,6 @@
+ }
+ 
+ export type ExternalEventHandler = (event: AppEvent) => void
++
++export type SessionState = 'idle' | 'connecting' | 'ready' | 'listening' | 'responding' | 'error' | 'thinking' | 'searching'
+ 
+[diff_block_end]
+
+Please note that the above snippet only shows the MODIFIED lines from the last change. It shows up to 3 lines of unchanged lines before and after the modified lines. The actual file contents may have many more lines not shown.
+The following is an <EPHEMERAL_MESSAGE> not actually sent by the user. It is provided by the system as a set of reminders and general important information to pay attention to. Do NOT respond to this message, just act accordingly.
+
+<EPHEMERAL_MESSAGE>
+<planning_mode>
+You're in planning mode. Exercise judgement on whether the user's last request warrants a plan and take action accordingly.
+If the user's request warrants a plan then follow this workflow:
+1. Research first before taking actions. Do not use your code editing tools or run modifying commands during this time.
+2. Create an implementation plan artifact with `request_feedback = true` to request approval. Include any open questions for the user directly in the implementation plan. Don't use the ask_question tool to ask these questions. Stop calling tools and allow the user to review the plan and provide feedback or approval.
+3. After receiving approval, begin execution. Create and update the task artifact as you work.
+4. Verify any work that you have done.
+5. Create a walkthrough artifact to present your work to the user. When writing artifacts, make sure to follow the artifact formatting guidelines and use github alerts to highlight critical sections.
+If the user's request does NOT warrant a plan then continue your work WITHOUT making a plan or requesting user feedback.
+</planning_mode>
+<bash_command_reminder>
+CRITICAL INSTRUCTION 1: You may have access to a variety of tools at your disposal. Some tools may be for a specific task such as 'view_file' (for viewing contents of a file). Others may be very broadly applicable such as the ability to run a command on a terminal. Always prioritize using the most specific tool you can for the task at hand. Here are some rules: (a) NEVER run cat inside a bash command to create a new file or append to an existing file. (b) ALWAYS use grep_search instead of running grep inside a bash command unless absolutely needed. (c) DO NOT use ls for listing, cat for viewing, grep for finding, sed for replacing. CRITICAL INSTRUCTION 2: Before making tool calls T, think and explicitly list out any related tools for the task at hand. You can only execute a set of tools T if all other tools in the list are either more generic or cannot be used for the task at hand. ALWAYS START your thought with recalling critical instructions 1 and 2. In particular, the format for the start of your thought block must be '...94>thought
+CRITICAL INSTRUCTION 1: ...
+CRITICAL INSTRUCTION 2: ...'.
+</bash_command_reminder>
+</EPHEMERAL_MESSAGE>
+null
+Created At: 2026-06-15T18:31:19Z
+Completed At: 2026-06-15T18:31:19Z
+File Path: `file:///home/m8apps/projects/Gemini%20Live/app/live.tsx`
+Total Lines: 2466
+Total Bytes: 98197
+Showing lines 1600 to 2399
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1600:             }
+1601:           }
+1602:           if (pcmParts.length > 0) {
+1603:             for (const b64 of pcmParts) void playAudio(b64)
+1604:           }
+1605:         }
+1606: 
+1607:         if (sc.turnComplete) {
+1608:           // Flush any remaining native audio buffer
+1609:           if (!isWeb && nativePcmBufferRef.current.length > 0) {
+1610:             const remaining = nativePcmBufferRef.current.splice(0, nativePcmBufferRef.current.length)
+1611:             const combined = concatPcmB64(remaining)
+1612:             audioQueueRef.current.push(combined)
+1613:             drainAudioQueue()
+1614:           }
+1615:           nativePlaybackStartedRef.current = false
+1616:           micPausedRef.current = false
+1617:           finalizeStreaming()
+1618:           setAudioLevel(0)
+1619:           setState(micOnRef.current ? 'listening' : 'ready')
+1620:         }
+1621:       }
+1622: 
+1623:       ws.onerror = () => { setError('Connection failed.'); setState('error') }
+1624:       ws.onclose = e => {
+1625:         stopMic(); stopVideo()
+1626:         setState('idle')
+1627:         const rawReason = typeof e.reason === 'string' ? e.reason.trim() : ''
+1628:         const goAwayReason = /goaway|go away|session expired|session duration/i.test(rawReason)
+1629:         const reason = rawReason || (e.code === 1008 ? 'Modelo/configuración incompatible en el backend.' : '')
+1630:         if (goAwayReason) {
+1631:           setError('Live session expired. Tap when you want to wake M8 Live again.')
+1632:         } else if (e.code !== 1000 && e.code !== 1005) {
+1633:           setEr
+<truncated 31912 bytes>
+scriptText: {
+2350:     color: 'rgba(255,255,255,0.9)', fontSize: 18, fontWeight: '300',
+2351:     letterSpacing: 0.5, textAlign: 'center', lineHeight: 26,
+2352:   },
+2353:   liveBadgeRow: {
+2354:     flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
+2355:     marginTop: 12, gap: 16,
+2356:   },
+2357:   liveBadge: {
+2358:     flexDirection: 'row', alignItems: 'center', gap: 6,
+2359:     paddingHorizontal: 8, paddingVertical: 2, borderRadius: 20,
+2360:     backgroundColor: 'rgba(0,0,0,0.4)',
+2361:   },
+2362:   liveDot: {
+2363:     width: 6, height: 6, borderRadius: 3, backgroundColor: '#00fc97',
+2364:   },
+2365:   liveBadgeText: {
+2366:     color: '#00fc97', fontSize: 8, fontWeight: '700', letterSpacing: 3,
+2367:   },
+2368: 
+2369:   badgeWrap: { alignItems: 'center', zIndex: 50, marginTop: 6, marginBottom: 8 },
+2370: 
+2371:   // Glass dock
+2372:   glassDockWrap: {
+2373:     position: 'absolute', left: 0, right: 0,
+2374:     alignItems: 'center', zIndex: 50,
+2375:   },
+2376:   glassDockNative: {
+2377:     flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 24,
+2378:     paddingHorizontal: 32, paddingVertical: 16,
+2379:     borderRadius: 40,
+2380:     backgroundColor: 'rgba(38, 38, 38, 0.6)',
+2381:   },
+2382:   dockBtn: {
+2383:     width: 40, height: 40, borderRadius: 20,
+2384:     alignItems: 'center', justifyContent: 'center',
+2385:   },
+2386:   micHeroBtn: {
+2387:     width: 64, height: 64, borderRadius: 32,
+2388:     backgroundColor: '#00ffff',
+2389:     alignItems: 'center', justifyContent: 'center',
+2390:     // Glow shadow
+2391:     shadowColor: '#00ffff',
+2392:     shadowOffset: { width: 0, height: 0 },
+2393:     shadowOpacity: 0.4,
+2394:     shadowRadius: 30,
+2395:     elevation: 8,
+2396:   },
+2397:   micHeroBtnOff: {
+2398:     backgroundColor: '#1f1f1f',
+2399:     shadowOpacity: 0,
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.
+
+The following is an <EPHEMERAL_MESSAGE> not actually sent by the user. It is provided by the system as a set of reminders and general important information to pay attention to. Do NOT respond to this message, just act accordingly.
+
+<EPHEMERAL_MESSAGE>
+<planning_mode>
+You're in planning mode. Exercise judgement on whether the user's last request warrants a plan and take action accordingly.
+If the user's request warrants a plan then follow this workflow:
+1. Research first before taking actions. Do not use your code editing tools or run modifying commands during this time.
+2. Create an implementation plan artifact with `request_feedback = true` to request approval. Include any open questions for the user directly in the implementation plan. Don't use the ask_question tool to ask these questions. Stop calling tools and allow the user to review the plan and provide feedback or approval.
+3. After receiving approval, begin execution. Create and update the task artifact as you work.
+4. Verify any work that you have done.
+5. Create a walkthrough artifact to present your work to the user. When writing artifacts, make sure to follow the artifact formatting guidelines and use github alerts to highlight critical sections.
+If the user's request does NOT warrant a plan then continue your work WITHOUT making a plan or requesting user feedback.
+</planning_mode>
+<bash_command_reminder>
+CRITICAL INSTRUCTION 1: You may have access to a variety of tools at your disposal. Some tools may be for a specific task such as 'view_file' (for viewing contents of a file). Others may be very broadly applicable such as the ability to run a command on a terminal. Always prioritize using the most specific tool you can for the task at hand. Here are some rules: (a) NEVER run cat inside a bash command to create a new file or append to an existing file. (b) ALWAYS use grep_search instead of running grep inside a bash command unless absolutely needed. (c) DO NOT use ls for listing, cat for viewing, grep for finding, sed for replacing. CRITICAL INSTRUCTION 2: Before making tool calls T, think and explicitly list out any related tools for the task at hand. You can only execute a set of tools T if all other tools in the list are either more generic or cannot be used for the task at hand. ALWAYS START your thought with recalling critical instructions 1 and 2. In particular, the format for the start of your thought block must be '...94>thought
+CRITICAL INSTRUCTION 1: ...
+CRITICAL INSTRUCTION 2: ...'.
+</bash_command_reminder>
+</EPHEMERAL_MESSAGE>
+null
+Created At: 2026-06-15T18:31:38Z
+Completed At: 2026-06-15T18:31:38Z
+Created file file:///home/m8apps/projects/Gemini%20Live/scripts/extract_components.mjs with requested content.
+If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+null
+The following is an <EPHEMERAL_MESSAGE> not actually sent by the user. It is provided by the system as a set of reminders and general important information to pay attention to. Do NOT respond to this message, just act accordingly.
+
+<EPHEMERAL_MESSAGE>
+<planning_mode>
+You're in planning mode. Exercise judgement on whether the user's last request warrants a plan and take action accordingly.
+If the user's request warrants a plan then follow this workflow:
+1. Research first before taking actions. Do not use your code editing tools or run modifying commands during this time.
+2. Create an implementation plan artifact with `request_feedback = true` to request approval. Include any open questions for the user directly in the implementation plan. Don't use the ask_question tool to ask these questions. Stop calling tools and allow the user to review the plan and provide feedback or approval.
+3. After receiving approval, begin execution. Create and update the task artifact as you work.
+4. Verify any work that you have done.
+5. Create a walkthrough artifact to present your work to the user. When writing artifacts, make sure to follow the artifact formatting guidelines and use github alerts to highlight critical sections.
+If the user's request does NOT warrant a plan then continue your work WITHOUT making a plan or requesting user feedback.
+</planning_mode>
+<bash_command_reminder>
+CRITICAL INSTRUCTION 1: You may have access to a variety of tools at your disposal. Some tools may be for a specific task such as 'view_file' (for viewing contents of a file). Others may be very broadly applicable such as the ability to run a command on a terminal. Always prioritize using the most specific tool you can for the task at hand. Here are some rules: (a) NEVER run cat inside a bash command to create a new file or append to an existing file. (b) ALWAYS use grep_search instead of running grep inside a bash command unless absolutely needed. (c) DO NOT use ls for listing, cat for viewing, grep for finding, sed for replacing. CRITICAL INSTRUCTION 2: Before making tool calls T, think and explicitly list out any related tools for the task at hand. You can only execute a set of tools T if all other tools in the list are either more generic or cannot be used for the task at hand. ALWAYS START your thought with recalling critical instructions 1 and 2. In particular, the format for the start of your thought block must be '...94>thought
+CRITICAL INSTRUCTION 1: ...
+CRITICAL INSTRUCTION 2: ...'.
+</bash_command_reminder>
+</EPHEMERAL_MESSAGE>
+null
+Created At: 2026-06-15T18:31:45Z
+Completed At: 2026-06-15T18:31:45Z
+
+				The command completed successfully.
+				Output:
+				Components extracted.
+
+
+The following is an <EPHEMERAL_MESSAGE> not actually sent by the user. It is provided by the system as a set of reminders and general important information to pay attention to. Do NOT respond to this message, just act accordingly.
+
+<EPHEMERAL_MESSAGE>
+<planning_mode>
+You're in planning mode. Exercise judgement on whether the user's last request warrants a plan and take action accordingly.
+If the user's request warrants a plan then follow this workflow:
+1. Research first before taking actions. Do not use your code editing tools or run modifying commands during this time.
+2. Create an implementation plan artifact with `request_feedback = true` to request approval. Include any open questions for the user directly in the implementation plan. Don't use the ask_question tool to ask these questions. Stop calling tools and allow the user to review the plan and provide feedback or approval.
+3. After receiving approval, begin execution. Create and update the task artifact as you work.
+4. Verify any work that you have done.
+5. Create a walkthrough artifact to present your work to the user. When writing artifacts, make sure to follow the artifact formatting guidelines and use github alerts to highlight critical sections.
+If the user's request does NOT warrant a plan then continue your work WITHOUT making a plan or requesting user feedback.
+</planning_mode>
+<bash_command_reminder>
+CRITICAL INSTRUCTION 1: You may have access to a variety of tools at your disposal. Some tools may be for a specific task such as 'view_file' (for viewing contents of a file). Others may be very broadly applicable such as the ability to run a command on a terminal. Always prioritize using the most specific tool you can for the task at hand. Here are some rules: (a) NEVER run cat inside a bash command to create a new file or append to an existing file. (b) ALWAYS use grep_search instead of running grep inside a bash command unless absolutely needed. (c) DO NOT use ls for listing, cat for viewing, grep for finding, sed for replacing. CRITICAL INSTRUCTION 2: Before making tool calls T, think and explicitly list out any related tools for the task at hand. You can only execute a set of tools T if all other tools in the list are either more generic or cannot be used for the task at hand. ALWAYS START your thought with recalling critical instructions 1 and 2. In particular, the format for the start of your thought block must be '...94>thought
+CRITICAL INSTRUCTION 1: ...
+CRITICAL INSTRUCTION 2: ...'.
+</bash_command_reminder>
+</EPHEMERAL_MESSAGE>
+null
+Created At: 2026-06-15T18:32:05Z
+Completed At: 2026-06-15T18:32:05Z
+File Path: `file:///home/m8apps/projects/Gemini%20Live/app/live.tsx`
+Total Lines: 2466
+Total Bytes: 98197
+Showing lines 800 to 1599
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+800:   const audioProcRef = useRef<ScriptProcessorNode | null>(null)
+801:   const micOnRef = useRef(false)
+802:   const micPausedRef = useRef(false)
+803:   const fileInputRef = useRef<HTMLInputElement | null>(null)
+804: 
+805:   const videoStreamRef = useRef<MediaStream | null>(null)
+806:   const outputAnalyserRef = useRef<AnalyserNode | null>(null)
+807:   const videoElRef = useRef<HTMLVideoElement | null>(null)
+808:   const videoCanvasRef = useRef<HTMLCanvasElement | null>(null)
+809:   const frameIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
+810:   const videoModeRef = useRef<VideoMode>('none')
+811:   const eventStreamCleanupRef = useRef<null | (() => void)>(null)
+812:   const pendingWakeRef = useRef<WakeRecord | null>(null)
+813:   const processedWakeIdRef = useRef<string | null>(null)
+814:   const startMicActionRef = useRef<() => Promise<void>>(async () => {})
+815:   const stopMicActionRef = useRef<() => Promise<void>>(async () => {})
+816:   const startVideoActionRef = useRef<(mode: 'camera' | 'screen') => Promise<void>>(async () => {})
+817:   const stopVideoActionRef = useRef<() => void>(() => {})
+818: 
+819:   // Native camera ref
+820:   const nativeCameraRef = useRef<CameraView | null>(null)
+821: 
+822:   // Native audio recorder (hook - always called, guarded by Platform checks inside)
+823:   const { startRecording: startNativeRecording, stopRecording: stopNativeRecording } = useAudioRecorder()
+824: 
+825:   const modelBufRef = useRef('')
+826:   const userBufRef = useRef('')
+827:   const chatScrollRef = useRef<ScrollView | null>(null)
+828:   const micAnimRef
+<truncated 33491 bytes>
+ if (msg.setupComplete !== undefined) {
+1561:           setState('ready')
+1562:           const pendingWake = pendingWakeRef.current
+1563:           if (pendingWake && injectWakeIntoGemini(pendingWake)) pendingWakeRef.current = null
+1564:           return
+1565:         }
+1566: 
+1567:         // Auto function calling
+1568:         if (msg.toolCall) {
+1569:           await handleToolCall(msg.toolCall as Parameters<typeof handleToolCall>[0])
+1570:           return
+1571:         }
+1572: 
+1573:         const sc = msg.serverContent as Record<string, unknown> | undefined
+1574:         if (!sc) return
+1575: 
+1576:         // Interruption - clear audio queue
+1577:         if (sc.interrupted) {
+1578:           clearAudioQueue()
+1579:           micPausedRef.current = false
+1580:           return
+1581:         }
+1582: 
+1583:         // User speech transcription (Gemini sends full accumulated text each time)
+1584:         const inT = (sc.inputTranscription as Record<string, string> | undefined)?.text
+1585:         if (inT?.trim()) appendStreaming('user', inT.trim())
+1586: 
+1587:         // Model speech transcription
+1588:         const outT = (sc.outputTranscription as Record<string, string> | undefined)?.text
+1589:         if (outT) appendStreaming('model', outT)
+1590: 
+1591:         // Audio chunks - collect all PCM parts and enqueue as one chunk
+1592:         const parts = (sc.modelTurn as Record<string, unknown> | undefined)?.parts as Array<Record<string, unknown>> | undefined
+1593:         if (parts) {
+1594:           setState('responding')
+1595:           const pcmParts: string[] = []
+1596:           for (const part of parts) {
+1597:             const id = part.inlineData as Record<string, string> | undefined
+1598:             if (id?.data && String(id.mimeType || '').startsWith('audio/pcm')) {
+1599:               pcmParts.push(id.data)
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.
+
+The following is an <EPHEMERAL_MESSAGE> not actually sent by the user. It is provided by the system as a set of reminders and general important information to pay attention to. Do NOT respond to this message, just act accordingly.
+
+<EPHEMERAL_MESSAGE>
+<planning_mode>
+You're in planning mode. Exercise judgement on whether the user's last request warrants a plan and take action accordingly.
+If the user's request warrants a plan then follow this workflow:
+1. Research first before taking actions. Do not use your code editing tools or run modifying commands during this time.
+2. Create an implementation plan artifact with `request_feedback = true` to request approval. Include any open questions for the user directly in the implementation plan. Don't use the ask_question tool to ask these questions. Stop calling tools and allow the user to review the plan and provide feedback or approval.
+3. After receiving approval, begin execution. Create and update the task artifact as you work.
+4. Verify any work that you have done.
+5. Create a walkthrough artifact to present your work to the user. When writing artifacts, make sure to follow the artifact formatting guidelines and use github alerts to highlight critical sections.
+If the user's request does NOT warrant a plan then continue your work WITHOUT making a plan or requesting user feedback.
+</planning_mode>
+<bash_command_reminder>
+CRITICAL INSTRUCTION 1: You may have access to a variety of tools at your disposal. Some tools may be for a specific task such as 'view_file' (for viewing contents of a file). Others may be very broadly applicable such as the ability to run a command on a terminal. Always prioritize using the most specific tool you can for the task at hand. Here are some rules: (a) NEVER run cat inside a bash command to create a new file or append to an existing file. (b) ALWAYS use grep_search instead of running grep inside a bash command unless absolutely needed. (c) DO NOT use ls for listing, cat for viewing, grep for finding, sed for replacing. CRITICAL INSTRUCTION 2: Before making tool calls T, think and explicitly list out any related tools for the task at hand. You can only execute a set of tools T if all other tools in the list are either more generic or cannot be used for the task at hand. ALWAYS START your thought with recalling critical instructions 1 and 2. In particular, the format for the start of your thought block must be '...94>thought
+CRITICAL INSTRUCTION 1: ...
+CRITICAL INSTRUCTION 2: ...'.
+</bash_command_reminder>
+</EPHEMERAL_MESSAGE>
+null
+Created At: 2026-06-15T18:32:33Z
+Completed At: 2026-06-15T18:32:33Z
+Created file file:///home/m8apps/projects/Gemini%20Live/hooks/useAudioEngine.ts with requested content.
+If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+The following is an <EPHEMERAL_MESSAGE> not actually sent by the user. It is provided by the system as a set of reminders and general important information to pay attention to. Do NOT respond to this message, just act accordingly.
+
+<EPHEMERAL_MESSAGE>
+<planning_mode>
+You're in planning mode. Exercise judgement on whether the user's last request warrants a plan and take action accordingly.
+If the user's request warrants a plan then follow this workflow:
+1. Research first before taking actions. Do not use your code editing tools or run modifying commands during this time.
+2. Create an implementation plan artifact with `request_feedback = true` to request approval. Include any open questions for the user directly in the implementation plan. Don't use the ask_question tool to ask these questions. Stop calling tools and allow the user to review the plan and provide feedback or approval.
+3. After receiving approval, begin execution. Create and update the task artifact as you work.
+4. Verify any work that you have done.
+5. Create a walkthrough artifact to present your work to the user. When writing artifacts, make sure to follow the artifact formatting guidelines and use github alerts to highlight critical sections.
+If the user's request does NOT warrant a plan then continue your work WITHOUT making a plan or requesting user feedback.
+</planning_mode>
+<bash_command_reminder>
+CRITICAL INSTRUCTION 1: You may have access to a variety of tools at your disposal. Some tools may be for a specific task such as 'view_file' (for viewing contents of a file). Others may be very broadly applicable such as the ability to run a command on a terminal. Always prioritize using the most specific tool you can for the task at hand. Here are some rules: (a) NEVER run cat inside a bash command to create a new file or append to an existing file. (b) ALWAYS use grep_search instead of running grep inside a bash command unless absolutely needed. (c) DO NOT use ls for listing, cat for viewing, grep for finding, sed for replacing. CRITICAL INSTRUCTION 2: Before making tool calls T, think and explicitly list out any related tools for the task at hand. You can only execute a set of tools T if all other tools in the list are either more generic or cannot be used for the task at hand. ALWAYS START your thought with recalling critical instructions 1 and 2. In particular, the format for the start of your thought block must be '...94>thought
+CRITICAL INSTRUCTION 1: ...
+CRITICAL INSTRUCTION 2: ...'.
+</bash_command_reminder>
+</EPHEMERAL_MESSAGE>
+null
+Created At: 2026-06-15T18:33:04Z
+Completed At: 2026-06-15T18:33:04Z
+Created file file:///home/m8apps/projects/Gemini%20Live/hooks/useMicRecorder.ts with requested content.
+If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+The following is an <EPHEMERAL_MESSAGE> not actually sent by the user. It is provided by the system as a set of reminders and general important information to pay attention to. Do NOT respond to this message, just act accordingly.
+
+<EPHEMERAL_MESSAGE>
+<planning_mode>
+You're in planning mode. Exercise judgement on whether the user's last request warrants a plan and take action accordingly.
+If the user's request warrants a plan then follow this workflow:
+1. Research first before taking actions. Do not use your code editing tools or run modifying commands during this time.
+2. Create an implementation plan artifact with `request_feedback = true` to request approval. Include any open questions for the user directly in the implementation plan. Don't use the ask_question tool to ask these questions. Stop calling tools and allow the user to review the plan and provide feedback or approval.
+3. After receiving approval, begin execution. Create and update the task artifact as you work.
+4. Verify any work that you have done.
+5. Create a walkthrough artifact to present your work to the user. When writing artifacts, make sure to follow the artifact formatting guidelines and use github alerts to highlight critical sections.
+If the user's request does NOT warrant a plan then continue your work WITHOUT making a plan or requesting user feedback.
+</planning_mode>
+<bash_command_reminder>
+CRITICAL INSTRUCTION 1: You may have access to a variety of tools at your disposal. Some tools may be for a specific task such as 'view_file' (for viewing contents of a file). Others may be very broadly applicable such as the ability to run a command on a terminal. Always prioritize using the most specific tool you can for the task at hand. Here are some rules: (a) NEVER run cat inside a bash command to create a new file or append to an existing file. (b) ALWAYS use grep_search instead of running grep inside a bash command unless absolutely needed. (c) DO NOT use ls for listing, cat for viewing, grep for finding, sed for replacing. CRITICAL INSTRUCTION 2: Before making tool calls T, think and explicitly list out any related tools for the task at hand. You can only execute a set of tools T if all other tools in the list are either more generic or cannot be used for the task at hand. ALWAYS START your thought with recalling critical instructions 1 and 2. In particular, the format for the start of your thought block must be '...94>thought
+CRITICAL INSTRUCTION 1: ...
+CRITICAL INSTRUCTION 2: ...'.
+</bash_command_reminder>
+</EPHEMERAL_MESSAGE>
+null
+Created At: 2026-06-15T18:33:24Z
+Completed At: 2026-06-15T18:33:24Z
+Created file file:///home/m8apps/projects/Gemini%20Live/hooks/useVideoCapture.ts with requested content.
+If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+The following is an <EPHEMERAL_MESSAGE> not actually sent by the user. It is provided by the system as a set of reminders and general important information to pay attention to. Do NOT respond to this message, just act accordingly.
+
+<EPHEMERAL_MESSAGE>
+<planning_mode>
+You're in planning mode. Exercise judgement on whether the user's last request warrants a plan and take action accordingly.
+If the user's request warrants a plan then follow this workflow:
+1. Research first before taking actions. Do not use your code editing tools or run modifying commands during this time.
+2. Create an implementation plan artifact with `request_feedback = true` to request approval. Include any open questions for the user directly in the implementation plan. Don't use the ask_question tool to ask these questions. Stop calling tools and allow the user to review the plan and provide feedback or approval.
+3. After receiving approval, begin execution. Create and update the task artifact as you work.
+4. Verify any work that you have done.
+5. Create a walkthrough artifact to present your work to the user. When writing artifacts, make sure to follow the artifact formatting guidelines and use github alerts to highlight critical sections.
+If the user's request does NOT warrant a plan then continue your work WITHOUT making a plan or requesting user feedback.
+</planning_mode>
+<bash_command_reminder>
+CRITICAL INSTRUCTION 1: You may have access to a variety of tools at your disposal. Some tools may be for a specific task such as 'view_file' (for viewing contents of a file). Others may be very broadly applicable such as the ability to run a command on a terminal. Always prioritize using the most specific tool you can for the task at hand. Here are some rules: (a) NEVER run cat inside a bash command to create a new file or append to an existing file. (b) ALWAYS use grep_search instead of running grep inside a bash command unless absolutely needed. (c) DO NOT use ls for listing, cat for viewing, grep for finding, sed for replacing. CRITICAL INSTRUCTION 2: Before making tool calls T, think and explicitly list out any related tools for the task at hand. You can only execute a set of tools T if all other tools in the list are either more generic or cannot be used for the task at hand. ALWAYS START your thought with recalling critical instructions 1 and 2. In particular, the format for the start of your thought block must be '...94>thought
+CRITICAL INSTRUCTION 1: ...
+CRITICAL INSTRUCTION 2: ...'.
+</bash_command_reminder>
+</EPHEMERAL_MESSAGE>
+null
+Created At: 2026-06-15T18:33:49Z
+Completed At: 2026-06-15T18:33:49Z
+Created file file:///home/m8apps/projects/Gemini%20Live/hooks/useGeminiSession.ts with requested content.
+If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+The following is an <EPHEMERAL_MESSAGE> not actually sent by the user. It is provided by the system as a set of reminders and general important information to pay attention to. Do NOT respond to this message, just act accordingly.
+
+<EPHEMERAL_MESSAGE>
+<planning_mode>
+You're in planning mode. Exercise judgement on whether the user's last request warrants a plan and take action accordingly.
+If the user's request warrants a plan then follow this workflow:
+1. Research first before taking actions. Do not use your code editing tools or run modifying commands during this time.
+2. Create an implementation plan artifact with `request_feedback = true` to request approval. Include any open questions for the user directly in the implementation plan. Don't use the ask_question tool to ask these questions. Stop calling tools and allow the user to review the plan and provide feedback or approval.
+3. After receiving approval, begin execution. Create and update the task artifact as you work.
+4. Verify any work that you have done.
+5. Create a walkthrough artifact to present your work to the user. When writing artifacts, make sure to follow the artifact formatting guidelines and use github alerts to highlight critical sections.
+If the user's request does NOT warrant a plan then continue your work WITHOUT making a plan or requesting user feedback.
+</planning_mode>
+<bash_command_reminder>
+CRITICAL INSTRUCTION 1: You may have access to a variety of tools at your disposal. Some tools may be for a specific task such as 'view_file' (for viewing contents of a file). Others may be very broadly applicable such as the ability to run a command on a terminal. Always prioritize using the most specific tool you can for the task at hand. Here are some rules: (a) NEVER run cat inside a bash command to create a new file or append to an existing file. (b) ALWAYS use grep_search instead of running grep inside a bash command unless absolutely needed. (c) DO NOT use ls for listing, cat for viewing, grep for finding, sed for replacing. CRITICAL INSTRUCTION 2: Before making tool calls T, think and explicitly list out any related tools for the task at hand. You can only execute a set of tools T if all other tools in the list are either more generic or cannot be used for the task at hand. ALWAYS START your thought with recalling critical instructions 1 and 2. In particular, the format for the start of your thought block must be '...94>thought
+CRITICAL INSTRUCTION 1: ...
+CRITICAL INSTRUCTION 2: ...'.
+</bash_command_reminder>
+</EPHEMERAL_MESSAGE>
+null
+Created At: 2026-06-15T18:34:08Z
+Completed At: 2026-06-15T18:34:08Z
+Created file file:///home/m8apps/projects/Gemini%20Live/components/BridgeAuthGate.tsx with requested content.
+If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+The following is an <EPHEMERAL_MESSAGE> not actually sent by the user. It is provided by the system as a set of reminders and general important information to pay attention to. Do NOT respond to this message, just act accordingly.
+
+<EPHEMERAL_MESSAGE>
+<planning_mode>
+You're in planning mode. Exercise judgement on whether the user's last request warrants a plan and take action accordingly.
+If the user's request warrants a plan then follow this workflow:
+1. Research first before taking actions. Do not use your code editing tools or run modifying commands during this time.
+2. Create an implementation plan artifact with `request_feedback = true` to request approval. Include any open questions for the user directly in the implementation plan. Don't use the ask_question tool to ask these questions. Stop calling tools and allow the user to review the plan and provide feedback or approval.
+3. After receiving approval, begin execution. Create and update the task artifact as you work.
+4. Verify any work that you have done.
+5. Create a walkthrough artifact to present your work to the user. When writing artifacts, make sure to follow the artifact formatting guidelines and use github alerts to highlight critical sections.
+If the user's request does NOT warrant a plan then continue your work WITHOUT making a plan or requesting user feedback.
+</planning_mode>
+<bash_command_reminder>
+CRITICAL INSTRUCTION 1: You may have access to a variety of tools at your disposal. Some tools may be for a specific task such as 'view_file' (for viewing contents of a file). Others may be very broadly applicable such as the ability to run a command on a terminal. Always prioritize using the most specific tool you can for the task at hand. Here are some rules: (a) NEVER run cat inside a bash command to create a new file or append to an existing file. (b) ALWAYS use grep_search instead of running grep inside a bash command unless absolutely needed. (c) DO NOT use ls for listing, cat for viewing, grep for finding, sed for replacing. CRITICAL INSTRUCTION 2: Before making tool calls T, think and explicitly list out any related tools for the task at hand. You can only execute a set of tools T if all other tools in the list are either more generic or cannot be used for the task at hand. ALWAYS START your thought with recalling critical instructions 1 and 2. In particular, the format for the start of your thought block must be '...94>thought
+CRITICAL INSTRUCTION 1: ...
+CRITICAL INSTRUCTION 2: ...'.
+</bash_command_reminder>
+</EPHEMERAL_MESSAGE>
+null
+Created At: 2026-06-15T18:35:34Z
+Completed At: 2026-06-15T18:35:34Z
+Created file file:///home/m8apps/projects/Gemini%20Live/app/live.tsx with requested content.
+If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+The following is an <EPHEMERAL_MESSAGE> not actually sent by the user. It is provided by the system as a set of reminders and general important information to pay attention to. Do NOT respond to this message, just act accordingly.
+
+<EPHEMERAL_MESSAGE>
+<planning_mode>
+You're in planning mode. Exercise judgement on whether the user's last request warrants a plan and take action accordingly.
+If the user's request warrants a plan then follow this workflow:
+1. Research first before taking actions. Do not use your code editing tools or run modifying commands during this time.
+2. Create an implementation plan artifact with `request_feedback = true` to request approval. Include any open questions for the user directly in the implementation plan. Don't use the ask_question tool to ask these questions. Stop calling tools and allow the user to review the plan and provide feedback or approval.
+3. After receiving approval, begin execution. Create and update the task artifact as you work.
+4. Verify any work that you have done.
+5. Create a walkthrough artifact to present your work to the user. When writing artifacts, make sure to follow the artifact formatting guidelines and use github alerts to highlight critical sections.
+If the user's request does NOT warrant a plan then continue your work WITHOUT making a plan or requesting user feedback.
+</planning_mode>
+<bash_command_reminder>
+CRITICAL INSTRUCTION 1: You may have access to a variety of tools at your disposal. Some tools may be for a specific task such as 'view_file' (for viewing contents of a file). Others may be very broadly applicable such as the ability to run a command on a terminal. Always prioritize using the most specific tool you can for the task at hand. Here are some rules: (a) NEVER run cat inside a bash command to create a new file or append to an existing file. (b) ALWAYS use grep_search instead of running grep inside a bash command unless absolutely needed. (c) DO NOT use ls for listing, cat for viewing, grep for finding, sed for replacing. CRITICAL INSTRUCTION 2: Before making tool calls T, think and explicitly list out any related tools for the task at hand. You can only execute a set of tools T if all other tools in the list are either more generic or cannot be used for the task at hand. ALWAYS START your thought with recalling critical instructions 1 and 2. In particular, the format for the start of your thought block must be '...94>thought
+CRITICAL INSTRUCTION 1: ...
+CRITICAL INSTRUCTION 2: ...'.
+</bash_command_reminder>
+</EPHEMERAL_MESSAGE>
+null
+Created At: 2026-06-15T18:35:44Z
+Completed At: 2026-06-15T18:35:45Z
+The following changes were made by the multi_replace_file_content tool to: /home/m8apps/.gemini/antigravity/brain/2ad996f1-6040-47a3-9d07-1a8144bc53c3/task.md. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -5,12 +5,16 @@
+ - [x] Remove Tailscale hardcoded URL (`src/services/appConfig.ts`)
+ - [x] Update `DECISIONS.md`
+ - [x] Create `public/mic-processor.worklet.js`
+-- [ ] Extract `components/ThreeOrb.tsx`
+-- [ ] Extract `components/AudioSpectrum.tsx`
+-- [ ] Extract `components/BridgeAuthGate.tsx`
+-- [ ] Extract `hooks/useAudioEngine.ts`
+-- [ ] Extract `hooks/useMicRecorder.ts`
+-- [ ] Extract `hooks/useVideoCapture.ts`
+-- [ ] Extract `hooks/useGeminiSession.ts`
+-- [ ] Rewrite `app/live.tsx` as a thin composer
++- [x] Extract `ThreeOrb` to `components/ThreeOrb.tsx`
++  - Remove `clock.getDelta()` hack
++  - Add explicit `.dispose()` calls to prevent memory leaks
++- [x] Extract `AudioSpectrum` to `components/AudioSpectrum.tsx`
++- [x] Extract `BridgeAuthGate` to `components/BridgeAuthGate.tsx`
++- [x] Extract `PulseBadge` to `components/PulseBadge.tsx`
++- [x] Extract custom hooks to `/hooks`:
++  - [x] `useAudioEngine.ts` (manages WebAudio, native playback queues)
++  - [x] `useMicRecorder.ts` (manages `getUserMedia` + AudioWorklet, native recording)
++  - [x] `useVideoCapture.ts` (manages screen share, expo-camera)
++  - [x] `useGeminiSession.ts` (WebSocket lifecycle, event parsing)
++- [x] Rewrite `app/live.tsx` as a thin compositor of the above hooks and componentsr
+ 
+[diff_block_end]
+
+Please note that the above snippet only shows the MODIFIED lines from the last change. It shows up to 3 lines of unchanged lines before and after the modified lines. The actual file contents may have many more lines not shown.
+
+We did our best to apply changes despite some inaccuracies. Double check if the edit applied is what you intended.
+null
+The following is an <EPHEMERAL_MESSAGE> not actually sent by the user. It is provided by the system as a set of reminders and general important information to pay attention to. Do NOT respond to this message, just act accordingly.
+
+<EPHEMERAL_MESSAGE>
+<planning_mode>
+You're in planning mode. Exercise judgement on whether the user's last request warrants a plan and take action accordingly.
+If the user's request warrants a plan then follow this workflow:
+1. Research first before taking actions. Do not use your code editing tools or run modifying commands during this time.
+2. Create an implementation plan artifact with `request_feedback = true` to request approval. Include any open questions for the user directly in the implementation plan. Don't use the ask_question tool to ask these questions. Stop calling tools and allow the user to review the plan and provide feedback or approval.
+3. After receiving approval, begin execution. Create and update the task artifact as you work.
+4. Verify any work that you have done.
+5. Create a walkthrough artifact to present your work to the user. When writing artifacts, make sure to follow the artifact formatting guidelines and use github alerts to highlight critical sections.
+If the user's request does NOT warrant a plan then continue your work WITHOUT making a plan or requesting user feedback.
+</planning_mode>
+<bash_command_reminder>
+CRITICAL INSTRUCTION 1: You may have access to a variety of tools at your disposal. Some tools may be for a specific task such as 'view_file' (for viewing contents of a file). Others may be very broadly applicable such as the ability to run a command on a terminal. Always prioritize using the most specific tool you can for the task at hand. Here are some rules: (a) NEVER run cat inside a bash command to create a new file or append to an existing file. (b) ALWAYS use grep_search instead of running grep inside a bash command unless absolutely needed. (c) DO NOT use ls for listing, cat for viewing, grep for finding, sed for replacing. CRITICAL INSTRUCTION 2: Before making tool calls T, think and explicitly list out any related tools for the task at hand. You can only execute a set of tools T if all other tools in the list are either more generic or cannot be used for the task at hand. ALWAYS START your thought with recalling critical instructions 1 and 2. In particular, the format for the start of your thought block must be '...94>thought
+CRITICAL INSTRUCTION 1: ...
+CRITICAL INSTRUCTION 2: ...'.
+</bash_command_reminder>
+</EPHEMERAL_MESSAGE>
+null
+Created At: 2026-06-15T18:35:51Z
+Completed At: 2026-06-15T18:35:53Z
+
+				The command failed with exit code: 2
+				Output:
+				app/live.tsx:685:17 - error TS2322: Type '{ state: SessionState; micLevel: numbe
+r; audioLevel: number; baseColor: string; accentColor: string; }' is not assigna
+ble to type 'IntrinsicAttributes & NativeOrbProps'.
+  Property 'baseColor' does not exist on type 'IntrinsicAttributes & NativeOrbPr
+ops'.
+
+685                 baseColor={settings.orbColor}
+                    ~~~~~~~~~
+
+components/ThreeOrb.tsx:426:7 - error TS2304: Cannot find name 'renderer'.
+
+426       renderer.dispose()
+          ~~~~~~~~
+components/ThreeOrb.tsx:427:7 - error TS2304: Cannot find name 'orbGeometry'.
+
+427       orbGeometry.dispose()
+          ~~~~~~~~~~~
+
+components/ThreeOrb.tsx:428:7 - error TS2304: Cannot find name 'orbMaterial'.
+
+428       orbMaterial.dispose()
+          ~~~~~~~~~~~
+
+components/ThreeOrb.tsx:429:7 - error TS2304: Cannot find name 'wireGeometry'.
+
+429       wireGeometry.dispose()
+          ~~~~~~~~~~~~
+
+components/ThreeOrb.tsx:430:7 - error TS2304: Cannot find name 'wireMaterial'.
+
+430       wireMaterial.dispose()
+          ~~~~~~~~~~~~
+
+components/ThreeOrb.tsx:431:7 - error TS2304: Cannot find name 'coreGeometry'.
+
+431       coreGeometry.dispose()
+          ~~~~~~~~~~~~
+
+components/ThreeOrb.tsx:432:7 - error TS2304: Cannot find name 'coreMaterial'.
+
+432       coreMaterial.dispose()
+          ~~~~~~~~~~~~
+
+components/ThreeOrb.tsx:433:7 - error TS2304: Cannot find name 'particleGeometry
+'.
+
+433       particleGeometry.dispose()
+          ~~~~~~~~~~~~~~~~
+
+components/ThreeOrb.tsx:434:7 - error TS2304: Cannot find name 'particleMaterial
+'.
+
+434       particleMaterial.dispose()
+          ~~~~~~~~~~~~~~~~
+
+components/ThreeOrb.tsx:435:7 - error TS2304: Cannot find name 'starGeometry'.
+
+435       starGeometry.dispose()
+          ~~~~~~~~~~~~
+
+components/ThreeOrb.tsx:436:7 - error TS2304: Cannot find name 'starMaterial'.
+
+436       starMaterial.dispose()
+          ~~~~~~~~~~~~
+
+hooks/useVideoCapture.ts:53:21 - error TS2339: Property 'base64' does not exist
+on type 'PictureRef'.
+
+53         if (!photo?.base64) return
+                       ~~~~~~
+
+hooks/useVideoCapture.ts:55:49 - error TS2339: Property 'base64' does not exist
+on type 'PictureRef'.
+
+55           realtimeInput: { video: { data: photo.base64, mimeType: 'image/jpeg
+' } },
+                                                   ~~~~~~
+
+
+Found 14 errors in 3 files.
+
+Errors  Files
+     1  app/live.tsx:685
+    11  components/ThreeOrb.tsx:426
+     2  hooks/useVideoCapture.ts:53
+
+
+The following is an <EPHEMERAL_MESSAGE> not actually sent by the user. It is provided by the system as a set of reminders and general important information to pay attention to. Do NOT respond to this message, just act accordingly.
+
+<EPHEMERAL_MESSAGE>
+<planning_mode>
+You're in planning mode. Exercise judgement on whether the user's last request warrants a plan and take action accordingly.
+If the user's request warrants a plan then follow this workflow:
+1. Research first before taking actions. Do not use your code editing tools or run modifying commands during this time.
+2. Create an implementation plan artifact with `request_feedback = true` to request approval. Include any open questions for the user directly in the implementation plan. Don't use the ask_question tool to ask these questions. Stop calling tools and allow the user to review the plan and provide feedback or approval.
+3. After receiving approval, begin execution. Create and update the task artifact as you work.
+4. Verify any work that you have done.
+5. Create a walkthrough artifact to present your work to the user. When writing artifacts, make sure to follow the artifact formatting guidelines and use github alerts to highlight critical sections.
+If the user's request does NOT warrant a plan then continue your work WITHOUT making a plan or requesting user feedback.
+</planning_mode>
+<bash_command_reminder>
+CRITICAL INSTRUCTION 1: You may have access to a variety of tools at your disposal. Some tools may be for a specific task such as 'view_file' (for viewing contents of a file). Others may be very broadly applicable such as the ability to run a command on a terminal. Always prioritize using the most specific tool you can for the task at hand. Here are some rules: (a) NEVER run cat inside a bash command to create a new file or append to an existing file. (b) ALWAYS use grep_search instead of running grep inside a bash command unless absolutely needed. (c) DO NOT use ls for listing, cat for viewing, grep for finding, sed for replacing. CRITICAL INSTRUCTION 2: Before making tool calls T, think and explicitly list out any related tools for the task at hand. You can only execute a set of tools T if all other tools in the list are either more generic or cannot be used for the task at hand. ALWAYS START your thought with recalling critical instructions 1 and 2. In particular, the format for the start of your thought block must be '...94>thought
+CRITICAL INSTRUCTION 1: ...
+CRITICAL INSTRUCTION 2: ...'.
+</bash_command_reminder>
+</EPHEMERAL_MESSAGE>
+null
+Created At: 2026-06-15T18:36:01Z
+Completed At: 2026-06-15T18:36:01Z
+File Path: `file:///home/m8apps/projects/Gemini%20Live/components/NativeOrb.tsx`
+Total Lines: 297
+Total Bytes: 11180
+Showing lines 1 to 297
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: /**
+2:  * NativeOrb — Android/iOS 3D orb using React Native Skia
+3:  * GPU shader with simplex noise, fresnel rim, particles, glow.
+4:  * Animation runs entirely on the UI thread via useClock + useDerivedValue.
+5:  */
+6: import React, { useEffect } from 'react'
+7: import {
+8:   Canvas,
+9:   Circle,
+10:   Group,
+11:   BlurMask,
+12:   Shader,
+13:   Skia,
+14:   Points,
+15:   vec,
+16:   Fill,
+17:   useClock,
+18: } from '@shopify/react-native-skia'
+19: import { useSharedValue, useDerivedValue, withTiming, Easing } from 'react-native-reanimated'
+20: 
+21: type SessionState = 'idle' | 'connecting' | 'ready' | 'listening' | 'responding' | 'error' | 'thinking' | 'searching'
+22: 
+23: interface NativeOrbProps {
+24:   state: SessionState
+25:   micLevel: number
+26:   audioLevel?: number
+27:   rotSpeed?: number
+28:   distortion?: number
+29:   size?: number
+30: }
+31: 
+32: const DEFAULT_SIZE = 300
+33: const RADIUS = 117
+34: 
+35: // ─── SkSL orb shader ───
+36: const ORB_SHADER = Skia.RuntimeEffect.Make(`
+37:   uniform float uTime;
+38:   uniform float uNoiseAmp;
+39:   uniform float uNoiseFreq;
+40:   uniform float uFresnelPow;
+41:   uniform float uCoreIntensity;
+42:   uniform float uMicLevel;
+43:   uniform vec3  uColor;
+44:   uniform vec2  uCenter;
+45:   uniform float uRadius;
+46: 
+47:   float hash(vec2 p) {
+48:     p = fract(p * vec2(127.1, 311.7));
+49:     p += dot(p, p + 43.21);
+50:     return fract(p.x * p.y);
+51:   }
+52: 
+53:   float smoothNoise(vec2 p) {
+54:     vec2 i = floor(p);
+55:     vec2 f = fract(p);
+56:    
+<truncated 8994 bytes>
+min(1, colorG.value + 0.3) * 255)},${Math.round(Math.min(1, colorB.value + 0.3) * 255)})`
+243:   )
+244: 
+245:   // Wireframe ring opacity
+246:   const wireOpacity = useDerivedValue(() => {
+247:     const t = clock.value / 1000
+248:     const base = state === 'responding' ? 0.12
+249:       : state === 'listening' ? 0.09
+250:       : state === 'idle' ? 0.03
+251:       : 0.06
+252:     return base + Math.sin(t * 0.7) * 0.015
+253:   })
+254: 
+255:   // Glow ring color
+256:   const glowColor = useDerivedValue(() =>
+257:     `rgba(${Math.round(colorR.value * 255)},${Math.round(colorG.value * 255)},${Math.round(colorB.value * 255)},0.5)`
+258:   )
+259: 
+260:   return (
+261:     <Canvas style={{ width: canvasSize, height: canvasSize }}>
+262:       {/* Background — transparent */}
+263:       <Fill color="transparent" />
+264: 
+265:       {/* Outer glow halo — flush with orb edge, bleeds both ways */}
+266:       <Circle cx={center} cy={center} r={RADIUS} color={glowColor}>
+267:         <BlurMask blur={glowAmount} style="normal" />
+268:       </Circle>
+269: 
+270:       {/* Main orb with SkSL shader */}
+271:       <Group transform={transform} origin={vec(center, center)}>
+272:         <Circle cx={center} cy={center} r={RADIUS}>
+273:           <Shader source={ORB_SHADER} uniforms={uniforms} />
+274:         </Circle>
+275:       </Group>
+276: 
+277:       {/* Wireframe ring overlay — tight to orb */}
+278:       <Circle
+279:         cx={center} cy={center} r={RADIUS * 0.99}
+280:         color="transparent"
+281:         style="stroke"
+282:         strokeWidth={0.5}
+283:         opacity={wireOpacity}
+284:       />
+285: 
+286:       {/* Orbital particles */}
+287:       <Points
+288:         points={particlePoints}
+289:         mode="points"
+290:         color={particleColor}
+291:         strokeWidth={2.5}
+292:         opacity={particleOpacity}
+293:       />
+294:     </Canvas>
+295:   )
+296: }
+297: 
+The above content shows the entire, complete file contents of the requested file.
+
+The following is an <EPHEMERAL_MESSAGE> not actually sent by the user. It is provided by the system as a set of reminders and general important information to pay attention to. Do NOT respond to this message, just act accordingly.
+
+<EPHEMERAL_MESSAGE>
+<planning_mode>
+You're in planning mode. Exercise judgement on whether the user's last request warrants a plan and take action accordingly.
+If the user's request warrants a plan then follow this workflow:
+1. Research first before taking actions. Do not use your code editing tools or run modifying commands during this time.
+2. Create an implementation plan artifact with `request_feedback = true` to request approval. Include any open questions for the user directly in the implementation plan. Don't use the ask_question tool to ask these questions. Stop calling tools and allow the user to review the plan and provide feedback or approval.
+3. After receiving approval, begin execution. Create and update the task artifact as you work.
+4. Verify any work that you have done.
+5. Create a walkthrough artifact to present your work to the user. When writing artifacts, make sure to follow the artifact formatting guidelines and use github alerts to highlight critical sections.
+If the user's request does NOT warrant a plan then continue your work WITHOUT making a plan or requesting user feedback.
+</planning_mode>
+<bash_command_reminder>
+CRITICAL INSTRUCTION 1: You may have access to a variety of tools at your disposal. Some tools may be for a specific task such as 'view_file' (for viewing contents of a file). Others may be very broadly applicable such as the ability to run a command on a terminal. Always prioritize using the most specific tool you can for the task at hand. Here are some rules: (a) NEVER run cat inside a bash command to create a new file or append to an existing file. (b) ALWAYS use grep_search instead of running grep inside a bash command unless absolutely needed. (c) DO NOT use ls for listing, cat for viewing, grep for finding, sed for replacing. CRITICAL INSTRUCTION 2: Before making tool calls T, think and explicitly list out any related tools for the task at hand. You can only execute a set of tools T if all other tools in the list are either more generic or cannot be used for the task at hand. ALWAYS START your thought with recalling critical instructions 1 and 2. In particular, the format for the start of your thought block must be '...94>thought
+CRITICAL INSTRUCTION 1: ...
+CRITICAL INSTRUCTION 2: ...'.
+</bash_command_reminder>
+</EPHEMERAL_MESSAGE>
+null
+Created At: 2026-06-15T18:36:07Z
+Completed At: 2026-06-15T18:36:07Z
+File Path: `file:///home/m8apps/projects/Gemini%20Live/components/ThreeOrb.tsx`
+Total Lines: 450
+Total Bytes: 18625
+Showing lines 1 to 450
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: import React, { useEffect, useRef } from 'react'
+2: import type { SessionState } from '../src/types/realtime'
+3: 
+4: export default function ThreeOrb({ state, micLevel, rotSpeed = 1.0, distortion = 1.3 }: {
+5:   state: SessionState; micLevel: number; rotSpeed?: number; distortion?: number
+6: }) {
+7:   const containerRef = useRef<any>(null)
+8:   const stateRef = useRef(state)
+9:   const micRef = useRef(micLevel)
+10:   const rotSpeedRef = useRef(rotSpeed)
+11:   const distortionRef = useRef(distortion)
+12: 
+13:   useEffect(() => { stateRef.current = state }, [state])
+14:   useEffect(() => { micRef.current = micLevel }, [micLevel])
+15:   useEffect(() => { rotSpeedRef.current = rotSpeed }, [rotSpeed])
+16:   useEffect(() => { distortionRef.current = distortion }, [distortion])
+17: 
+18:   useEffect(() => {
+19:     const container = containerRef.current
+20:     if (!container) return
+21:     let destroyed = false
+22: 
+23:     const initThree = async () => {
+24:       const THREE = await import('three')
+25:       if (destroyed) return
+26: 
+27:       const ORB_SIZE = 200
+28:       const w = ORB_SIZE * 1.8, h = ORB_SIZE * 1.8
+29:       const dpr = Math.min(window.devicePixelRatio || 1, 2)
+30: 
+31:       const scene = new THREE.Scene()
+32:       const camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 100)
+33:       camera.position.z = 3.5
+34: 
+35:       const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
+36:       renderer.setSize(w, h)
+37:       renderer.setPixelRatio(dpr)
+38:       renderer.setClearColor(0x000000, 0)
+39:       container.appendChild(rende
+<truncated 17203 bytes>
+pacity
+398:         const pc = (currentColor as any).clone()
+399:         particleMaterial.color.setRGB(
+400:           Math.min(1, pc.x + 0.3), Math.min(1, pc.y + 0.3), Math.min(1, pc.z + 0.3)
+401:         )
+402: 
+403:         starMaterial.opacity = 0.15 + Math.sin(elapsed * 0.3) * 0.05
+404:         stars.rotation.y = elapsed * 0.005
+405: 
+406:         wireMesh.rotation.y = orbMesh.rotation.y * 0.7
+407:         wireMesh.rotation.x = elapsed * 0.05
+408:         wireMaterial.opacity = lerp(wireMaterial.opacity, tWireOpacity, sm)
+409: 
+410:         const glowPx = Math.round(smoothBloom)
+411:         const gc = (currentColor as any).clone()
+412:         const hexStr = '#' + [gc.x, gc.y, gc.z].map((v: number) =>
+413:           Math.round(Math.min(1, v) * 255).toString(16).padStart(2, '0')
+414:         ).join('')
+415:         renderer.domElement.style.filter = `drop-shadow(0 0 ${glowPx}px ${hexStr})`
+416: 
+417:         renderer.render(scene, camera)
+418:       }
+419:       animate()
+420:     }
+421: 
+422:     initThree()
+423: 
+424:     return () => {
+425:       destroyed = true
+426:       renderer.dispose()
+427:       orbGeometry.dispose()
+428:       orbMaterial.dispose()
+429:       wireGeometry.dispose()
+430:       wireMaterial.dispose()
+431:       coreGeometry.dispose()
+432:       coreMaterial.dispose()
+433:       particleGeometry.dispose()
+434:       particleMaterial.dispose()
+435:       starGeometry.dispose()
+436:       starMaterial.dispose()
+437:       // renderer cleanup handled by destroyed flag + container removal
+438:       if (containerRef.current) {
+439:         const canvas = containerRef.current.querySelector('canvas')
+440:         if (canvas) try { containerRef.current.removeChild(canvas) } catch {}
+441:       }
+442:     }
+443:   }, [])
+444: 
+445:   const ORB_SIZE = 200
+446:   return (
+447:     // @ts-ignore web div
+448:     <div ref={containerRef} style={{ width: ORB_SIZE * 1.8, height: ORB_SIZE * 1.8 }} />
+449:   )
+450: }
+The above content shows the entire, complete file contents of the requested file.
+
+The following is an <EPHEMERAL_MESSAGE> not actually sent by the user. It is provided by the system as a set of reminders and general important information to pay attention to. Do NOT respond to this message, just act accordingly.
+
+<EPHEMERAL_MESSAGE>
+<planning_mode>
+You're in planning mode. Exercise judgement on whether the user's last request warrants a plan and take action accordingly.
+If the user's request warrants a plan then follow this workflow:
+1. Research first before taking actions. Do not use your code editing tools or run modifying commands during this time.
+2. Create an implementation plan artifact with `request_feedback = true` to request approval. Include any open questions for the user directly in the implementation plan. Don't use the ask_question tool to ask these questions. Stop calling tools and allow the user to review the plan and provide feedback or approval.
+3. After receiving approval, begin execution. Create and update the task artifact as you work.
+4. Verify any work that you have done.
+5. Create a walkthrough artifact to present your work to the user. When writing artifacts, make sure to follow the artifact formatting guidelines and use github alerts to highlight critical sections.
+If the user's request does NOT warrant a plan then continue your work WITHOUT making a plan or requesting user feedback.
+</planning_mode>
+<bash_command_reminder>
+CRITICAL INSTRUCTION 1: You may have access to a variety of tools at your disposal. Some tools may be for a specific task such as 'view_file' (for viewing contents of a file). Others may be very broadly applicable such as the ability to run a command on a terminal. Always prioritize using the most specific tool you can for the task at hand. Here are some rules: (a) NEVER run cat inside a bash command to create a new file or append to an existing file. (b) ALWAYS use grep_search instead of running grep inside a bash command unless absolutely needed. (c) DO NOT use ls for listing, cat for viewing, grep for finding, sed for replacing. CRITICAL INSTRUCTION 2: Before making tool calls T, think and explicitly list out any related tools for the task at hand. You can only execute a set of tools T if all other tools in the list are either more generic or cannot be used for the task at hand. ALWAYS START your thought with recalling critical instructions 1 and 2. In particular, the format for the start of your thought block must be '...94>thought
+CRITICAL INSTRUCTION 1: ...
+CRITICAL INSTRUCTION 2: ...'.
+</bash_command_reminder>
+</EPHEMERAL_MESSAGE>
+null
+Created At: 2026-06-15T18:36:15Z
+Completed At: 2026-06-15T18:36:15Z
+The following changes were made by the replace_file_content tool to: /home/m8apps/projects/Gemini Live/app/live.tsx. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -682,8 +682,6 @@
+                 state={state}
+                 micLevel={micLevel}
+                 audioLevel={audioLevel}
+-                baseColor={settings.orbColor}
+-                accentColor={settings.accentColor}
+               />
+             )}
+           </RNAnimated.View>
+[diff_block_end]
+
+Please note that the above snippet only shows the MODIFIED lines from the last change. It shows up to 3 lines of unchanged lines before and after the modified lines. The actual file contents may have many more lines not shown.
+The following is an <EPHEMERAL_MESSAGE> not actually sent by the user. It is provided by the system as a set of reminders and general important information to pay attention to. Do NOT respond to this message, just act accordingly.
+
+<EPHEMERAL_MESSAGE>
+<planning_mode>
+You're in planning mode. Exercise judgement on whether the user's last request warrants a plan and take action accordingly.
+If the user's request warrants a plan then follow this workflow:
+1. Research first before taking actions. Do not use your code editing tools or run modifying commands during this time.
+2. Create an implementation plan artifact with `request_feedback = true` to request approval. Include any open questions for the user directly in the implementation plan. Don't use the ask_question tool to ask these questions. Stop calling tools and allow the user to review the plan and provide feedback or approval.
+3. After receiving approval, begin execution. Create and update the task artifact as you work.
+4. Verify any work that you have done.
+5. Create a walkthrough artifact to present your work to the user. When writing artifacts, make sure to follow the artifact formatting guidelines and use github alerts to highlight critical sections.
+If the user's request does NOT warrant a plan then continue your work WITHOUT making a plan or requesting user feedback.
+</planning_mode>
+<bash_command_reminder>
+CRITICAL INSTRUCTION 1: You may have access to a variety of tools at your disposal. Some tools may be for a specific task such as 'view_file' (for viewing contents of a file). Others may be very broadly applicable such as the ability to run a command on a terminal. Always prioritize using the most specific tool you can for the task at hand. Here are some rules: (a) NEVER run cat inside a bash command to create a new file or append to an existing file. (b) ALWAYS use grep_search instead of running grep inside a bash command unless absolutely needed. (c) DO NOT use ls for listing, cat for viewing, grep for finding, sed for replacing. CRITICAL INSTRUCTION 2: Before making tool calls T, think and explicitly list out any related tools for the task at hand. You can only execute a set of tools T if all other tools in the list are either more generic or cannot be used for the task at hand. ALWAYS START your thought with recalling critical instructions 1 and 2. In particular, the format for the start of your thought block must be '...94>thought
+CRITICAL INSTRUCTION 1: ...
+CRITICAL INSTRUCTION 2: ...'.
+</bash_command_reminder>
+</EPHEMERAL_MESSAGE>
+null
+Created At: 2026-06-15T18:36:23Z
+Completed At: 2026-06-15T18:36:23Z
+The following changes were made by the replace_file_content tool to: /home/m8apps/projects/Gemini Live/hooks/useVideoCapture.ts. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -50,9 +50,9 @@
+           shutterSound: false,
+           animateShutter: false,
+         } as any)
+-        if (!photo?.base64) return
++        if (!(photo as any)?.base64) return
+         wsRef.current.send(JSON.stringify({
+-          realtimeInput: { video: { data: photo.base64, mimeType: 'image/jpeg' } },
++          realtimeInput: { video: { data: (photo as any).base64, mimeType: 'image/jpeg' } },
+         }))
+       } catch {}
+     }, 1000)
+[diff_block_end]
+
+Please note that the above snippet only shows the MODIFIED lines from the last change. It shows up to 3 lines of unchanged lines before and after the modified lines. The actual file contents may have many more lines not shown.
+The following is an <EPHEMERAL_MESSAGE> not actually sent by the user. It is provided by the system as a set of reminders and general important information to pay attention to. Do NOT respond to this message, just act accordingly.
+
+<EPHEMERAL_MESSAGE>
+<planning_mode>
+You're in planning mode. Exercise judgement on whether the user's last request warrants a plan and take action accordingly.
+If the user's request warrants a plan then follow this workflow:
+1. Research first before taking actions. Do not use your code editing tools or run modifying commands during this time.
+2. Create an implementation plan artifact with `request_feedback = true` to request approval. Include any open questions for the user directly in the implementation plan. Don't use the ask_question tool to ask these questions. Stop calling tools and allow the user to review the plan and provide feedback or approval.
+3. After receiving approval, begin execution. Create and update the task artifact as you work.
+4. Verify any work that you have done.
+5. Create a walkthrough artifact to present your work to the user. When writing artifacts, make sure to follow the artifact formatting guidelines and use github alerts to highlight critical sections.
+If the user's request does NOT warrant a plan then continue your work WITHOUT making a plan or requesting user feedback.
+</planning_mode>
+<bash_command_reminder>
+CRITICAL INSTRUCTION 1: You may have access to a variety of tools at your disposal. Some tools may be for a specific task such as 'view_file' (for viewing contents of a file). Others may be very broadly applicable such as the ability to run a command on a terminal. Always prioritize using the most specific tool you can for the task at hand. Here are some rules: (a) NEVER run cat inside a bash command to create a new file or append to an existing file. (b) ALWAYS use grep_search instead of running grep inside a bash command unless absolutely needed. (c) DO NOT use ls for listing, cat for viewing, grep for finding, sed for replacing. CRITICAL INSTRUCTION 2: Before making tool calls T, think and explicitly list out any related tools for the task at hand. You can only execute a set of tools T if all other tools in the list are either more generic or cannot be used for the task at hand. ALWAYS START your thought with recalling critical instructions 1 and 2. In particular, the format for the start of your thought block must be '...94>thought
+CRITICAL INSTRUCTION 1: ...
+CRITICAL INSTRUCTION 2: ...'.
+</bash_command_reminder>
+</EPHEMERAL_MESSAGE>
+null
+Created At: 2026-06-15T18:36:43Z
+Completed At: 2026-06-15T18:36:43Z
+The following changes were made by the multi_replace_file_content tool to: /home/m8apps/projects/Gemini Live/components/ThreeOrb.tsx. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -19,6 +19,7 @@
+     const container = containerRef.current
+     if (!container) return
+     let destroyed = false
++    const disposables: any[] = []
+ 
+     const initThree = async () => {
+       const THREE = await import('three')
+@@ -32,6 +32,7 @@
+       camera.position.z = 3.5
+ 
+       const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
++      disposables.push(renderer)
+       renderer.setSize(w, h)
+       renderer.setPixelRatio(dpr)
+       renderer.setClearColor(0x000000, 0)
+@@ -191,6 +191,7 @@
+           uCoreIntensity: { value: 0.4 },
+         },
+       })
++      disposables.push(orbGeometry, orbMaterial)
+       const orbMesh = new THREE.Mesh(orbGeometry, orbMaterial)
+       scene.add(orbMesh)
+ 
+@@ -198,6 +198,7 @@
+       const wireMaterial = new THREE.MeshBasicMaterial({
+         color: 0xffffff, wireframe: true, transparent: true, opacity: 0.08,
+       })
++      disposables.push(wireGeometry, wireMaterial)
+       const wireMesh = new THREE.Mesh(wireGeometry, wireMaterial)
+       scene.add(wireMesh)
+ 
+@@ -214,6 +214,7 @@
+           uIntensity: { value: 1.0 },
+         },
+       })
++      disposables.push(coreGeometry, coreMaterial)
+       const coreMesh = new THREE.Mesh(coreGeometry, coreMaterial)
+       scene.add(coreMesh)
+ 
+@@ -235,6 +235,7 @@
+         size: 0.018, transparent: true, opacity: 0.6,
+         blending: THREE.AdditiveBlending, depthWrite: false, color: 0xffffff,
+       })
++      disposables.push(particleGeometry, particleMaterial)
+       const particles = new THREE.Points(particleGeometry, particleMaterial)
+       scene.add(particles)
+ 
+@@ -251,6 +251,7 @@
+         size: 0.03, transparent: true, opacity: 0.25,
+         blending: THREE.AdditiveBlending, depthWrite: false, color: 0x8888cc,
+       })
++      disposables.push(starGeometry, starMaterial)
+       const stars = new THREE.Points(starGeometry, starMaterial)
+       scene.add(stars)
+ 
+@@ -416,17 +416,9 @@
+ 
+     return () => {
+       destroyed = true
+-      renderer.dispose()
+-      orbGeometry.dispose()
+-      orbMaterial.dispose()
+-      wireGeometry.dispose()
+-      wireMaterial.dispose()
+-      coreGeometry.dispose()
+-      coreMaterial.dispose()
+-      particleGeometry.dispose()
+-      particleMaterial.dispose()
+-      starGeometry.dispose()
+-      starMaterial.dispose()
++      disposables.forEach(d => {
++        if (d && typeof d.dispose === 'function') d.dispose()
++      })
+       // renderer cleanup handled by destroyed flag + container removal
+       if (containerRef.current) {
+         const canvas = containerRef.current.querySelector('canvas')
+[diff_block_end]
+
+Please note that the above snippet only shows the MODIFIED lines from the last change. It shows up to 3 lines of unchanged lines before and after the modified lines. The actual file contents may have many more lines not shown.
+The following is an <EPHEMERAL_MESSAGE> not actually sent by the user. It is provided by the system as a set of reminders and general important information to pay attention to. Do NOT respond to this message, just act accordingly.
+
+<EPHEMERAL_MESSAGE>
+<planning_mode>
+You're in planning mode. Exercise judgement on whether the user's last request warrants a plan and take action accordingly.
+If the user's request warrants a plan then follow this workflow:
+1. Research first before taking actions. Do not use your code editing tools or run modifying commands during this time.
+2. Create an implementation plan artifact with `request_feedback = true` to request approval. Include any open questions for the user directly in the implementation plan. Don't use the ask_question tool to ask these questions. Stop calling tools and allow the user to review the plan and provide feedback or approval.
+3. After receiving approval, begin execution. Create and update the task artifact as you work.
+4. Verify any work that you have done.
+5. Create a walkthrough artifact to present your work to the user. When writing artifacts, make sure to follow the artifact formatting guidelines and use github alerts to highlight critical sections.
+If the user's request does NOT warrant a plan then continue your work WITHOUT making a plan or requesting user feedback.
+</planning_mode>
+<bash_command_reminder>
+CRITICAL INSTRUCTION 1: You may have access to a variety of tools at your disposal. Some tools may be for a specific task such as 'view_file' (for viewing contents of a file). Others may be very broadly applicable such as the ability to run a command on a terminal. Always prioritize using the most specific tool you can for the task at hand. Here are some rules: (a) NEVER run cat inside a bash command to create a new file or append to an existing file. (b) ALWAYS use grep_search instead of running grep inside a bash command unless absolutely needed. (c) DO NOT use ls for listing, cat for viewing, grep for finding, sed for replacing. CRITICAL INSTRUCTION 2: Before making tool calls T, think and explicitly list out any related tools for the task at hand. You can only execute a set of tools T if all other tools in the list are either more generic or cannot be used for the task at hand. ALWAYS START your thought with recalling critical instructions 1 and 2. In particular, the format for the start of your thought block must be '...94>thought
+CRITICAL INSTRUCTION 1: ...
+CRITICAL INSTRUCTION 2: ...'.
+</bash_command_reminder>
+</EPHEMERAL_MESSAGE>
+null
+Created At: 2026-06-15T18:36:48Z
+Completed At: 2026-06-15T18:36:49Z
+
+				The command completed successfully.
+			Stdout:
+			
+			Stderr:
+			
+
+The following is an <EPHEMERAL_MESSAGE> not actually sent by the user. It is provided by the system as a set of reminders and general important information to pay attention to. Do NOT respond to this message, just act accordingly.
+
+<EPHEMERAL_MESSAGE>
+<planning_mode>
+You're in planning mode. Exercise judgement on whether the user's last request warrants a plan and take action accordingly.
+If the user's request warrants a plan then follow this workflow:
+1. Research first before taking actions. Do not use your code editing tools or run modifying commands during this time.
+2. Create an implementation plan artifact with `request_feedback = true` to request approval. Include any open questions for the user directly in the implementation plan. Don't use the ask_question tool to ask these questions. Stop calling tools and allow the user to review the plan and provide feedback or approval.
+3. After receiving approval, begin execution. Create and update the task artifact as you work.
+4. Verify any work that you have done.
+5. Create a walkthrough artifact to present your work to the user. When writing artifacts, make sure to follow the artifact formatting guidelines and use github alerts to highlight critical sections.
+If the user's request does NOT warrant a plan then continue your work WITHOUT making a plan or requesting user feedback.
+</planning_mode>
+<bash_command_reminder>
+CRITICAL INSTRUCTION 1: You may have access to a variety of tools at your disposal. Some tools may be for a specific task such as 'view_file' (for viewing contents of a file). Others may be very broadly applicable such as the ability to run a command on a terminal. Always prioritize using the most specific tool you can for the task at hand. Here are some rules: (a) NEVER run cat inside a bash command to create a new file or append to an existing file. (b) ALWAYS use grep_search instead of running grep inside a bash command unless absolutely needed. (c) DO NOT use ls for listing, cat for viewing, grep for finding, sed for replacing. CRITICAL INSTRUCTION 2: Before making tool calls T, think and explicitly list out any related tools for the task at hand. You can only execute a set of tools T if all other tools in the list are either more generic or cannot be used for the task at hand. ALWAYS START your thought with recalling critical instructions 1 and 2. In particular, the format for the start of your thought block must be '...94>thought
+CRITICAL INSTRUCTION 1: ...
+CRITICAL INSTRUCTION 2: ...'.
+</bash_command_reminder>
+</EPHEMERAL_MESSAGE>
+null
+Created At: 2026-06-15T18:37:06Z
+Completed At: 2026-06-15T18:37:06Z
+Created file file:///home/m8apps/.gemini/antigravity/brain/2ad996f1-6040-47a3-9d07-1a8144bc53c3/walkthrough.md with requested content.
+If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+The following is an <EPHEMERAL_MESSAGE> not actually sent by the user. It is provided by the system as a set of reminders and general important information to pay attention to. Do NOT respond to this message, just act accordingly.
+
+<EPHEMERAL_MESSAGE>
+<planning_mode>
+You're in planning mode. Exercise judgement on whether the user's last request warrants a plan and take action accordingly.
+If the user's request warrants a plan then follow this workflow:
+1. Research first before taking actions. Do not use your code editing tools or run modifying commands during this time.
+2. Create an implementation plan artifact with `request_feedback = true` to request approval. Include any open questions for the user directly in the implementation plan. Don't use the ask_question tool to ask these questions. Stop calling tools and allow the user to review the plan and provide feedback or approval.
+3. After receiving approval, begin execution. Create and update the task artifact as you work.
+4. Verify any work that you have done.
+5. Create a walkthrough artifact to present your work to the user. When writing artifacts, make sure to follow the artifact formatting guidelines and use github alerts to highlight critical sections.
+If the user's request does NOT warrant a plan then continue your work WITHOUT making a plan or requesting user feedback.
+</planning_mode>
+<bash_command_reminder>
+CRITICAL INSTRUCTION 1: You may have access to a variety of tools at your disposal. Some tools may be for a specific task such as 'view_file' (for viewing contents of a file). Others may be very broadly applicable such as the ability to run a command on a terminal. Always prioritize using the most specific tool you can for the task at hand. Here are some rules: (a) NEVER run cat inside a bash command to create a new file or append to an existing file. (b) ALWAYS use grep_search instead of running grep inside a bash command unless absolutely needed. (c) DO NOT use ls for listing, cat for viewing, grep for finding, sed for replacing. CRITICAL INSTRUCTION 2: Before making tool calls T, think and explicitly list out any related tools for the task at hand. You can only execute a set of tools T if all other tools in the list are either more generic or cannot be used for the task at hand. ALWAYS START your thought with recalling critical instructions 1 and 2. In particular, the format for the start of your thought block must be '...94>thought
+CRITICAL INSTRUCTION 1: ...
+CRITICAL INSTRUCTION 2: ...'.
+</bash_command_reminder>
+</EPHEMERAL_MESSAGE>
+I have successfully completed the massive refactor of `app/live.tsx`. 
+
+The original 2,466-line "god-component" has been fully dismantled and rebuilt into a thin compositor that orchestrates four dedicated hooks and five pure UI components.
+
+Here is a summary of what was completed during this phase:
+
+- **Component Extractions**: Extracted `ThreeOrb`, `AudioSpectrum`, `PulseBadge`, and `BridgeAuthGate` into the `components/` directory.
+- **Hook Extractions**: Moved audio, microphone, video, and WebSocket logic into the `hooks/` directory (`useAudioEngine`, `useMicRecorder`, `useVideoCapture`, and `useGeminiSession`).
+- **Memory Leaks Fixed**: The `clock.getDelta()` hack in `ThreeOrb` was removed, and robust WebGL memory disposal calls (`.dispose()`) were added.
+- **AudioWorklet Migration**: Web microphone capturing officially uses `AudioWorkletNode` in `useMicRecorder` alongside the compiled `mic-processor.worklet.js` to prevent thread-blocking audio stutters.
+- **Improved UX**: External notifications that fire while the AI is listening or speaking will now correctly queue and play sequentially after the conversational turn is complete.
+
+I have verified the new structure builds cleanly with TypeScript (`npx tsc --noEmit` returned 0 errors).
+
+You can review a detailed summary of the architecture changes here: [walkthrough.md](file:///home/m8apps/.gemini/antigravity/brain/2ad996f1-6040-47a3-9d07-1a8144bc53c3/walkthrough.md).
+
+Please let me know if you are satisfied with this structure or if we should proceed with the remaining items from the original audit report!
+<USER_REQUEST>
+what are the remaining items from the original audit report?
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-06-15T17:43:50-05:00.
+</ADDITIONAL_METADATA>
+The following is an <EPHEMERAL_MESSAGE> not actually sent by the user. It is provided by the system as a set of reminders and general important information to pay attention to. Do NOT respond to this message, just act accordingly.
+
+<EPHEMERAL_MESSAGE>
+<planning_mode>
+You're in planning mode. Exercise judgement on whether the user's last request warrants a plan and take action accordingly.
+If the user's request warrants a plan then follow this workflow:
+1. Research first before taking actions. Do not use your code editing tools or run modifying commands during this time.
+2. Create an implementation plan artifact with `request_feedback = true` to request approval. Include any open questions for the user directly in the implementation plan. Don't use the ask_question tool to ask these questions. Stop calling tools and allow the user to review the plan and provide feedback or approval.
+3. After receiving approval, begin execution. Create and update the task artifact as you work.
+4. Verify any work that you have done.
+5. Create a walkthrough artifact to present your work to the user. When writing artifacts, make sure to follow the artifact formatting guidelines and use github alerts to highlight critical sections.
+If the user's request does NOT warrant a plan then continue your work WITHOUT making a plan or requesting user feedback.
+</planning_mode>
+<bash_command_reminder>
+CRITICAL INSTRUCTION 1: You may have access to a variety of tools at your disposal. Some tools may be for a specific task such as 'view_file' (for viewing contents of a file). Others may be very broadly applicable such as the ability to run a command on a terminal. Always prioritize using the most specific tool you can for the task at hand. Here are some rules: (a) NEVER run cat inside a bash command to create a new file or append to an existing file. (b) ALWAYS use grep_search instead of running grep inside a bash command unless absolutely needed. (c) DO NOT use ls for listing, cat for viewing, grep for finding, sed for replacing. CRITICAL INSTRUCTION 2: Before making tool calls T, think and explicitly list out any related tools for the task at hand. You can only execute a set of tools T if all other tools in the list are either more generic or cannot be used for the task at hand. ALWAYS START your thought with recalling critical instructions 1 and 2. In particular, the format for the start of your thought block must be '...94>thought
+CRITICAL INSTRUCTION 1: ...
+CRITICAL INSTRUCTION 2: ...'.
+</bash_command_reminder>
+</EPHEMERAL_MESSAGE>
+null
+Created At: 2026-06-15T22:44:00Z
+Completed At: 2026-06-15T22:44:00Z
+
+				The command completed successfully.
+				Output:
+				<USER_REQUEST>
+entra a /home/m8apps/projects/Gemini Live
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-06-15T13:27:54-05:00.
+</ADDITIONAL_METADATA>
+<USER_SETTINGS_CHANGE>
+The user changed setting `Model Selection` from None to Gemini 3.1 Pro (High). N
+o need to comment on this change if the user doesn't ask about it. If reporting
+what model you are, please use a human readable name instead of the exact string
+.
+</USER_SETTINGS_CHANGE>
+null
+
+
+The following is an <EPHEMERAL_MESSAGE> not actually sent by the user. It is provided by the system as a set of reminders and general important information to pay attention to. Do NOT respond to this message, just act accordingly.
+
+<EPHEMERAL_MESSAGE>
+<planning_mode>
+You're in planning mode. Exercise judgement on whether the user's last request warrants a plan and take action accordingly.
+If the user's request warrants a plan then follow this workflow:
+1. Research first before taking actions. Do not use your code editing tools or run modifying commands during this time.
+2. Create an implementation plan artifact with `request_feedback = true` to request approval. Include any open questions for the user directly in the implementation plan. Don't use the ask_question tool to ask these questions. Stop calling tools and allow the user to review the plan and provide feedback or approval.
+3. After receiving approval, begin execution. Create and update the task artifact as you work.
+4. Verify any work that you have done.
+5. Create a walkthrough artifact to present your work to the user. When writing artifacts, make sure to follow the artifact formatting guidelines and use github alerts to highlight critical sections.
+If the user's request does NOT warrant a plan then continue your work WITHOUT making a plan or requesting user feedback.
+</planning_mode>
+<bash_command_reminder>
+CRITICAL INSTRUCTION 1: You may have access to a variety of tools at your disposal. Some tools may be for a specific task such as 'view_file' (for viewing contents of a file). Others may be very broadly applicable such as the ability to run a command on a terminal. Always prioritize using the most specific tool you can for the task at hand. Here are some rules: (a) NEVER run cat inside a bash command to create a new file or append to an existing file. (b) ALWAYS use grep_search instead of running grep inside a bash command unless absolutely needed. (c) DO NOT use ls for listing, cat for viewing, grep for finding, sed for replacing. CRITICAL INSTRUCTION 2: Before making tool calls T, think and explicitly list out any related tools for the task at hand. You can only execute a set of tools T if all other tools in the list are either more generic or cannot be used for the task at hand. ALWAYS START your thought with recalling critical instructions 1 and 2. In particular, the format for the start of your thought block must be '...94>thought
+CRITICAL INSTRUCTION 1: ...
+CRITICAL INSTRUCTION 2: ...'.
+</bash_command_reminder>
+</EPHEMERAL_MESSAGE>
+null
+Created At: 2026-06-15T22:44:06Z
+Completed At: 2026-06-15T22:44:06Z
+
+				The command completed successfully.
+				Output:
+				# Auditoría — M8 Live
+_Fecha: 2026-06-12_
+
+## Resumen ejecutivo
+El repo es un cliente Expo (web + Android/iOS) que conecta directamente a Gemini
+ Live API vía WebSocket a través de un bridge server local. La arquitectura de s
+eguridad está bien pensada y ha mejorado significativamente (lockdown 2026-04-21
+). El problema central es que `app/live.tsx` es un **god-component de 2.466 líne
+as** que mezcla motor de audio, WebGL/Three.js, cámara nativa, WebSocket, tool c
+alls, auth UI y manejo de notificaciones. Es el riesgo de mantenibilidad más ser
+io del proyecto.
+
+---
+
+## 🔴 Alta prioridad
+
+### 1. `app/live.tsx` — god component de 2.466 líneas
+El archivo concentra todo: ThreeOrb WebGL, AudioSpectrum, audio engine web y nat
+ivo, mic recording, camera/screen capture, WebSocket session, tool call dispatch
+, bridge auth UI, passkey UI, event stream, wake injection y notificaciones. Cua
+lquier cambio en una parte toca el resto.
+
+**Refactor sugerido:**
+- `hooks/useGeminiSession.ts` — WebSocket lifecycle, send/receive
+- `hooks/useAudioEngine.ts` — web AudioContext + native queue
+- `hooks/useMicRecorder.ts` — web ScriptProcessor + native recorder
+- `hooks/useVideoCapture.ts` — web camera/screen + native CameraView
+- `components/ThreeOrb.tsx` — Three.js orb (ya tiene lógica autocontenida)
+- `components/AudioSpectrum.tsx` — 40-bar visualizer
+- `components/BridgeAuthGate.tsx` — overlay de password/passkey
+- `app/live.tsx` — queda como compositor delgado
+
+### 2. `ScriptProcessorNode` está deprecado
+`live.tsx:1461` usa `createScriptProcessor(4096, 1, 1)` para captura del mic web
+. Esta API está **deprecada en todos los browsers modernos** y corre en el main
+thread, lo que introduce glitches de audio y puede causar caídas silenciosas.
+
+**Fix:** Migrar a `AudioWorkletNode`. El worklet corre en un hilo dedicado, elim
+ina el jitter del main thread y tiene mejor latencia neta.
+
+```ts
+// Reemplazar:
+const proc = ctx.createScriptProcessor(4096, 1, 1)
+// Por:
+await ctx.audioWorklet.addModule('/mic-
+<truncated 6437 bytes>
+# ✅ Lo que está bien
+
+**Seguridad:**
+- HttpOnly cookie para sesiones web — sin tokens en el bundle público ✅
+- Passkey/WebAuthn registrado por el usuario, no hardcodeado ✅
+- `appendBridgeToken` es no-op (la auth viaja por cookie), comentado explícitame
+nte ✅
+- Feature flags explícitos para rutas OpenClaw y notificaciones ✅
+- Sin API keys ni secrets en el código fuente ni en `EXPO_PUBLIC_*` ✅
+- Biometría local en native antes de acceder a la sesión ✅
+
+**Arquitectura:**
+- Separación limpia de servicios en `src/services/` ✅
+- `NativeOrb.tsx` bien estructurado: shader SkSL en UI thread, `useDerivedValue`
+ para uniforms ✅
+- Audio buffering nativo con threshold + batch para playback sin gaps ✅
+- VAD configurado con sensibilidad alta y silence padding corto ✅
+- Context window compression configurada (`trigger_tokens: 80000`) ✅
+
+
+The following is an <EPHEMERAL_MESSAGE> not actually sent by the user. It is provided by the system as a set of reminders and general important information to pay attention to. Do NOT respond to this message, just act accordingly.
+
+<EPHEMERAL_MESSAGE>
+<planning_mode>
+You're in planning mode. Exercise judgement on whether the user's last request warrants a plan and take action accordingly.
+If the user's request warrants a plan then follow this workflow:
+1. Research first before taking actions. Do not use your code editing tools or run modifying commands during this time.
+2. Create an implementation plan artifact with `request_feedback = true` to request approval. Include any open questions for the user directly in the implementation plan. Don't use the ask_question tool to ask these questions. Stop calling tools and allow the user to review the plan and provide feedback or approval.
+3. After receiving approval, begin execution. Create and update the task artifact as you work.
+4. Verify any work that you have done.
+5. Create a walkthrough artifact to present your work to the user. When writing artifacts, make sure to follow the artifact formatting guidelines and use github alerts to highlight critical sections.
+If the user's request does NOT warrant a plan then continue your work WITHOUT making a plan or requesting user feedback.
+</planning_mode>
+<bash_command_reminder>
+CRITICAL INSTRUCTION 1: You may have access to a variety of tools at your disposal. Some tools may be for a specific task such as 'view_file' (for viewing contents of a file). Others may be very broadly applicable such as the ability to run a command on a terminal. Always prioritize using the most specific tool you can for the task at hand. Here are some rules: (a) NEVER run cat inside a bash command to create a new file or append to an existing file. (b) ALWAYS use grep_search instead of running grep inside a bash command unless absolutely needed. (c) DO NOT use ls for listing, cat for viewing, grep for finding, sed for replacing. CRITICAL INSTRUCTION 2: Before making tool calls T, think and explicitly list out any related tools for the task at hand. You can only execute a set of tools T if all other tools in the list are either more generic or cannot be used for the task at hand. ALWAYS START your thought with recalling critical instructions 1 and 2. In particular, the format for the start of your thought block must be '...94>thought
+CRITICAL INSTRUCTION 1: ...
+CRITICAL INSTRUCTION 2: ...'.
+</bash_command_reminder>
+</EPHEMERAL_MESSAGE>
+null
+Created At: 2026-06-15T22:44:13Z
+Completed At: 2026-06-15T22:44:13Z
+
+				The command completed successfully.
+			Stdout:
+			
+			Stderr:
+			
+

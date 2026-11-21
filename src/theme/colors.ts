@@ -1,0 +1,16 @@
+export const colors = {
+  bg: '#0a0a0a',
+  surface: '#111111',
+  card: '#1a1a1a',
+  border: '#2a2a2a',
+  text: '#e5e5e5',
+  muted: '#737373',
+  emerald: '#10B981',
+  emeraldDim: 'rgba(16, 185, 129, 0.15)',
+  red: '#ef4444',
+  redDim: 'rgba(239, 68, 68, 0.15)',
+  blue: '#3b82f6',
+  blueDim: 'rgba(59, 130, 246, 0.15)',
+  yellow: '#eab308',
+  yellowDim: 'rgba(234, 179, 8, 0.15)',
+}
