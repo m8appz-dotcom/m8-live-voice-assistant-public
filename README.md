@@ -79,3 +79,7 @@ Both branches began as fresh, sanitized snapshots. Generated bundles and earlier
 - Treat web and native mobile audio as distinct implementation and validation paths.
 
 These sources support a discussion of implementation choices; they do not establish the status of any live service.
+
+## Reviewed delivery
+
+See the [delivery workflow](docs/DELIVERY.md) for acceptance criteria, commit boundaries, identified AI/human review, protected integration, and source provenance.
