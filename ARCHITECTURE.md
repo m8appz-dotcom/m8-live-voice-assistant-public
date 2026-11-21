@@ -1,35 +1,28 @@
-# Architecture — M8 Live
+# Current architecture
 
-## Goal
-Web-first M8 Live client with direct Gemini Live WebSocket sessions, ephemeral token provisioning from a local backend bridge, and OpenClaw integration through explicit tool endpoints.
+The Expo Router client connects to the Node bridge. The bridge authenticates browser sessions and relays `/gemini` WebSockets to Gemini Live. Explicit OpenClaw tool routes are loaded only when `ENABLE_OPENCLAW_ROUTES=true`; the offline test path never loads a gateway.
 
-## Core routing
-- Frontend -> M8 Live bridge for low-latency realtime audio/text
-- Frontend -> local bridge for ephemeral tokens
-- Frontend -> local bridge for OpenClaw-backed tool calls
-- OpenClaw remains sessions/tools/memory/routing, not audio transport
+```mermaid
+flowchart LR
+  Client[Expo client] --> Session[Session and passkey routes]
+  Client --> Relay[Authenticated Gemini relay]
+  Relay --> Gemini[Gemini Live]
+  Client --> Tools[Explicit gated tool routes]
+  Tools --> Gateway[Configured OpenClaw gateway]
+```
 
-## Bridge security model
-- Sensitive bridge routes require either `BRIDGE_AUTH_TOKEN` or a valid signed bridge session cookie
-- Web clients create that session with `POST /api/bridge/session`, which sets an HttpOnly cookie after password verification
-- Native/non-browser clients can still use an explicit bearer bridge token when needed
-- CORS is restricted to `BRIDGE_ALLOWED_ORIGINS`
-- OpenClaw tool routes are disabled unless `BRIDGE_ENABLE_OPENCLAW_ROUTES=1`
-- Notification/event routes are disabled unless `BRIDGE_ENABLE_NOTIFICATION_ROUTES=1`
-- The bridge no longer reads gateway auth from `~/.openclaw/openclaw.json`; it uses explicit env only
+| Boundary | Implementation |
+|---|---|
+| Live session orchestration | [app/live.tsx](app/live.tsx) |
+| Shared visual states | [components/LiveVisuals.tsx](components/LiveVisuals.tsx) |
+| PCM encoding, downsampling and level calculation | [src/audio/pcm.ts](src/audio/pcm.ts) |
+| Bridge transport, origin checks and sessions | [proxy.mjs](proxy.mjs) |
+| Bounded file-backed memory | [server/memory-store.mjs](server/memory-store.mjs) |
+| Explicit WebSocket rejection status | [server/upgrade-auth.mjs](server/upgrade-auth.mjs) |
+| Browser credential helpers | [src/services/passkey.ts](src/services/passkey.ts) |
 
-## Current implementation
-- Expo app, web-first
-- Direct Live API session over WebSocket using ephemeral token
-- Text input supported
-- Web microphone streaming supported with PCM 16k downsampling
-- Web PCM audio playback supported for Live API native audio output
-- Tool bridge endpoints:
-  - `send_openclaw_message`
-- Current bridge intentionally degrades when gateway token scopes are insufficient.
+Use Node 24. Run `npm ci`, `npm run typecheck`, `npm test`, and `npm run build:web`. Set your own bridge configuration from `.env.example`. The bridge binds to loopback by default; set `HOST` explicitly when deploying behind an appropriate secure origin. Native clients require their own `EXPO_PUBLIC_PROXY_URL`; the fallback is local development, not a named remote machine. Never place privileged keys in `EXPO_PUBLIC_*` variables.
 
-## Deliberate limitations
-- Native mobile realtime audio path is not finished in this pass
-- Camera/video path is not implemented yet
-- Web bridge auth is still password-to-session based, not full end-user identity based
-- OpenClaw bridge is intentionally narrow and explicit, not a generic arbitrary RPC tunnel
+`/demo` is an authored, read-only interface walkthrough using the shared visual components. Its buttons change preview states locally. It does not request a microphone or connect to Gemini. CI tests the actual bridge on an ephemeral loopback port with providers disabled, then exports the web client. Native audio, live tool success, latency, passkey registration/authentication and recovery still need deployment-specific end-to-end acceptance with the account holder. Existing passkey and session routes remain intact.
+
+Earlier architecture and machine-specific notes are in [docs/history](docs/history/README.md).

@@ -4,6 +4,18 @@ A web-first voice assistant connecting an Expo client, Gemini Live audio session
 
 This repository exposes application source for architecture review: realtime audio transport, client state, a backend bridge, and browser authentication helpers.
 
+## Demonstration
+
+![Application output from the documented walkthrough](docs/images/demo.png)
+
+See the [reproducible walkthrough and its validation scope](docs/DEMO.md).
+
+## Project direction and use
+
+[Kenneth Yepez](https://github.com/kennethyepez) directs product requirements, architecture, integration, validation, and deployment. AI coding agents implement code under his direction.
+
+See [use and licensing](LICENSE.md), [contributing](CONTRIBUTING.md), and [security reporting](SECURITY.md).
+
 ## Architecture
 
 ```mermaid
@@ -46,11 +58,11 @@ A functional voice session also needs microphone permission, a compatible browse
 
 ## Implementation scope
 
-The client source includes web microphone capture with PCM downsampling, audio playback, text input, tool calls, and native audio/camera paths. The [architecture notes](ARCHITECTURE.md) record an earlier stage when the native paths were unfinished; they are not a current acceptance report.
+The client source includes web microphone capture with PCM downsampling, audio playback, text input, tool calls, and native audio/camera paths. The [current architecture](ARCHITECTURE.md) explains transport, authentication, module boundaries, and the offline checks.
 
 Latency, reconnect recovery, tool reliability, and passkey enrollment/recovery still need a recorded end-to-end demonstration for the chosen deployment. No performance benchmark is claimed here.
 
-The architecture notes are historical and describe an earlier password-session boundary. For the current authentication implementation, inspect `proxy.mjs` and the session/passkey helpers.
+Earlier plans and diagnostic scripts are preserved under [docs/history](docs/history/README.md).
 
 ## Public branches
 
