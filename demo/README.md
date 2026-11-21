@@ -2,6 +2,8 @@
 
 Choose an authored example question. Start, pause, resume or interrupt its text replay. Read the saved transcript and export completed or interrupted turns.
 
+See [ENGINES.md](ENGINES.md) for the actual engine connection, additional runtime setup, credentials and acceptance limits.
+
 ## Run locally
 
 Requires Node.js 22 or newer and npm. From the repository root:
@@ -33,7 +35,7 @@ The included server integrates FIDO2/WebAuthn for optional private workspace cop
 
 ## Boundaries
 
-This is an authored text conversation explorer. It does not record a microphone, play generated speech, connect a live model or execute external tools.
+Authored replay remains separate from the optional live connection. Live voice requires an operating private M8 bridge and a real passkey session. The live adapter is implemented; provider and microphone acceptance remain pending until that bridge and the holder are available. No external tools are executed.
 
 The local server supports its documented localhost origin. This change does not deploy a public service or make these local workspaces production-ready. A public deployment needs a stable HTTPS origin/RP ID, durable protected storage, retention policy and completed holder acceptance. No provider keys or production data are included. No Spark data or services are touched.
 

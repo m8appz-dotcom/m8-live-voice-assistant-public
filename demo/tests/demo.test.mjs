@@ -140,9 +140,9 @@ test("browser authentication code stays on the local origin", async () => {
   ])
     assert.equal((await fetch(origin + route)).status, 200);
 });
-test("camera and microphone stay disabled in the example server", async () => {
+test("camera stays disabled and microphone is restricted to this origin", async () => {
   const r = await fetch(origin + "/");
-  assert.match(r.headers.get("permissions-policy"), /microphone=\(\)/);
+  assert.match(r.headers.get("permissions-policy"), /microphone=\(self\)/);
   assert.match(r.headers.get("content-security-policy"), /script-src 'self'/);
   assert.equal((await fetch(origin + "/__capture")).status, 404);
 });

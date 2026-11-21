@@ -15,3 +15,9 @@ Corrections during browser review included an editor/navigation overlap in Longf
 Automated checks reject unsigned workspace access, foreign-origin mutations, invalid registration, replayed challenges and unknown credentials. Real holder registration/login/recovery remains pending. Full accessibility certification, physical mobile-device testing, paid/live AI calls, microphone/audio acceptance and finished-video acceptance are not claimed.
 
 Scope limit: This is an authored text conversation explorer. It does not record a microphone, play generated speech, connect a live model or execute external tools.
+
+## Connected engine update
+
+Adds a private server-to-server WebSocket adapter for an existing M8 `/gemini` bridge. It preserves gemini-3.1-flash-live-preview and Zephyr, fixes English instructions, rejects tool execution and arbitrary endpoints, and reuses the repository PCM module for capture and playback. Authored text replay stays separate.
+
+Gateway negative tests cover origin, protected actions, session ownership, unsupported input, invalid service credentials, safe errors and path containment. Physical holder passkey acceptance remains pending; it is never inferred from these tests.
