@@ -4,6 +4,10 @@ A web-first voice assistant connecting an Expo client, Gemini Live audio session
 
 This repository exposes application source for architecture review: realtime audio transport, client state, a backend bridge, and browser authentication helpers.
 
+## Interactive English demo
+
+[Run the interactive demo](demo/README.md) to explore the approved product interface, local example workflows and downloadable outputs. The isolated demo uses English throughout and preserves the original application below. See its README for the exact example boundaries and passkey acceptance status.
+
 ## Demonstration
 
 ![Application output from the documented walkthrough](docs/images/demo.png)
