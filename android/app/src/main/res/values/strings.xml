@@ -1,0 +1,4 @@
+<resources>
+  <string name="app_name">m8-live</string>
+  <string name="m8_accessibility_service_description">Allow M8 Live to read screen structure and perform taps, swipes, typing, and navigation when you explicitly ask M8 to control this Android device.</string>
+</resources>

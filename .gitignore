@@ -1,0 +1,46 @@
+# Secrets
+.env
+*.pem
+*.key
+
+# Runtime noise
+node_modules/
+proxy.log
+npm-debug.log*
+
+# Backup snapshots and temp artifacts
+dist.bak-/
+dist.prev/
+*.bak
+*.bak-
+*.prev
+*.tmp
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# M8 Live runtime state and generated artifacts
+.bridge-passkeys.json
+.devices.json
+.dispatches.json
+.notify-state.json
+.wakes.json
+.notify-media/
+.tdlib/
+.gmail-oauth.json
+.env.bak*
+android/app/debug.keystore
+dist/downloads/
+dist/openclaw-live-fixed-smoke.png
+.deploy-live-app-live.tsx.snapshot
+
+.memory.json
+
+# Local build outputs
+artifacts/
+
+# Generated web builds are excluded from public source snapshots.
+/dist/

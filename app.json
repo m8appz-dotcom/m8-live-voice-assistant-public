@@ -1,0 +1,68 @@
+{
+  "expo": {
+    "name": "m8live",
+    "slug": "m8live",
+    "version": "1.1.2",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "scheme": "m8live",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0a0a0a"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.m8apps.geminilive",
+      "infoPlist": {
+        "NSMicrophoneUsageDescription": "M8 Live needs microphone access for real-time voice sessions",
+        "NSCameraUsageDescription": "M8 Live can use your camera for multimodal Live sessions"
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "backgroundColor": "#0a0f23"
+      },
+      "package": "com.m8apps.geminilive",
+      "softwareKeyboardLayoutMode": "resize",
+      "permissions": [
+        "RECORD_AUDIO",
+        "CAMERA",
+        "INTERNET",
+        "MODIFY_AUDIO_SETTINGS",
+        "ACCESS_NETWORK_STATE",
+        "POST_NOTIFICATIONS",
+        "VIBRATE"
+      ]
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      "expo-notifications",
+      "./plugins/withAndroidAuto",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow M8 Live to access your camera for multimodal interactions.",
+          "microphonePermission": "Allow M8 Live to access your microphone for voice sessions."
+        }
+      ],
+      [
+        "@siteed/expo-audio-studio",
+        {
+          "microphonePermission": "Allow M8 Live to use the microphone for real-time voice input."
+        }
+      ]
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "e25e8e90-7ae5-4662-9fbd-d380ba480065"
+      }
+    },
+    "owner": "m8apps"
+  }
+}
