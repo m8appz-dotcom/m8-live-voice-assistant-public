@@ -3,7 +3,7 @@ import { Platform } from 'react-native'
 export const GEMINI_LIVE_MODEL = 'gemini-3.1-flash-live-preview'
 export const DEFAULT_GEMINI_VOICE = 'Zephyr'
 
-const FALLBACK_PROXY_URL = 'https://spark.tailb235ab.ts.net/live'
+const FALLBACK_PROXY_URL = 'http://127.0.0.1:7300'
 
 export function getProxyBase(isWeb = Platform.OS === 'web') {
   if (isWeb) return ''

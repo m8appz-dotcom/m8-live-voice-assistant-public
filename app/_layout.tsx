@@ -50,6 +50,7 @@ export default function RootLayout() {
         }}
       >
         <Stack.Screen name="index" options={{ title: 'm8live' }} />
+        <Stack.Screen name="demo" options={{ headerShown: false }} />
         <Stack.Screen name="setup" options={{ title: 'Setup', presentation: 'modal' }} />
         <Stack.Screen
           name="live"
