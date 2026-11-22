@@ -8,7 +8,7 @@ The original Expo screen with its green/cyan audio spectrum, Live/Chat views and
 
 ## Phone
 
-![Published original screen at a 390px viewport during the same conversation](images/original-wave-mobile.jpg)
+![Published original screen at a 390px viewport after the completed conversation](images/original-wave-mobile.jpg)
 
 ## Try it
 
