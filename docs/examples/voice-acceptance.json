@@ -1,0 +1,48 @@
+{
+  "provenance": "Retained development service-identity captures from 21 November 2026; source revision was not recorded. Current-revision performance is not re-benchmarked.",
+  "text_to_voice": {
+    "firstAudioMs": 710,
+    "completeMs": 883,
+    "audioBytes": 122880,
+    "transcript": "Run automated tests to verify functionality.",
+    "language": "en-US",
+    "sampleRate": 22050
+  },
+  "recorded_audio_to_voice": {
+    "recordedInput": true,
+    "physicalMicrophone": false,
+    "transcript": "How can I review this project?",
+    "metrics": [
+      {
+        "transcriptionMs": 125
+      },
+      {
+        "firstTextMs": 136,
+        "firstAudioMs": 586,
+        "completeMs": 1303
+      }
+    ],
+    "recordedInputToFirstAudioMs": 717,
+    "questionDurationSeconds": 1.5789569160997732,
+    "questionRms": 0.06860968919199313,
+    "clippedFraction": 0,
+    "language": "en-US"
+  },
+  "human_passkey_acceptance": false,
+  "physical_microphone_acceptance": false,
+  "production_latency_guarantee": false,
+  "files": {
+    "recorded-question.wav": {
+      "sha256": "e6eaa0e16935565647cd38e9af0f90e3541e47b5e530a7142ae152b54f0b2f35",
+      "bytes": 69676
+    },
+    "recorded-answer.wav": {
+      "sha256": "62b93f67e42dd733cb61e03d10012171e77ded5269d246e1bba4bd4449647b64",
+      "bytes": 204844
+    },
+    "text-answer.wav": {
+      "sha256": "418f8e1369c8ef6381e5c9b543804271fa0d59dc57079e06529a0bad73e9f03b",
+      "bytes": 122924
+    }
+  }
+}
