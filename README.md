@@ -6,15 +6,15 @@ This repository exposes application source for architecture review: realtime aud
 
 ## See the workspace
 
-An English conversation workspace with a private speech and model relay.
+The original Expo conversation screen, with its green/cyan audio spectrum and glass microphone dock, connected to the private English voice engine and workspace passkeys.
 
-![The current M8 Live Voice Assistant workspace](docs/images/workspace-desktop.jpg)
+![Original M8 screen at its passkey access gate](docs/images/original-wave-desktop.jpg)
 
 [Open the English workspace](https://voice.kennethyepez.com) · [Run locally](demo/README.md) · [Desktop and phone views](docs/PRODUCT.md) · [Engineering case](docs/CASE-STUDY.md) · [Watch the workspace recording](https://raw.githubusercontent.com/m8appz-dotcom/m8-live-voice-assistant-public/main/docs/examples/workspace-walkthrough.mp4)
 
-The recording shows the authored example workflow. Engine evidence and its validation limits are documented separately in the case.
+The captures show the restored screen in an isolated browser preview. The retained recording shows the previous authored example workflow, available at [Saved workspace](https://voice.kennethyepez.com/workspace/). It does not demonstrate the restored screen's live microphone or a human passkey ceremony.
 
-The HTTPS workspace lets visitors explore the authored example without an account. New private accounts require an administrator invitation and a passkey. Returning users sign in with their passkey. Account and conversation capacity is limited. The hosted workspace reuses the private voice engine directly and has its own isolated release and state. The Expo application is a separate client with its own device acceptance requirements. See [hosting, recovery and limits](demo/HOSTING.md).
+Returning users sign in with their existing passkey at the same HTTPS origin. New private accounts require an administrator invitation and a passkey. Voice starts explicitly from the microphone control and uses the bounded private engine. Settings retains access to the previous saved workspace; its data is not migrated or overwritten. The hosted export uses `/auth/` and `/engine/live`; native and separately operated bridge clients retain their existing paths. See [hosting, recovery and limits](demo/HOSTING.md).
 
 ## Project direction and use
 

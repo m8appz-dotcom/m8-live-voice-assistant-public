@@ -4,6 +4,21 @@ Run `node demo/hosted-server.mjs` from the source root with the exact HTTPS `WOR
 
 The browser may explore authored examples locally without starting inference. A live conversation requires a verified passkey session. Register a second passkey and keep a browser workspace export for recovery. PINs, biometrics and private authenticator keys never reach this server. The public credential and any workspace explicitly saved by the visitor remain in owner-only private storage. Browser drafts are not an encrypted vault: use public examples and avoid confidential information.
 
+## Original Expo screen
+
+Build the hosted client with Node 24 and the root dependency lock:
+
+```sh
+npm ci
+node scripts/export-hosted-workspace.mjs
+```
+
+Set `M8_WORKSPACE_UI=original` only after `dist-hosted/index.html` exists in the new release. The build embeds only the hosted-mode selector; it disables dotenv and removes inherited `EXPO_PUBLIC_*` configuration. Serve the export with `demo/hosted-server.mjs`, keeping the exact existing origin, RP ID, private state and provider environment. Executable inline scripts are externalized for the existing strict CSP. Only exported assets are public; the source checkout and private state are not.
+
+The original spectrum, Live/Chat views and microphone dock remain intact. The hosted client uses the existing `/auth/` WebAuthn routes and same-origin `/engine/live`, with no browser-selectable provider or remote device actions. Settings offers a real second-passkey flow and `/workspace/` for the previous saved copy. A microphone permission or audio setup failure stops acquired tracks; navigation/logout tears down capture. Failed connections do not retry indefinitely or consume session starts on page load. The native client and separately deployed original bridge retain their routes and settings.
+
+Keep both the previous release and its private runtime environment for rollback. Restore those together without replacing the workspace store. A restart clears in-memory sessions, so the holder signs in again with the existing credential; it does not require a new account or invitation. Verify that credential IDs and saved work remain unchanged before and after cutover.
+
 ## Direct private transport
 
 Set `M8_DEMO_TRANSPORT=spark` explicitly to reuse the repository's `SparkVoiceSession` directly in the isolated workspace. Configure the private speech/model endpoints described in [SPARK-VOICE.md](../docs/SPARK-VOICE.md) only in the server environment. This removes the additional bridge WebSocket hop without changing those existing inference services. It does not by itself establish a latency improvement; measure the deployed path. No model, voice or provider is selected by a browser request. An invalid explicit transport never silently falls back to another provider.
