@@ -126,6 +126,27 @@ function allocationStats(database) {
   }
   return result;
 }
+function workspaceDigests(database) {
+  return Object.fromEntries(
+    Object.entries(database.workspaces).map(([key, value]) => [
+      key,
+      createHash("sha256").update(JSON.stringify(value)).digest("hex"),
+    ]),
+  );
+}
+function accessAllocationStats(database) {
+  return Object.fromEntries(
+    ["users", "credentials"].map((kind) => [
+      kind,
+      Object.fromEntries(
+        Object.entries(database[kind]).map(([key, value]) => [
+          key,
+          recordBytes(key, value, kind === "credentials"),
+        ]),
+      ),
+    ]),
+  );
+}
 function validateWorkspaceStorage(candidate, legacy = null) {
   const userLimit = legacy ? 250 : workspaceStorageLimits.users;
   const credentialLimit = legacy ? 1000 : workspaceStorageLimits.credentials;
@@ -162,7 +183,7 @@ function validateWorkspaceStorage(candidate, legacy = null) {
   const credentialCounts = new Map();
   for (const records of [candidate.users, candidate.credentials])
     for (const [key, value] of Object.entries(records)) {
-      validateJsonValue(value);
+      if (!legacy) validateJsonValue(value);
       const credential = records === candidate.credentials;
       const bytes = recordBytes(key, value, credential);
       metadataBytes += bytes;
@@ -178,15 +199,19 @@ function validateWorkspaceStorage(candidate, legacy = null) {
           );
         credentialCounts.set(value.user, count);
       }
-      const recordLimit =
-        !credential && !legacy
+      const recordLimit = legacy
+        ? (legacy.accessAllocations?.[credential ? "credentials" : "users"]?.[
+            key
+          ] ?? Infinity)
+        : !credential && !legacy
           ? workspaceStorageLimits.userRecordBytes
           : workspaceStorageLimits.recordBytes +
             (legacy && credential ? 10 : 0);
       if (
         bytes > recordLimit ||
-        metadataBytes >
-          workspaceStorageLimits.metadataBytes + (legacy ? 10000 : 0)
+        (!legacy &&
+          metadataBytes >
+            workspaceStorageLimits.metadataBytes + (legacy ? 10000 : 0))
       )
         throw Error(
           "Workspace access is at capacity. Your saved work is safe.",
@@ -196,7 +221,7 @@ function validateWorkspaceStorage(candidate, legacy = null) {
     totalNodes = 0;
   const stats = new Map();
   for (const [key, value] of Object.entries(candidate.workspaces)) {
-    validateJsonValue(value);
+    if (!legacy) validateJsonValue(value);
     const user = key.slice(0, key.lastIndexOf(":")),
       slot = key.slice(key.lastIndexOf(":") + 1);
     if (
@@ -206,6 +231,14 @@ function validateWorkspaceStorage(candidate, legacy = null) {
       throw Error(
         "Unrecognized workspace owner or slot. Preserve the store for offline recovery.",
       );
+    if (
+      legacy?.workspaceDigests &&
+      legacy.workspaceDigests[key] !==
+        createHash("sha256").update(JSON.stringify(value)).digest("hex")
+    )
+      throw Error(
+        "Your saved workspace is available to load or export. Ask the administrator to migrate it before saving changes.",
+      );
     const bytes = recordBytes(key, value),
       nodes = jsonNodeCount(value),
       prior = stats.get(user) || { bytes: 0, nodes: 0 };
@@ -214,17 +247,23 @@ function validateWorkspaceStorage(candidate, legacy = null) {
     totalBytes += bytes;
     totalNodes += nodes;
     const userBytes = legacy
-      ? (legacy.allocations?.[user]?.bytes ?? 384 * 1024)
+      ? (legacy.allocations?.[user]?.bytes ?? Infinity)
       : workspaceStorageLimits.userBytes;
     const userNodes = legacy
-      ? (legacy.allocations?.[user]?.nodes ?? 30000)
+      ? (legacy.allocations?.[user]?.nodes ?? Infinity)
       : workspaceStorageLimits.userNodes;
     if (
-      bytes > workspaceStorageLimits.entryBytes ||
+      (!legacy && bytes > workspaceStorageLimits.entryBytes) ||
       next.bytes > userBytes ||
       next.nodes > userNodes ||
-      totalBytes > workspaceStorageLimits.totalBytes ||
-      totalNodes > workspaceStorageLimits.totalNodes ||
+      totalBytes >
+        (legacy
+          ? (legacy.aggregate?.bytes ?? Infinity)
+          : workspaceStorageLimits.totalBytes) ||
+      totalNodes >
+        (legacy
+          ? (legacy.aggregate?.nodes ?? Infinity)
+          : workspaceStorageLimits.totalNodes) ||
       stats.size > userLimit
     )
       throw Error(
@@ -257,15 +296,73 @@ function checkedLegacyProfile(database, profile) {
       !entry ||
       !Number.isSafeInteger(entry.bytes) ||
       entry.bytes < 0 ||
-      entry.bytes > 384 * 1024 ||
+      entry.bytes > workspaceStorageLimits.storeBytes ||
       !Number.isSafeInteger(entry.nodes) ||
       entry.nodes < 0 ||
-      entry.nodes > 30000
+      entry.nodes > workspaceStorageLimits.storeBytes
     )
       throw Error(
         "Unrecognized recovery profile. Preserve the store for offline recovery.",
       );
   }
+  // Profiles saved by1.1.4 had bounded totals; retain their exact allocation too.
+  const aggregate = Object.values(profile.allocations).reduce(
+    (sum, entry) => ({
+      bytes: sum.bytes + entry.bytes,
+      nodes: sum.nodes + entry.nodes,
+    }),
+    { bytes: 0, nodes: 0 },
+  );
+  if (
+    profile.aggregate &&
+    (profile.aggregate.bytes !== aggregate.bytes ||
+      profile.aggregate.nodes !== aggregate.nodes)
+  )
+    throw Error(
+      "Unrecognized aggregate recovery allocation. Preserve the store for offline recovery.",
+    );
+  const accessAllocations =
+    profile.accessAllocations || accessAllocationStats(database);
+  for (const kind of ["users", "credentials"]) {
+    if (
+      !accessAllocations[kind] ||
+      Object.keys(accessAllocations[kind]).length !==
+        Object.keys(database[kind]).length
+    )
+      throw Error(
+        "Unrecognized access recovery allocation. Preserve the store for offline recovery.",
+      );
+    for (const key of Object.keys(database[kind])) {
+      const bytes = Object.hasOwn(accessAllocations[kind], key)
+        ? accessAllocations[kind][key]
+        : null;
+      if (
+        !Number.isSafeInteger(bytes) ||
+        bytes < 0 ||
+        bytes > workspaceStorageLimits.storeBytes + 10
+      )
+        throw Error(
+          "Unrecognized access recovery allocation. Preserve the store for offline recovery.",
+        );
+    }
+  }
+  const digests = profile.workspaceDigests || workspaceDigests(database);
+  if (
+    Object.keys(digests).length !== Object.keys(database.workspaces).length ||
+    Object.keys(database.workspaces).some(
+      (key) =>
+        !Object.hasOwn(digests, key) || !/^[a-f0-9]{64}$/.test(digests[key]),
+    )
+  )
+    throw Error(
+      "Unrecognized workspace recovery fingerprints. Preserve the store for offline recovery.",
+    );
+  profile = {
+    ...profile,
+    aggregate,
+    accessAllocations,
+    workspaceDigests: digests,
+  };
   validateWorkspaceStorage(database, profile);
   return profile;
 }
@@ -301,12 +398,29 @@ export function loadWorkspaceStore(storePath) {
       identities: Object.keys(database.users),
       credentials: Object.keys(database.credentials),
       allocations: allocationStats(database),
+      accessAllocations: accessAllocationStats(database),
+      workspaceDigests: workspaceDigests(database),
     };
+    legacy.aggregate = Object.values(legacy.allocations).reduce(
+      (sum, entry) => ({
+        bytes: sum.bytes + entry.bytes,
+        nodes: sum.nodes + entry.nodes,
+      }),
+      { bytes: 0, nodes: 0 },
+    );
     return { database, legacy };
   }
 }
 export function persistWorkspaceCandidate(storePath, candidate, legacy = null) {
   if (legacy) candidate = { ...candidate, legacyAdmission: legacy };
+  if (
+    legacy?.workspaceDigests &&
+    Object.keys(candidate.workspaces).length !==
+      Object.keys(legacy.workspaceDigests).length
+  )
+    throw Error(
+      "Your saved workspace is available to load or export. Ask the administrator to migrate it before saving changes.",
+    );
   validateWorkspaceStorage(candidate, legacy);
   const serialized = JSON.stringify(candidate);
   if (Buffer.byteLength(serialized) > workspaceStorageLimits.storeBytes)
@@ -326,6 +440,10 @@ export function saveWorkspaceCopy(
   storePath,
   legacy = null,
 ) {
+  if (legacy)
+    throw Error(
+      "Your saved workspace is available to load or export. Ask the administrator to migrate it before saving changes.",
+    );
   validateJsonValue(state);
   if (state === null || typeof state !== "object")
     throw Error("That workspace could not be saved.");
@@ -560,6 +678,7 @@ export function createDemoServer({
           signedIn: Boolean(signedIn(req)),
           passkeys: true,
           invitationRequired: hosted,
+          recoveryOnly: Boolean(legacy),
           registrationOpen:
             !legacy &&
             (!hosted ||
@@ -773,7 +892,7 @@ export function createDemoServer({
       } catch (e) {
         json(res, 400, {
           error:
-            /expired|already used|not registered|Sign in again|not match|already registered|too large|workspace type|Saved workspace storage is full|Workspace access is at capacity|access capacity|Invitation required|Existing workspace access is preserved/.test(
+            /expired|already used|not registered|Sign in again|not match|already registered|too large|workspace type|Saved workspace storage is full|Workspace access is at capacity|access capacity|Invitation required|Existing workspace access is preserved|Your saved workspace is available/.test(
               e.message,
             )
               ? e.message
