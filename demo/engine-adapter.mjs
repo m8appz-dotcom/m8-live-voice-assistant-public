@@ -1,8 +1,15 @@
 import { WebSocket, WebSocketServer } from "ws";
 import { timingSafeEqual } from "node:crypto";
+import { SparkVoiceSession, sparkConfig } from "../server/spark-voice.mjs";
 
 // This adapter uses an existing privately configured M8 bridge. No provider key is sent to the browser.
 function config() {
+  const transport = process.env.M8_DEMO_TRANSPORT || "bridge";
+  if (transport === "spark") {
+    const direct = sparkConfig();
+    return direct ? { kind: "spark", direct } : null;
+  }
+  if (transport !== "bridge") return null;
   try {
     const url = new URL(process.env.M8_DEMO_BRIDGE_URL);
     const token = process.env.M8_DEMO_BRIDGE_TOKEN || "";
@@ -19,7 +26,7 @@ function config() {
       token.length < 32
     )
       return null;
-    return { url: url.toString(), token, origin };
+    return { kind: "bridge", url: url.toString(), token, origin };
   } catch {
     return null;
   }
@@ -83,6 +90,11 @@ export default {
   }),
   attach(server, { origin, authenticated }) {
     const wss = new WebSocketServer({ noServer: true, maxPayload: 60000 });
+    const publicLimits =
+      new URL(origin).protocol === "https:" ||
+      process.env.M8_DEMO_PUBLIC === "1";
+    const starts = new Map();
+    let globalWindow = { count: 0, until: Date.now() + 3600000 };
     let active = 0;
     server.on("upgrade", (req, socket, head) => {
       const reject = (status) => {
@@ -94,11 +106,31 @@ export default {
         req.headers.origin !== origin
       )
         return reject("403 Forbidden");
-      if (!authenticated(req) && !service(req))
-        return reject("401 Unauthorized");
+      const session = authenticated(req);
+      const machine = service(req);
+      if (!session && !machine) return reject("401 Unauthorized");
       const upstream = config();
       if (!upstream) return reject("503 Service Unavailable");
-      if (active >= 2) return reject("429 Too Many Requests");
+      if (active >= (publicLimits ? 1 : 2))
+        return reject("429 Too Many Requests");
+      if (publicLimits) {
+        const now = Date.now();
+        for (const [key, entry] of starts)
+          if (entry.until < now) starts.delete(key);
+        if (globalWindow.until < now)
+          globalWindow = { count: 0, until: now + 3600000 };
+        const who = machine ? "service" : session.user;
+        const entry = starts.get(who) || { count: 0, until: now + 3600000 };
+        if (
+          entry.count >= 2 ||
+          globalWindow.count >= 6 ||
+          (!starts.has(who) && starts.size >= 1024)
+        )
+          return reject("429 Too Many Requests");
+        entry.count++;
+        starts.set(who, entry);
+        globalWindow.count++;
+      }
       wss.handleUpgrade(req, socket, head, (client) => {
         active++;
         let started = false,
@@ -107,14 +139,17 @@ export default {
           messages = 0,
           bytes = 0;
         const queue = [];
-        const remote = new WebSocket(upstream.url, {
-          headers: {
-            Authorization: `Bearer ${upstream.token}`,
-            Origin: upstream.origin,
-          },
-          maxPayload: 3000000,
-          handshakeTimeout: 12000,
-        });
+        const remote =
+          upstream.kind === "spark"
+            ? new SparkVoiceSession(upstream.direct)
+            : new WebSocket(upstream.url, {
+                headers: {
+                  Authorization: `Bearer ${upstream.token}`,
+                  Origin: upstream.origin,
+                },
+                maxPayload: 3000000,
+                handshakeTimeout: 12000,
+              });
         const stop = () => {
           if (ended) return;
           ended = true;
@@ -157,6 +192,7 @@ export default {
           }
         });
         remote.on("message", (raw) => {
+          if (client.bufferedAmount > 3000000) return fail();
           try {
             const data = JSON.parse(raw.toString());
             if (data.toolCall || data.toolCallCancellation) return fail();
