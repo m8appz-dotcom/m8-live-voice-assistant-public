@@ -93,6 +93,7 @@ export class SparkVoiceSession extends EventEmitter {
     this.messages = 0;
     this.inputBytes = 0;
     this.asrBusy = false;
+    this.asrPending = false;
     this.deadline = setTimeout(() => this.close(), 180000);
     queueMicrotask(() => {
       if (this.readyState !== 3) {
@@ -203,7 +204,12 @@ export class SparkVoiceSession extends EventEmitter {
     }
   }
   async transcribe() {
-    if (!this.voiced || this.asrBusy) return;
+    if (!this.voiced) return;
+    if (this.asrBusy) {
+      this.asrPending = true;
+      return;
+    }
+    this.asrPending = false;
     const pcm = Buffer.concat(this.capture);
     this.capture = [];
     this.captureBytes = 0;
@@ -267,6 +273,10 @@ export class SparkVoiceSession extends EventEmitter {
       clearTimeout(timeout);
       this.asrBusy = false;
       if (this.asrController === controller) this.asrController = null;
+      if (this.asrPending && this.voiced && this.readyState === 1) {
+        this.asrPending = false;
+        void this.transcribe();
+      }
     }
   }
   async answer(question) {

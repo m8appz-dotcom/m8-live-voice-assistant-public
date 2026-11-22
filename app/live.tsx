@@ -1,5 +1,6 @@
 import { ThreeOrb, PulseBadge, AudioSpectrum } from '../components/LiveVisuals'
 import type { SessionState } from '../src/types/session'
+import { pcmPlaybackDeadlineMs } from '../src/audio/playbackTiming'
 import { b64ToArrayBuffer, pcm16ToAudioBuffer, downsample, pcm16ToB64, concatPcmB64, calcPcmRms } from '../src/audio/pcm'
 import { useEffect, useRef, useState, useCallback, type ComponentRef } from 'react'
 import { Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View, Modal, Switch, KeyboardAvoidingView, Keyboard, Animated as RNAnimated } from 'react-native'
@@ -394,7 +395,7 @@ export default function LiveScreen() {
             cleanup?.()
             error ? reject(error) : resolve()
           }
-          const timeout = setTimeout(() => finish(new Error('Voice playback timed out')), 20000)
+          const timeout = setTimeout(() => finish(new Error('Voice playback timed out')), pcmPlaybackDeadlineMs(dataLen, sampleRate))
           const subscription = player.addListener('playbackStatusUpdate', (status) => {
             if (status.didJustFinish) finish()
           })

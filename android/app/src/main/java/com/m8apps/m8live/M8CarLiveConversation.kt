@@ -49,11 +49,18 @@ class M8CarLiveConversation(
 
   private fun runOneTurn() {
     var carAudioRecord: CarAudioRecord? = null
+    var ownedAudioTrack: AudioTrack? = null
     try {
       onStatus("Connecting to M8 Live")
       val setupLatch = CountDownLatch(1)
       val doneLatch = CountDownLatch(1)
       val audioTrack = createAudioTrack()
+      ownedAudioTrack = audioTrack
+      fun applySampleRate(rate: Int) {
+        if (rate != audioTrack.sampleRate) {
+          check(audioTrack.setPlaybackRate(rate) == AudioTrack.SUCCESS) { "PCM playback rate is unavailable" }
+        }
+      }
       var capturedBytes = 0
       var modelText = ""
 
@@ -67,7 +74,16 @@ class M8CarLiveConversation(
         override fun onMessage(ws: WebSocket, text: String) {
           try {
             val msg = JSONObject(text)
+            if (msg.has("error")) {
+              onStatus("M8 could not finish. Start another conversation to retry.")
+              active.set(false)
+              setupLatch.countDown()
+              doneLatch.countDown()
+              return
+            }
             if (msg.has("setupComplete")) {
+              val announced = msg.optJSONObject("setupComplete")?.optInt("sampleRate", 0) ?: 0
+              applySampleRate(M8PcmFormat.fromSetup(announced, audioTrack.sampleRate))
               setupLatch.countDown()
               return
             }
@@ -88,6 +104,7 @@ class M8CarLiveConversation(
                 val mime = inline.optString("mimeType")
                 val data = inline.optString("data")
                 if (mime.startsWith("audio/pcm") && data.isNotBlank()) {
+                  applySampleRate(M8PcmFormat.fromMime(mime, audioTrack.sampleRate))
                   val pcm = Base64.decode(data, Base64.DEFAULT)
                   audioTrack.write(pcm, 0, pcm.size)
                 }
@@ -134,8 +151,6 @@ class M8CarLiveConversation(
       webSocket?.send("{\"realtimeInput\":{\"audioStreamEnd\":true}}")
 
       doneLatch.await(30, TimeUnit.SECONDS)
-      try { audioTrack.stop() } catch (_: Throwable) {}
-      try { audioTrack.release() } catch (_: Throwable) {}
       onStatus(if (modelText.isBlank()) "Ready" else "Ready — answered by voice")
     } catch (t: Throwable) {
       Log.e(TAG, "car live conversation failed", t)
@@ -143,6 +158,8 @@ class M8CarLiveConversation(
     } finally {
       active.set(false)
       try { carAudioRecord?.stopRecording() } catch (_: Throwable) {}
+      try { ownedAudioTrack?.stop() } catch (_: Throwable) {}
+      try { ownedAudioTrack?.release() } catch (_: Throwable) {}
       try { webSocket?.close(1000, "turn complete") } catch (_: Throwable) {}
       webSocket = null
     }

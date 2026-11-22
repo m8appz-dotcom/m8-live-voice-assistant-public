@@ -254,3 +254,77 @@ test("spoken notification text keeps the existing bounded realtime input contrac
   assert.equal(requests.length, 2);
   assert.ok(events.at(-1).error);
 });
+
+test("a stream end arriving during cancelled ASR drains the next utterance once", async (t) => {
+  let transcriptions = 0,
+    answers = 0,
+    timeout;
+  const events = [];
+  const session = new SparkVoiceSession(config, {
+    fetcher: async (url, options) => {
+      if (url.includes("audio/transcriptions")) {
+        if (++transcriptions === 1)
+          return new Promise((resolve, reject) => {
+            options.signal.addEventListener(
+              "abort",
+              () => reject(new DOMException("Cancelled", "AbortError")),
+              { once: true },
+            );
+          });
+        return Response.json({ text: "The second utterance." });
+      }
+      if (url.includes("chat/completions")) {
+        answers++;
+        return new Response(
+          "data: " +
+            JSON.stringify({
+              choices: [{ delta: { content: "The second answer. " } }],
+            }) +
+            "\n\ndata: [DONE]\n\n",
+        );
+      }
+      return new Response(Buffer.alloc(2000), {
+        headers: { "Content-Type": "audio/pcm" },
+      });
+    },
+  });
+  t.after(() => {
+    clearTimeout(timeout);
+    session.close();
+  });
+  const done = new Promise((resolve, reject) => {
+    timeout = setTimeout(
+      () => reject(Error("The pending utterance was stranded")),
+      2000,
+    );
+    session.on("message", (raw) => {
+      const event = JSON.parse(raw);
+      events.push(event);
+      if (event.serverContent?.turnComplete) resolve();
+    });
+  });
+  await once(session, "open");
+  await session.send(JSON.stringify({ setup: {} }));
+  const pcm = Buffer.alloc(16000);
+  for (let i = 0; i < pcm.length; i += 2) pcm.writeInt16LE(5000, i);
+  const audio = JSON.stringify({
+    realtimeInput: {
+      audio: { mimeType: "audio/pcm;rate=16000", data: pcm.toString("base64") },
+    },
+  });
+  const end = JSON.stringify({ realtimeInput: { audioStreamEnd: true } });
+  await session.send(audio);
+  const firstEnd = session.send(end);
+  const nextAudio = session.send(audio);
+  const nextEnd = session.send(end);
+  await Promise.all([firstEnd, nextAudio, nextEnd]);
+  await done;
+  assert.equal(transcriptions, 2);
+  assert.equal(answers, 1);
+  assert.equal(
+    events.find((e) => e.serverContent?.inputTranscription)?.serverContent
+      .inputTranscription.text,
+    "The second utterance.",
+  );
+  assert.equal(session.captureBytes, 0);
+});

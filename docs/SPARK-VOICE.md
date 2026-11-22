@@ -28,6 +28,8 @@ The generic Expo warning about automatically syncing Prebuild fields is disabled
 
 Validation covers TypeScript, SDK compatibility, dependency audit, native configuration checks, voice/authentication regressions and the actual exported web client. The Gradle 9.4.1 / Java 17 toolchain was exercised. A full Android APK/iOS build and physical device playback are not claimed; this isolated X environment has no configured Android SDK. Holder passkey registration, real sign-in, second-key recovery and physical microphone acceptance remain required before a production cutover. Existing authentication and recovery methods are preserved.
 
+Review regressions also cover cancellation while a later utterance ends, duration-based native playback deadlines, and the Android Auto PCM rate contract. The car client applies both the negotiated setup rate and each PCM MIME rate through AudioTrack's source playback rate. The pure Kotlin parser's JVM check is documented in `tests/native/README.md`; it covers Spark, legacy fallback and invalid-rate rejection. This check does not compile Android framework bindings or establish physical in-car playback.
+
 ## Rollback
 
 Keep the pre-migration feature commit and recovery refs. Restore the pre-migration package/lock/source as one unit and reinstall its pinned dependencies if reversing the SDK change. The isolated relay can be stopped without changing the remote inference services. Preserve local workspace exports and the ignored state directory before removing a development copy.
