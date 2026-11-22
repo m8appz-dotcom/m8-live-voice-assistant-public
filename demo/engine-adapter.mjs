@@ -70,6 +70,7 @@ function service(req) {
   return a.length >= 32 && a.length === b.length && timingSafeEqual(a, b);
 }
 export default {
+  allowMicrophone: true,
   name: "M8 Live",
   actions: [],
   status: async () => ({

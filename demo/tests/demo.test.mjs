@@ -23,6 +23,7 @@ before(async () => {
     root: path.join(root, "public"),
     storePath: path.join(temporary, "private", "workspaces.json"),
     origin,
+    engine: (await import("../engine-adapter.mjs")).default,
   });
   await new Promise((resolve, reject) => {
     server.once("error", reject);
