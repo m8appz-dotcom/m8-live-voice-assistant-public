@@ -12,7 +12,7 @@ An English conversation workspace with a private speech and model relay.
 
 ## Try it
 
-Open [the English HTTPS workspace](https://voice.kennethyepez.com) or follow [local setup](../demo/README.md). Guest exploration uses authored examples. Live conversation requires a passkey and available session capacity. The [engine setup](../demo/ENGINES.md) explains private operator configuration.
+Open [the English HTTPS workspace](https://voice.kennethyepez.com) or follow [local setup](../demo/README.md). Guest exploration uses authored examples. New private accounts require an administrator invitation and a passkey. Live conversations require passkey sign-in and available session capacity. The [engine setup](../demo/ENGINES.md) explains private operator configuration.
 
 These original browser captures show the published HTTPS interface. The phone view shows its transcript and live access section. No image was cropped, resized or regenerated.
 
