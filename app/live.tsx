@@ -1,4 +1,5 @@
 import { ThreeOrb, PulseBadge, AudioSpectrum } from '../components/LiveVisuals'
+import { hostedWorkspace } from '../src/services/hostedWorkspace'
 import type { SessionState } from '../src/types/session'
 import { pcmPlaybackDeadlineMs } from '../src/audio/playbackTiming'
 import { b64ToArrayBuffer, pcm16ToAudioBuffer, downsample, pcm16ToB64, concatPcmB64, calcPcmRms } from '../src/audio/pcm'
@@ -123,6 +124,9 @@ export default function LiveScreen() {
   const [bridgeAuthenticated, setBridgeAuthenticated] = useState(!isWeb)
   const [bridgeChecking, setBridgeChecking] = useState(isWeb)
   const [bridgePassword, setBridgePassword] = useState('')
+  const [workspaceInvite, setWorkspaceInvite] = useState('')
+  const [registrationOpen, setRegistrationOpen] = useState(false)
+  const webMicPendingRef = useRef(false)
   const [bridgeAuthBusy, setBridgeAuthBusy] = useState(false)
   const [bridgeAuthError, setBridgeAuthError] = useState('')
   const [passkeySupported, setPasskeySupported] = useState(isWeb ? isPasskeySupported() : false)
@@ -819,12 +823,23 @@ export default function LiveScreen() {
     if (isWeb) {
       // web path defined below
       if (!wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) return
+      if (webMicPendingRef.current) return
+      webMicPendingRef.current = true
+      const requestedSocket = wsRef.current
+      let acquiredStream: MediaStream | null = null
+      let acquiredSource: MediaStreamAudioSourceNode | null = null
+      let acquiredProcessor: ScriptProcessorNode | null = null
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true, sampleRate: 16000 } })
+        acquiredStream = stream
+        if (wsRef.current !== requestedSocket || requestedSocket.readyState !== WebSocket.OPEN) { stream.getTracks().forEach(track => track.stop()); return }
         micStreamRef.current = stream
         const ctx = await getAudioCtx()
+        if (wsRef.current !== requestedSocket || requestedSocket.readyState !== WebSocket.OPEN || micStreamRef.current !== stream) { stream.getTracks().forEach(track => track.stop()); return }
         const source = ctx.createMediaStreamSource(stream)
+        acquiredSource = source
         const proc = ctx.createScriptProcessor(4096, 1, 1)
+        acquiredProcessor = proc
         proc.onaudioprocess = e => {
           if (!micOnRef.current || micPausedRef.current) return
           const input = e.inputBuffer.getChannelData(0)
@@ -840,8 +855,15 @@ export default function LiveScreen() {
         setMicOn(true)
         setState('listening')
       } catch (e) {
-        setError('Mic: ' + String((e as Error).message || e))
-      }
+        try { acquiredProcessor?.disconnect() } catch {}
+        try { acquiredSource?.disconnect() } catch {}
+        acquiredStream?.getTracks().forEach(track => track.stop())
+        if (micStreamRef.current === acquiredStream) micStreamRef.current = null
+        micOnRef.current = false
+        setMicOn(false)
+        setMicLevel(0)
+        setError('Microphone access could not open. Check its permission and try again.')
+      } finally { webMicPendingRef.current = false }
     } else {
       await startMicNative()
     }
@@ -858,6 +880,7 @@ export default function LiveScreen() {
       audioProcRef.current = null; audioSrcRef.current = null; micStreamRef.current = null
       micOnRef.current = false; micPausedRef.current = false
       setMicOn(false)
+      setMicLevel(0)
     } else {
       await stopMicNative()
     }
@@ -872,7 +895,7 @@ export default function LiveScreen() {
       if (isWeb) {
         const proxyBase = getProxyBase(true)
         const targetBase = proxyBase || window.location.origin
-        wsUrl = appendBridgeToken(toWebSocketUrl(targetBase, '/gemini'))
+        wsUrl = appendBridgeToken(toWebSocketUrl(targetBase, hostedWorkspace ? '/engine/live' : '/gemini'))
       } else {
         const proxyBase = getProxyBase(false)
         wsUrl = appendBridgeToken(toWebSocketUrl(proxyBase, '/gemini'))
@@ -882,7 +905,7 @@ export default function LiveScreen() {
       wsRef.current = ws
 
       ws.onopen = async () => {
-        const [remoteMemory, localMemory] = await Promise.all([fetchMemoryContext(isWeb), getLocalMemory()])
+        const [remoteMemory, localMemory] = await Promise.all([hostedWorkspace ? Promise.resolve(null) : fetchMemoryContext(isWeb), getLocalMemory()])
         const memoryContext = [
           remoteMemory?.summary ? `Durable memory:\n${remoteMemory.summary}` : '',
           formatLocalMemory(localMemory) ? `Recent local conversation:\n${formatLocalMemory(localMemory)}` : '',
@@ -1026,14 +1049,17 @@ export default function LiveScreen() {
         console.warn('[m8live] gemini websocket closed', { code: e.code, reason: e.reason || '', wasIntentional })
         stopMic(); stopVideo()
         setState('idle')
+        if (hostedWorkspace && !wasIntentional) {
+          void getBridgeSessionStatus(true).then(status => setBridgeAuthenticated(status.authenticated)).catch(() => {})
+        }
         const rawReason = typeof e.reason === 'string' ? e.reason.trim() : ''
         const goAwayReason = /goaway|go away|session expired|session duration/i.test(rawReason)
         const reason = rawReason || (e.code === 1008 ? 'Modelo/configuración incompatible en el backend.' : '')
         if (goAwayReason) {
           setError('Live session expired. Tap when you want to wake M8 Live again.')
         } else if (e.code !== 1000 && e.code !== 1005) {
-          setError(reason ? `Disconnected (${e.code}): ${reason}` : `Disconnected (${e.code})`)
-          if (!wasIntentional && e.code === 1006) {
+          setError(hostedWorkspace ? 'Voice could not connect. Check your access and try again later.' : reason ? `Disconnected (${e.code}): ${reason}` : `Disconnected (${e.code})`)
+          if (!hostedWorkspace && !wasIntentional && e.code === 1006) {
             if (reconnectTimerRef.current) clearTimeout(reconnectTimerRef.current)
             reconnectTimerRef.current = setTimeout(() => {
               reconnectTimerRef.current = null
@@ -1137,6 +1163,7 @@ export default function LiveScreen() {
 
   const sendText = async () => {
     const text = draft.trim()
+    if (hostedWorkspace && text.length > 4000) { setError('Keep your message within 4,000 characters. Your draft is still here to edit.'); return }
     if (!text || !isConnected) return
     setDraft('')
     addMsg('user', text)
@@ -1165,6 +1192,7 @@ export default function LiveScreen() {
     setPasskeySupported(Boolean(status.passkeySupported ?? isPasskeySupported()))
     setPasskeyConfigured(Boolean(status.passkeyConfigured))
     setPasswordConfigured(Boolean(status.passwordConfigured))
+    setRegistrationOpen(status.registrationOpen === true)
     return status
   }, [])
 
@@ -1183,6 +1211,7 @@ export default function LiveScreen() {
       setPasskeySupported(Boolean(status.passkeySupported ?? isPasskeySupported()))
       setPasskeyConfigured(Boolean(status.passkeyConfigured))
     setPasswordConfigured(Boolean(status.passwordConfigured))
+    setRegistrationOpen(status.registrationOpen === true)
       setBridgePassword('')
       setError('')
     } catch (e) {
@@ -1212,14 +1241,15 @@ export default function LiveScreen() {
     setPasskeyBusy(true)
     setBridgeAuthError('')
     try {
-      await registerBridgePasskey()
+      await registerBridgePasskey(hostedWorkspace ? workspaceInvite.trim() : '')
+      if (hostedWorkspace) { setWorkspaceInvite(''); await refreshBridgeStatus() }
       setPasskeyConfigured(true)
     } catch (e) {
       setBridgeAuthError(String((e as Error).message || e))
     } finally {
       setPasskeyBusy(false)
     }
-  }, [])
+  }, [workspaceInvite, refreshBridgeStatus])
 
   useEffect(() => {
     let mounted = true
@@ -1237,6 +1267,7 @@ export default function LiveScreen() {
         setPasskeySupported(Boolean(status.passkeySupported ?? isPasskeySupported()))
         setPasskeyConfigured(Boolean(status.passkeyConfigured))
     setPasswordConfigured(Boolean(status.passwordConfigured))
+    setRegistrationOpen(status.registrationOpen === true)
       })
       .catch((e) => {
         if (!mounted) return
@@ -1252,7 +1283,8 @@ export default function LiveScreen() {
 
   useEffect(() => {
     if (isWeb && (!bridgeAuthenticated || bridgeChecking)) return
-    connect()
+    // Hosted sessions have finite public capacity. Start only from the existing mic control.
+    if (!hostedWorkspace) connect()
     return () => { disconnect() }
   }, [bridgeAuthenticated, bridgeChecking, connect, disconnect, isWeb])
 
@@ -1391,6 +1423,7 @@ export default function LiveScreen() {
             </Text>
             {passkeySupported && passkeyConfigured && (
               <Pressable
+                accessibilityRole="button"
                 style={[s.authButton, (bridgeChecking || passkeyBusy) && { opacity: 0.6 }]}
                 onPress={() => {
                   if (!bridgeChecking && !passkeyBusy) void unlockWithPasskey()
@@ -1402,9 +1435,18 @@ export default function LiveScreen() {
                     ? 'Checking...'
                     : passkeyBusy
                       ? 'Waiting for biometric...'
-                      : 'Use fingerprint or PIN'}
+                      : hostedWorkspace ? 'Sign in with a passkey' : 'Use fingerprint or PIN'}
                 </Text>
               </Pressable>
+            )}
+            {hostedWorkspace && registrationOpen && (
+              <>
+                <TextInput accessibilityLabel="Invitation code" value={workspaceInvite} onChangeText={setWorkspaceInvite}
+                  placeholder="Invitation code" placeholderTextColor="rgba(255,255,255,0.28)" secureTextEntry
+                  maxLength={43} autoCapitalize="none" autoCorrect={false} style={s.authInput} editable={!passkeyBusy} />
+                <Pressable accessibilityRole="button" style={s.authButtonSecondary} disabled={passkeyBusy || bridgeChecking || workspaceInvite.trim().length !== 43}
+                  onPress={() => void enablePasskey()}><Text style={s.authButtonSecondaryText}>Create access with a passkey</Text></Pressable>
+              </>
             )}
             {passwordConfigured && (
               <>
@@ -1541,7 +1583,7 @@ export default function LiveScreen() {
               <Text style={s.headerLive}>LIVE</Text>
             </View>
             <View style={{ flex: 1, alignItems: 'flex-end' }}>
-              <Pressable onPress={() => router.push('/settings')} style={{ padding: 8 }}>
+              <Pressable accessibilityRole="button" accessibilityLabel="Open settings" onPress={() => router.push('/settings')} style={{ padding: 8 }}>
                 <Ionicons name="ellipsis-vertical" size={20} color="rgba(255,255,255,0.4)" />
               </Pressable>
             </View>
@@ -1616,7 +1658,7 @@ export default function LiveScreen() {
                 </Pressable>
                 )}
                 {/* Mic hero button */}
-                <Pressable
+                <Pressable accessibilityRole="button" accessibilityLabel={micOn ? 'Stop microphone' : isConnected ? 'Use microphone' : 'Connect voice'}
                   style={[s.micHeroBtn, !micOn && isConnected && s.micHeroBtnOff]}
                   onPress={() => {
                     if (!isConnected) { connect(); return }
@@ -1664,7 +1706,7 @@ export default function LiveScreen() {
                 </Pressable>
                 )}
                 {/* Mic hero */}
-                <Pressable
+                <Pressable accessibilityRole="button" accessibilityLabel={micOn ? 'Stop microphone' : isConnected ? 'Use microphone' : 'Connect voice'}
                   style={[s.micHeroBtn, !micOn && isConnected && s.micHeroBtnOff]}
                   onPress={() => {
                     if (!isConnected) { connect(); return }
@@ -1698,7 +1740,7 @@ export default function LiveScreen() {
           >
             {chat.length === 0 && (
               <Text style={s.emptyHint}>
-                {isConnected ? 'Tap mic or type a message' : 'Connecting...'}
+                {isConnected ? 'Tap mic or type a message' : hostedWorkspace && state !== 'connecting' ? 'Tap the power button to connect.' : 'Connecting...'}
               </Text>
             )}
             {chat.map(m => (
@@ -1724,6 +1766,7 @@ export default function LiveScreen() {
                 <Ionicons name="attach" size={22} color="#9ca3af" />
               </Pressable>)}
               <TextInput
+                accessibilityLabel="Message"
                 value={draft}
                 onChangeText={setDraft}
                 onSubmitEditing={sendText}
@@ -1733,15 +1776,18 @@ export default function LiveScreen() {
                 style={s.waInput}
                 blurOnSubmit={false}
                 editable={isConnected}
+                maxLength={hostedWorkspace ? 4000 : undefined}
                 returnKeyType="send"
                 multiline={Platform.OS !== 'web'}
               />
               <Pressable
-                onPress={sendText}
-                disabled={!draft.trim() || !isConnected}
-                style={[s.waSendBtn, (!draft.trim() || !isConnected) && { opacity: 0.3 }]}
+                accessibilityRole="button"
+                accessibilityLabel={hostedWorkspace && !isConnected ? 'Connect conversation' : 'Send message'}
+                onPress={() => { if (hostedWorkspace && !isConnected) void connect(); else void sendText() }}
+                disabled={hostedWorkspace && !isConnected ? !bridgeAuthenticated || bridgeChecking || state === 'connecting' : !draft.trim() || !isConnected}
+                style={[s.waSendBtn, (hostedWorkspace && !isConnected ? !bridgeAuthenticated || bridgeChecking || state === 'connecting' : !draft.trim() || !isConnected) && { opacity: 0.3 }]}
               >
-                <Ionicons name="send" size={20} color="#fff" />
+                <Ionicons name={hostedWorkspace && !isConnected ? 'power' : 'send'} size={20} color="#fff" />
               </Pressable>
             </View>
           </View>

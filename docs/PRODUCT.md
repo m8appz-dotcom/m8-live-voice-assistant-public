@@ -1,19 +1,19 @@
 # M8 Live Voice Assistant — product review
 
-An English conversation workspace with a private speech and model relay.
+The original Expo screen with its green/cyan audio spectrum, Live/Chat views and microphone dock. The hosted export connects that screen to the existing private English voice engine and WebAuthn workspace access.
 
 ## Desktop
 
-![Current desktop workspace](images/workspace-desktop.jpg)
+![Original screen at the passkey access gate on desktop](images/original-wave-desktop.jpg)
 
 ## Phone
 
-![Current phone transcript and live conversation access at a 390px viewport](images/workspace-mobile.jpg)
+![Original screen at the passkey access gate at a 390px viewport](images/original-wave-mobile.jpg)
 
 ## Try it
 
-Open [the English HTTPS workspace](https://voice.kennethyepez.com) or follow [local setup](../demo/README.md). Guest exploration uses authored examples. New private accounts require an administrator invitation and a passkey. Live conversations require passkey sign-in and available session capacity. The [engine setup](../demo/ENGINES.md) explains private operator configuration.
+Open [M8 Live](https://voice.kennethyepez.com). Sign in with the existing passkey, then use the microphone control to connect. Chat supports typed turns; the speaker control mutes spoken replies. New private accounts require an administrator invitation and passkey. Live conversations require available session capacity. Settings retains the [previous saved workspace](https://voice.kennethyepez.com/workspace/), without moving or overwriting saved data.
 
-These original browser captures show the published HTTPS interface. The phone view shows its transcript and live access section. No image was cropped, resized or regenerated.
+These unmodified browser captures show the restored screen's access gate in an isolated preview. They establish desktop/phone rendering, not a completed authentication or acoustic test. The spectrum component and native visual source are preserved. Holder sign-in, recovery and physical microphone/playback acceptance on this restored screen must be checked at the final secure origin.
 
-[Watch the workspace recording](examples/workspace-walkthrough.mp4). It contains actual browser frames with idle waits shortened and no narration. It demonstrates the authored workflow; it does not record a live provider or a completed human authentication flow.
+[Watch the previous workspace recording](examples/workspace-walkthrough.mp4). This retained historical recording shows the authored replay now available under `/workspace/`. It does not show the restored screen or a completed human authentication flow.

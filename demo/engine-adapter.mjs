@@ -35,8 +35,9 @@ export function liveMessage(value, started) {
   if (!value || typeof value !== "object" || Array.isArray(value)) return null;
   if (value.setup && !started) return { setup: { language: "en-US" } };
 
-  if (value.clientContent && started) {
-    const parts = value.clientContent.turns;
+  const content = value.clientContent || value.client_content;
+  if (content && started) {
+    const parts = content.turns;
     if (
       !Array.isArray(parts) ||
       parts.length !== 1 ||

@@ -26,3 +26,5 @@ jobs:
         run: npm test
       - name: Export actual Expo web client
         run: npm run build:web
+      - name: Export original hosted workspace with strict CSP assets
+        run: node scripts/export-hosted-workspace.mjs

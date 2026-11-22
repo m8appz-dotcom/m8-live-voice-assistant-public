@@ -5,6 +5,8 @@
 
 # Runtime noise
 node_modules/
+dist-hosted/
+.preview-private/
 proxy.log
 npm-debug.log*
 

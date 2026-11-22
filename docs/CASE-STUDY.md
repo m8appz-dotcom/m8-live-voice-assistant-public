@@ -4,7 +4,7 @@ The application connects English speech through existing private inference servi
 
 [Current screens](PRODUCT.md) · [Workspace recording](examples/workspace-walkthrough.mp4) · [Recorded service evidence](examples/voice-acceptance.json)
 
-[Open the HTTPS workspace](https://voice.kennethyepez.com). Authored example browsing works without an account; live inference requires an invited account, passkey sign-in and available session capacity. The isolated hosted process uses the same SparkVoiceSession directly. The Expo/native client remains a separate acceptance path. [Deployment and recovery](../demo/HOSTING.md) describe private storage and finite account capacity.
+[Open the HTTPS workspace](https://voice.kennethyepez.com). Live inference requires passkey sign-in and available session capacity; new accounts require an administrator invitation. The original Expo web screen uses the same SparkVoiceSession through the isolated hosted process. Native device acceptance remains separate. The previous authored example and saved-copy interface is retained at `/workspace/`. [Deployment and recovery](../demo/HOSTING.md) describe private storage and finite account capacity.
 
 ## Responsibility and decisions
 
@@ -44,4 +44,4 @@ Read [the private pathway](SPARK-VOICE.md), [server source](../server/spark-voic
 
 ## Remaining acceptance
 
-The hosted HTTPS page and unauthenticated access gate have been checked in the real browser on desktop and phone layouts. Holder passkey registration/login/recovery, physical microphone/playback and native device acceptance remain pending. Tests, the JVM parser check and a web export do not replace those steps. A representative current-release benchmark remains separate from the historical samples above. Only new isolated portfolio services and their dedicated public routing were added; existing inference services, production data and configuration remain unchanged.
+The original Expo screen is restored through a hosted export, preserving its spectrum and native visual sources. Its desktop/phone access gate and Settings were checked in an isolated browser preview. The holder previously registered a real credential and saved/loaded a private copy at the same public origin. Those identities and data are retained; sign-in and second-passkey recovery on the restored screen still require holder acceptance. Physical microphone clarity, audible playback and native device acceptance remain pending. Tests, the JVM parser check and a web export do not replace those steps. A representative current-release benchmark remains separate from the historical samples above. Only the isolated voice workspace is updated; existing inference services, production data and configuration remain unchanged.

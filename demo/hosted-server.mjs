@@ -1,6 +1,7 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { mkdirSync } from "node:fs";
+import { createOriginalVoiceServer } from "./original-ui-server.mjs";
+import { mkdirSync, existsSync } from "node:fs";
 import { createDemoServer } from "./server.mjs";
 import engine from "./engine-adapter.mjs";
 
@@ -24,13 +25,21 @@ if (!relative.startsWith(".." + path.sep) && !path.isAbsolute(relative))
   throw Error("Hosted state must be outside the source checkout.");
 process.umask(0o077);
 mkdirSync(state, { recursive: true, mode: 0o700 });
-const server = createDemoServer({
+const original = process.env.M8_WORKSPACE_UI === "original";
+const publicRoot = original
+  ? path.join(here, "..", "dist-hosted")
+  : path.join(here, "public");
+if (original && !existsSync(path.join(publicRoot, "index.html")))
+  throw Error(
+    "Build the original hosted UI before changing the running release.",
+  );
+const server = (original ? createOriginalVoiceServer : createDemoServer)({
   origin,
   hosted: true,
   registrationInvites: (process.env.WORKSPACE_INVITE_HASHES || "")
     .split(",")
     .filter(Boolean),
-  root: path.join(here, "public"),
+  root: publicRoot,
   storePath: path.join(state, "workspaces.json"),
   engine,
 });

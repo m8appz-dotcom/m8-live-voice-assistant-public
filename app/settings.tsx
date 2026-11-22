@@ -8,6 +8,11 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useSettings, saveSettings } from '../src/stores/settings'
 import { getDeviceRegistrationHeaders, getBridgeHeaders, getToolBase } from '../src/services/appConfig'
 
+import { hostedWorkspace } from '../src/services/hostedWorkspace'
+import HostedVoiceSettings from '../components/HostedVoiceSettings'
+
+export default function Settings() { return hostedWorkspace ? <HostedVoiceSettings /> : <OriginalSettings /> }
+
 const AndroidDeviceControl = NativeModules.M8DeviceControl
 
 // Gemini Live built-in voices (2.5 Flash native audio)
@@ -55,7 +60,7 @@ async function fetchJson(path: string): Promise<any> {
   return await res.json().catch(() => ({}))
 }
 
-export default function Settings() {
+function OriginalSettings() {
   const router = useRouter()
   const insets = useSafeAreaInsets()
   const settings = useSettings()
