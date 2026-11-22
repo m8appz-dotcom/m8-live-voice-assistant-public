@@ -4,7 +4,7 @@ The application connects English speech through existing private inference servi
 
 [Current screens](PRODUCT.md) · [Workspace recording](examples/workspace-walkthrough.mp4) · [Recorded service evidence](examples/voice-acceptance.json)
 
-[Open the HTTPS workspace](https://voice.kennethyepez.com). Authored example browsing works without an account; live inference requires a passkey and is bounded by public session quotas. The isolated hosted process uses the same SparkVoiceSession directly. The Expo/native client remains a separate acceptance path. [Deployment and recovery](../demo/HOSTING.md) describe private storage and finite account capacity.
+[Open the HTTPS workspace](https://voice.kennethyepez.com). Authored example browsing works without an account; live inference requires an invited account, passkey sign-in and available session capacity. The isolated hosted process uses the same SparkVoiceSession directly. The Expo/native client remains a separate acceptance path. [Deployment and recovery](../demo/HOSTING.md) describe private storage and finite account capacity.
 
 ## Responsibility and decisions
 

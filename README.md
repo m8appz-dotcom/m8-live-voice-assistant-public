@@ -14,7 +14,7 @@ An English conversation workspace with a private speech and model relay.
 
 The recording shows the authored example workflow. Engine evidence and its validation limits are documented separately in the case.
 
-The HTTPS workspace lets visitors explore the authored example without an account. Live conversations and private server copies require a passkey; private account and session capacity is limited. The hosted workspace reuses the private voice engine directly and has its own isolated release and state. The Expo application is a separate client with its own device acceptance requirements. See [hosting, recovery and limits](demo/HOSTING.md).
+The HTTPS workspace lets visitors explore the authored example without an account. New private accounts require an administrator invitation and a passkey. Returning users sign in with their passkey. Account and conversation capacity is limited. The hosted workspace reuses the private voice engine directly and has its own isolated release and state. The Expo application is a separate client with its own device acceptance requirements. See [hosting, recovery and limits](demo/HOSTING.md).
 
 ## Project direction and use
 

@@ -27,6 +27,9 @@ mkdirSync(state, { recursive: true, mode: 0o700 });
 const server = createDemoServer({
   origin,
   hosted: true,
+  registrationInvites: (process.env.WORKSPACE_INVITE_HASHES || "")
+    .split(",")
+    .filter(Boolean),
   root: path.join(here, "public"),
   storePath: path.join(state, "workspaces.json"),
   engine,
