@@ -1,3 +1,4 @@
+import { hostedWorkspace } from './hostedWorkspace'
 import { appendBridgeToken, getProxyBase, toWebSocketUrl } from './appConfig'
 import type { AppEvent, ExternalEventHandler } from '../types/realtime'
 
@@ -6,6 +7,7 @@ export function connectAppEventStream(options: {
   onEvent: ExternalEventHandler
   onError?: (error: Error) => void
 }) {
+  if (hostedWorkspace && options.isWeb) return () => {}
   const baseUrl = getProxyBase(options.isWeb)
   const wsUrl = options.isWeb ? toWebSocketUrl(window.location.origin, '/events') : toWebSocketUrl(baseUrl, '/events')
   let closedByApp = false

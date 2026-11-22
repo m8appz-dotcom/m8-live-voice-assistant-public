@@ -1,3 +1,5 @@
+import { hostedWorkspace, workspaceStatus, workspaceRequest } from './hostedWorkspace'
+
 export interface BridgeSessionStatus {
   ok: boolean
   authenticated: boolean
@@ -6,6 +8,8 @@ export interface BridgeSessionStatus {
   passkeySupported?: boolean
   passkeyConfigured?: boolean
   passwordConfigured?: boolean
+  registrationOpen?: boolean
+  recoveryOnly?: boolean
 }
 
 let bridgeSessionCache: BridgeSessionStatus | null = null
@@ -19,6 +23,11 @@ export async function getBridgeSessionStatus(isWeb: boolean): Promise<BridgeSess
     bridgeSessionCache = { ok: true, authenticated: true, expiresAt: null }
     return bridgeSessionCache
   }
+  if (hostedWorkspace) {
+    const status = await workspaceStatus()
+    bridgeSessionCache = { ok: true, authenticated: status.signedIn === true, expiresAt: null, passkeySupported: status.passkeys === true, passkeyConfigured: true, passwordConfigured: false, registrationOpen: status.registrationOpen, recoveryOnly: status.recoveryOnly, openclawRoutes: false }
+    return bridgeSessionCache
+  }
   const res = await fetch('/api/bridge/session', {
     method: 'GET',
     credentials: 'same-origin',
@@ -29,6 +38,7 @@ export async function getBridgeSessionStatus(isWeb: boolean): Promise<BridgeSess
 }
 
 export async function createBridgeSession(password: string): Promise<BridgeSessionStatus> {
+  if (hostedWorkspace) throw new Error('Use a passkey to sign in.')
   const res = await fetch('/api/bridge/session', {
     method: 'POST',
     credentials: 'same-origin',
@@ -42,6 +52,7 @@ export async function createBridgeSession(password: string): Promise<BridgeSessi
 }
 
 export async function clearBridgeSession(): Promise<void> {
+  if (hostedWorkspace) { await workspaceRequest('logout'); bridgeSessionCache = null; return }
   await fetch('/api/bridge/session', {
     method: 'DELETE',
     credentials: 'same-origin',
