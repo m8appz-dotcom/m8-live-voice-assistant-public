@@ -1,8 +1,12 @@
 # M8 Live Voice Assistant
 
-A web-first voice assistant connecting an Expo client, Gemini Live audio sessions, and explicit OpenClaw-backed tools.
+An English voice assistant connecting an Expo 58 client to private speech recognition, a streamed LLM response, and native streaming speech. The Node bridge keeps provider credentials on the server and supports passkey access.
 
 This repository exposes application source for architecture review: realtime audio transport, client state, a backend bridge, and browser authentication helpers.
+
+## Interactive English demo
+
+[Run the interactive demo](demo/README.md) to explore the approved product interface, local example workflows and downloadable outputs. The isolated demo uses English throughout and preserves the original application below. See its README for the exact example boundaries and passkey acceptance status.
 
 ## Demonstration
 
@@ -21,8 +25,8 @@ See [use and licensing](LICENSE.md), [contributing](CONTRIBUTING.md), and [secur
 ```mermaid
 flowchart LR
     A[Expo web client] --> B[Node bridge]
-    B --> C[Gemini Live audio session]
-    B --> D[Explicit OpenClaw tools]
+    B --> C[Private ASR / streamed LLM / English speech]
+    B -. optional separate integration .-> D[Explicit OpenClaw tools]
     A --> E[Session and passkey helpers]
     E --> B
 ```
@@ -43,6 +47,8 @@ The bridge includes explicit environment configuration, restricted origins, sign
 
 ## Explore and build the web client
 
+Use Node.js 24.3+ in the 24.x LTS line or Node.js 26.x. Odd-numbered Node 25 is outside the SDK 58 supported range.
+
 Review [package.json](package.json), [.env.example](.env.example), and the bridge configuration before starting a local instance.
 
 ```bash
@@ -52,15 +58,15 @@ npm run build:web
 
 The build generates the excluded `dist/` directory. With your own backend configuration in place, `npm run serve` starts the Node bridge and serves the exported client; `npm run web` starts the Expo web development server.
 
-Configure `EXPO_PUBLIC_PROXY_URL` for your own bridge before building. Client-visible `EXPO_PUBLIC_*` values are embedded in the bundle, so keep privileged credentials on the server. Gemini API credentials belong in the bridge environment.
+Configure `EXPO_PUBLIC_PROXY_URL` for your own bridge before building. Client-visible `EXPO_PUBLIC_*` values are embedded in the bundle, so keep privileged credentials on the server. Speech and model credentials belong only in the bridge environment. The default voice provider is Spark; Gemini remains an explicit legacy rollback option.
 
-A functional voice session also needs microphone permission, a compatible browser and secure origin, working bridge authentication, and your own Gemini access. OpenClaw routes require a separately configured gateway and explicit enablement. Live provider use can incur charges.
+A functional voice session also needs microphone permission, a compatible browser and secure origin, working bridge authentication, and configured private inference services. OpenClaw routes require a separately configured gateway and explicit enablement. No external model or voice provider is called by the Spark pathway.
 
 ## Implementation scope
 
 The client source includes web microphone capture with PCM downsampling, audio playback, text input, tool calls, and native audio/camera paths. The [current architecture](ARCHITECTURE.md) explains transport, authentication, module boundaries, and the offline checks.
 
-Latency, reconnect recovery, tool reliability, and passkey enrollment/recovery still need a recorded end-to-end demonstration for the chosen deployment. No performance benchmark is claimed here.
+See [the private voice pathway and acceptance limits](docs/SPARK-VOICE.md). Recorded local tests exercised real text-to-voice and recorded-audio-to-voice requests. Physical holder passkey enrollment/recovery and microphone/device acceptance remain pending; they are not inferred from machine tests.
 
 Earlier plans and diagnostic scripts are preserved under [docs/history](docs/history/README.md).
 

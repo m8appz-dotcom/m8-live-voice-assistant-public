@@ -5,6 +5,7 @@ export interface BridgeSessionStatus {
   openclawRoutes?: boolean
   passkeySupported?: boolean
   passkeyConfigured?: boolean
+  passwordConfigured?: boolean
 }
 
 let bridgeSessionCache: BridgeSessionStatus | null = null

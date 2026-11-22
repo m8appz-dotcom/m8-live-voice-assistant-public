@@ -7,11 +7,6 @@
     "icon": "./assets/icon.png",
     "scheme": "m8live",
     "userInterfaceStyle": "dark",
-    "splash": {
-      "image": "./assets/splash-icon.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#0a0a0a"
-    },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.m8apps.geminilive",
@@ -26,7 +21,7 @@
         "backgroundImage": "./assets/android-icon-background.png",
         "backgroundColor": "#0a0f23"
       },
-      "package": "com.m8apps.geminilive",
+      "package": "com.m8apps.m8live",
       "softwareKeyboardLayoutMode": "resize",
       "permissions": [
         "RECORD_AUDIO",
@@ -51,9 +46,18 @@
         }
       ],
       [
-        "@siteed/expo-audio-studio",
+        "@siteed/audio-studio",
         {
           "microphonePermission": "Allow M8 Live to use the microphone for real-time voice input."
+        }
+      ],
+      "expo-audio",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "resizeMode": "contain",
+          "backgroundColor": "#0a0a0a"
         }
       ]
     ],

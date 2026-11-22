@@ -62,18 +62,21 @@ export default function Settings() {
   const [androidStatus, setAndroidStatus] = useState<Record<string, any> | null>(null)
   const [sources, setSources] = useState<SourceStatus | null>(null)
   const [busy, setBusy] = useState('')
+  const [voiceProvider, setVoiceProvider] = useState<string | null>(null)
 
   const refreshStatus = useCallback(async () => {
     setBusy('refresh')
     try {
-      const [capabilities, nativeStatus] = await Promise.all([
+      const [capabilities, nativeStatus, voiceHealth] = await Promise.all([
         fetchJson('/api/messages/capabilities').catch((error) => ({ ok: false, error: String(error?.message || error) })),
         Platform.OS === 'android' && AndroidDeviceControl?.status
           ? AndroidDeviceControl.status().catch((error: Error) => ({ ok: false, error: String(error?.message || error) }))
           : Promise.resolve({ ok: Platform.OS !== 'android', platform: Platform.OS, nativeControl: false }),
+        fetchJson('/api/health').catch(() => null),
       ])
       setSources(capabilities?.sources || capabilities)
       setAndroidStatus(nativeStatus)
+      setVoiceProvider(voiceHealth?.provider || null)
     } finally {
       setBusy('')
     }
@@ -206,8 +209,12 @@ export default function Settings() {
         </View>
 
         <Text style={s.sectionTitle}>Voice</Text>
-        <Text style={s.sectionDesc}>Gemini Live built-in voice (takes effect on next session)</Text>
-        {VOICES.map(v => (
+        <Text style={s.sectionDesc}>{voiceProvider === 'spark'
+          ? 'Aria · English (US). This voice is set for all conversations.'
+          : voiceProvider === 'gemini'
+            ? 'Choose a voice for your next conversation.'
+            : 'Connect to the voice service to view its voice settings.'}</Text>
+        {voiceProvider === 'gemini' && VOICES.map(v => (
           <TouchableOpacity
             key={v.id}
             style={[s.voiceRow, settings.voiceId === v.id && s.voiceRowActive]}
