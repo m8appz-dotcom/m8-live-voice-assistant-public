@@ -199,3 +199,16 @@ test("recorded PCM uses authenticated English NeMo transcription before generati
   assert.ok(events.some((e) => e.serverContent?.turnComplete));
   assert.equal(requests.length, 3);
 });
+
+test("spoken phrase extraction consumes the exact whitespace-prefixed input", () => {
+  const original =
+    "\n\nStart by opening the project and checking all the documented setup requirements before running the demo.";
+  const first = spokenChunk(original);
+  assert.equal(
+    first,
+    "\n\nStart by opening the project and checking all the documented ",
+  );
+  assert.ok(original.startsWith(first));
+  const remaining = original.slice(first.length);
+  assert.equal(first + spokenChunk(remaining, true), original);
+});

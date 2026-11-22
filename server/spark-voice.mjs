@@ -70,7 +70,8 @@ export function spokenChunk(text, finished = false) {
   const sentence = text.match(/^([\s\S]*?[.!?]\s+)/);
   if (sentence) return sentence[1];
   const words = text.match(/\S+\s*/g) || [];
-  if (words.length >= 12) return words.slice(0, 10).join("");
+  if (words.length >= 12)
+    return (text.match(/^\s*/)?.[0] || "") + words.slice(0, 10).join("");
   return finished ? text : "";
 }
 export class SparkVoiceSession extends EventEmitter {

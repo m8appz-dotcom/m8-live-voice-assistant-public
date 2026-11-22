@@ -1,3 +1,4 @@
+import { createMicrophoneRequest } from "./mic-request.js";
 import { $, modal, notify } from "./core.js";
 import { downsample, pcm16ToB64, pcm16ToAudioBuffer } from "./native-pcm.js";
 
@@ -50,7 +51,8 @@ function openLive() {
     processor = null,
     input = null,
     silent = null,
-    mic = false;
+    mic = false,
+    microphoneRequest = null;
   const status = (text) => {
     if ($("#live-status")) $("#live-status").textContent = text;
   };
@@ -64,6 +66,7 @@ function openLive() {
     next = 0;
   };
   const stopMic = () => {
+    microphoneRequest?.cancel();
     if (mic && socket.readyState === WebSocket.OPEN)
       socket.send(JSON.stringify({ realtimeInput: { audioStreamEnd: true } }));
     mic = false;
@@ -174,24 +177,30 @@ function openLive() {
     add("You", text);
     field.value = "";
   };
-  $("#live-mic").onclick = async () => {
-    if (mic) {
-      stopMic();
-      return;
-    }
-    try {
-      stream = await navigator.mediaDevices.getUserMedia({
+  microphoneRequest = createMicrophoneRequest({
+    acquire: () =>
+      navigator.mediaDevices.getUserMedia({
         audio: {
           channelCount: 1,
           echoCancellation: true,
           noiseSuppression: true,
         },
-      });
-      if (ended) {
-        stream.getTracks().forEach((t) => t.stop());
-        return;
+      }),
+    resume: () => ctx.resume(),
+    isClosed: () => ended,
+    onPending: (pending) => {
+      const button = $("#live-mic");
+      if (button) {
+        button.disabled = pending || ended || !ready;
+        button.textContent = pending
+          ? "Opening microphone…"
+          : mic
+            ? "Stop microphone"
+            : "Use microphone";
       }
-      await ctx.resume();
+    },
+    attach: (acquired) => {
+      stream = acquired;
       input = ctx.createMediaStreamSource(stream);
       processor = ctx.createScriptProcessor(4096, 1, 1);
       silent = ctx.createGain();
@@ -220,12 +229,17 @@ function openLive() {
       silent.connect(ctx.destination);
       mic = true;
       $("#live-mic").textContent = "Stop microphone";
-    } catch {
+    },
+    onError: () => {
       stopMic();
       status(
         "Microphone access was not granted. You can still type a question.",
       );
-    }
+    },
+  });
+  $("#live-mic").onclick = () => {
+    if (mic) stopMic();
+    else void microphoneRequest.start();
   };
   $("#live-stop").onclick = stop;
 }

@@ -922,6 +922,18 @@ export default function LiveScreen() {
         let msg: Record<string, unknown>
         try { msg = JSON.parse(event.data) } catch { return }
 
+        if (msg.error) {
+          clearAudioQueue()
+          nativePcmBufferRef.current = []
+          nativePlaybackStartedRef.current = false
+          micPausedRef.current = false
+          finalizeStreaming()
+          setAudioLevel(0)
+          setError('The voice service could not finish. Try again, or start a new conversation.')
+          setState(micOnRef.current ? 'listening' : 'ready')
+          return
+        }
+
         if (msg.goAway) {
           stopMic(); stopVideo()
           setState('idle')
@@ -1411,7 +1423,6 @@ export default function LiveScreen() {
                     if (!bridgeChecking && !bridgeAuthBusy && !passkeyBusy) void unlockBridge()
                   }}
                 />
-                {!!bridgeAuthError && <Text style={s.authError}>{bridgeAuthError}</Text>}
                 <Pressable
                   style={[
                     s.authButtonSecondary,
@@ -1432,6 +1443,7 @@ export default function LiveScreen() {
                 </Pressable>
               </>
             )}
+            {!!bridgeAuthError && <Text style={s.authError}>{bridgeAuthError}</Text>}
             {!passkeyConfigured && !passwordConfigured && (
               <Pressable
                 style={s.authButtonSecondary}
