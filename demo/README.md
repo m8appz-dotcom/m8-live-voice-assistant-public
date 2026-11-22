@@ -39,7 +39,7 @@ For a stable HTTPS deployment, use the separate [hosted workspace](HOSTING.md) e
 
 Authored replay remains separate from the optional live connection. Live voice requires an operating private M8 bridge and a real passkey session. The private Spark relay was exercised with actual text and recorded speech. Human passkey access and a physical microphone/device still require holder acceptance. No external tools are executed.
 
-The local server supports its documented localhost origin. This change does not deploy a public service or make these local workspaces production-ready. A public deployment needs a stable HTTPS origin/RP ID, durable protected storage, retention policy and completed holder acceptance. No provider keys or production data are included. No Spark data or services are touched.
+The local launcher supports its documented localhost origin. The separate hosted entry point requires a stable HTTPS origin/RP ID, private durable storage, the documented retention policy and holder acceptance. Source changes alone do not prove a deployment. No provider keys or production data are included; existing Spark services and data are preserved.
 
 ## Verification
 
