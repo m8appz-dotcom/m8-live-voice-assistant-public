@@ -1,3 +1,4 @@
+import {SparkVoiceSession,sparkConfig} from './server/spark-voice.mjs'
 import { createMemoryStore } from './server/memory-store.mjs'
 import { rejectWebSocketUpgrade } from './server/upgrade-auth.mjs'
 import http from 'http'
@@ -33,6 +34,8 @@ if (fs.existsSync(ENV_PATH)) {
   }
 }
 
+const VOICE_PROVIDER = process.env.M8LIVE_PROVIDER || 'spark'
+const SPARK_CONFIG = sparkConfig()
 const PORT = Number(process.env.PORT || 7300)
 const HOST = process.env.HOST || '127.0.0.1'
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || ''
@@ -139,7 +142,6 @@ function listOpenClawCallModuleCandidates() {
   const candidateBases = [
     process.platform === 'win32' ? path.join(process.env.APPDATA || '', 'npm', 'node_modules') : '',
     process.platform === 'win32' ? path.join(process.env.USERPROFILE || '', 'AppData', 'Roaming', 'npm', 'node_modules') : '',
-    '/home/m8apps/.npm-global/lib/node_modules',
     '/usr/lib/node_modules',
     '/usr/local/lib/node_modules',
   ].filter(Boolean)
@@ -1539,9 +1541,11 @@ const server = http.createServer(async (req, res) => {
     if (req.method === 'GET' && url.pathname === '/api/health') {
       return sendJson(req, res, 200, {
         ok: true,
-        model: GEMINI_LIVE_MODEL,
+        provider: VOICE_PROVIDER,
+        model: VOICE_PROVIDER === 'spark' ? 'private-voice' : GEMINI_LIVE_MODEL,
+        ready: VOICE_PROVIDER === 'spark' ? Boolean(SPARK_CONFIG) : Boolean(GEMINI_API_KEY),
         relay: '/gemini',
-        token: '/api/token',
+        token: VOICE_PROVIDER === 'spark' ? null : '/api/token',
         events: '/events',
         secured: Boolean(BRIDGE_AUTH_TOKEN),
         openclawRoutes: HAS_REMOTE_DELEGATE_ROUTES,
@@ -1566,6 +1570,7 @@ const server = http.createServer(async (req, res) => {
           openclawRoutes: HAS_REMOTE_DELEGATE_ROUTES,
           passkeySupported: true,
           passkeyConfigured: getPasskeyConfigured(),
+          passwordConfigured: Boolean(BRIDGE_ACCESS_PASSWORD),
         })
       }
 
@@ -1588,6 +1593,7 @@ const server = http.createServer(async (req, res) => {
           ttlMs: BRIDGE_SESSION_TTL_MS,
           passkeySupported: true,
           passkeyConfigured: getPasskeyConfigured(),
+          passwordConfigured: Boolean(BRIDGE_ACCESS_PASSWORD),
         }, { 'Set-Cookie': buildSetCookie(cookieValue, Math.floor(BRIDGE_SESSION_TTL_MS / 1000)) })
       }
     }
@@ -1809,6 +1815,7 @@ const server = http.createServer(async (req, res) => {
     }
 
     if (req.method === 'POST' && url.pathname === '/api/token') {
+      if (VOICE_PROVIDER === 'spark') return sendJson(req, res, 410, {ok:false,error:'Voice access uses your existing sign-in session.'})
       const token = await createEphemeralToken()
       return sendJson(req, res, 200, token)
     }
@@ -2042,7 +2049,7 @@ const server = http.createServer(async (req, res) => {
     }
 
     let filePath = path.join(DIST, url.pathname === '/' ? 'index.html' : decodeURIComponent(url.pathname))
-    if (!filePath.startsWith(DIST)) return sendJson(req, res, 403, { ok: false, error: 'Forbidden' })
+    if (filePath !== DIST && !filePath.startsWith(DIST + path.sep)) return sendJson(req, res, 403, { ok: false, error: 'Forbidden' })
     if (!fs.existsSync(filePath) || fs.statSync(filePath).isDirectory()) filePath = path.join(DIST, 'index.html')
     const ext = path.extname(filePath)
     const data = fs.readFileSync(filePath)
@@ -2057,7 +2064,7 @@ const server = http.createServer(async (req, res) => {
   }
 })
 
-const relayWss = new WebSocketServer({ noServer: true })
+const relayWss = new WebSocketServer({ noServer: true, maxPayload: VOICE_PROVIDER === 'spark' ? 60000 : 1024 * 1024 })
 const eventsWss = new WebSocketServer({ noServer: true })
 
 function authorizeWebSocket(req) {
@@ -2082,9 +2089,11 @@ server.on('upgrade', (req, socket, head) => {
       return
     }
 
+    if (VOICE_PROVIDER === 'spark' && (!SPARK_CONFIG || activeSessions.size >= 2)) { socket.end('HTTP/1.1 503 Service Unavailable\r\nConnection: close\r\n\r\n'); return }
+
     relayWss.handleUpgrade(req, socket, head, (clientWs) => {
       const sessionId = crypto.randomUUID()
-      const geminiWs = new WebSocket(GEMINI_WS_URL, {
+      const geminiWs = VOICE_PROVIDER === 'spark' ? new SparkVoiceSession(SPARK_CONFIG) : new WebSocket(GEMINI_WS_URL, {
         headers: GEMINI_API_KEY ? { 'X-Goog-Api-Key': GEMINI_API_KEY } : undefined,
       })
       let geminiReady = false
@@ -2174,7 +2183,7 @@ server.listen(PORT, HOST, () => {
   const address = server.address()
   const actualPort = typeof address === 'object' && address ? address.port : PORT
   console.log(`M8 Live proxy on http://${HOST}:${actualPort}`)
-  console.log(`  Model: ${GEMINI_LIVE_MODEL}`)
+  console.log(`  Voice provider: ${VOICE_PROVIDER}`)
   console.log(`  Auth configured: ${Boolean(BRIDGE_AUTH_TOKEN)}`)
   console.log(`  OpenClaw routes enabled: ${HAS_REMOTE_DELEGATE_ROUTES}`)
   console.log(`  Legacy flag BRIDGE_ENABLE_OPENCLAW_ROUTES: ${ENABLE_OPENCLAW_ROUTES}`)

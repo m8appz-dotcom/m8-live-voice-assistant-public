@@ -18,6 +18,10 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run typecheck
+      - name: Validate SDK and native configuration
+        run: npm run check:sdk
+      - name: Dependency audit
+        run: npm audit --audit-level=low
       - name: Audio and bridge regressions
         run: npm test
       - name: Export actual Expo web client

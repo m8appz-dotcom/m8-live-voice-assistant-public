@@ -35,7 +35,7 @@ The included server integrates FIDO2/WebAuthn for optional private workspace cop
 
 ## Boundaries
 
-Authored replay remains separate from the optional live connection. Live voice requires an operating private M8 bridge and a real passkey session. The live adapter is implemented; provider and microphone acceptance remain pending until that bridge and the holder are available. No external tools are executed.
+Authored replay remains separate from the optional live connection. Live voice requires an operating private M8 bridge and a real passkey session. The private Spark relay was exercised with actual text and recorded speech. Human passkey access and a physical microphone/device still require holder acceptance. No external tools are executed.
 
 The local server supports its documented localhost origin. This change does not deploy a public service or make these local workspaces production-ready. A public deployment needs a stable HTTPS origin/RP ID, durable protected storage, retention policy and completed holder acceptance. No provider keys or production data are included. No Spark data or services are touched.
 

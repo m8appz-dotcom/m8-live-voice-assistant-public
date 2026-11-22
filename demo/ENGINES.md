@@ -2,13 +2,15 @@
 
 **Live conversation**
 
-Adds a private server-to-server WebSocket adapter for an existing M8 `/gemini` bridge. It preserves gemini-3.1-flash-live-preview and Zephyr, fixes English instructions, rejects tool execution and arbitrary endpoints, and reuses the repository PCM module for capture and playback. Authored text replay stays separate.
+Uses a private server-to-server voice relay backed by the actual repository Spark voice engine. It streams the LLM answer into English Aria speech and accepts PCM microphone input through NeMo ASR. The repository PCM functions handle capture and playback at the actual announced sample rate. Authored text replay remains separate.
 
 ## Setup
 
-Live voice requires an already operating authenticated bridge. Configure M8_DEMO_BRIDGE_URL, M8_DEMO_BRIDGE_TOKEN and M8_DEMO_BRIDGE_ORIGIN only in the demo server environment. Remote bridges must use wss; a loopback SSH forward may use ws. The URL must end in /gemini and contain no credentials or query parameters. A real passkey session is required before connecting. The browser receives neither the bridge token nor a provider key. The microphone is requested only after its button is pressed. No bridge is started or changed by this demo. Live-provider and microphone acceptance remain pending until a valid bridge and the holder are available. The existing authored replay is not evidence of live voice.
+Install the repository root dependencies under Node 24.x or 26.x, configure the server-only private inference connections described in [SPARK-VOICE.md](../docs/SPARK-VOICE.md), and run the bridge in its isolated state directory. Configure M8_DEMO_BRIDGE_URL, M8_DEMO_BRIDGE_TOKEN and M8_DEMO_BRIDGE_ORIGIN only in the demo server environment. Remote bridges require wss; authenticated loopback forwarding may use ws. The compatibility path is /gemini, without URL credentials or query parameters.
 
-Run the demo with `npm start` from this directory and open its documented localhost origin. The static directory is `public`; configuration, adapters and private run folders are never served as static files.
+The browser signs in with a real passkey before a live conversation. It receives neither the bridge token nor a provider key. Microphone access is requested only after its button is pressed. No external account tools are enabled. This demo does not start or change a remote service.
+
+The actual private relay completed a text-to-voice request and the engine recognized a recorded English question before returning streamed speech. Physical holder passkey/microphone acceptance remains pending; a machine service identity and a recorded utterance are not substitutes. The original authored replay is not presented as a live model response.
 
 ## Access and outputs
 

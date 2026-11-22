@@ -26,27 +26,8 @@ function config() {
 }
 export function liveMessage(value, started) {
   if (!value || typeof value !== "object" || Array.isArray(value)) return null;
-  if (value.setup && !started)
-    return {
-      setup: {
-        model: "models/gemini-3.1-flash-live-preview",
-        generationConfig: {
-          responseModalities: ["AUDIO"],
-          speechConfig: {
-            voiceConfig: { prebuiltVoiceConfig: { voiceName: "Zephyr" } },
-          },
-        },
-        systemInstruction: {
-          parts: [
-            {
-              text: "Respond in English. Be clear and concise. You are demonstrating a voice conversation. Do not claim access to private data, accounts, or tools.",
-            },
-          ],
-        },
-        inputAudioTranscription: {},
-        outputAudioTranscription: {},
-      },
-    };
+  if (value.setup && !started) return { setup: { language: "en-US" } };
+
   if (value.clientContent && started) {
     const parts = value.clientContent.turns;
     if (
@@ -93,7 +74,7 @@ export default {
   actions: [],
   status: async () => ({
     available: !!config(),
-    model: "gemini-3.1-flash-live-preview",
+    provider: "private LLM and English speech",
     capabilities: config() ? ["Live text", "Microphone conversation"] : [],
     message: config()
       ? "Sign in with a passkey to start a live conversation."

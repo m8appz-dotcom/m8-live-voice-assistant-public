@@ -131,7 +131,11 @@ function openLive() {
         if (part.inlineData?.mimeType?.startsWith("audio/pcm")) {
           await ctx.resume();
           const source = ctx.createBufferSource();
-          source.buffer = pcm16ToAudioBuffer(ctx, part.inlineData.data, 24000);
+          source.buffer = pcm16ToAudioBuffer(
+            ctx,
+            part.inlineData.data,
+            Number(part.inlineData.mimeType.match(/rate=(\d+)/)?.[1] || 24000),
+          );
           source.connect(ctx.destination);
           next = Math.max(ctx.currentTime, next);
           source.start(next);

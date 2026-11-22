@@ -1,15 +1,15 @@
 import { ThreeOrb, PulseBadge, AudioSpectrum } from '../components/LiveVisuals'
 import type { SessionState } from '../src/types/session'
 import { b64ToArrayBuffer, pcm16ToAudioBuffer, downsample, pcm16ToB64, concatPcmB64, calcPcmRms } from '../src/audio/pcm'
-import { useEffect, useRef, useState, useCallback } from 'react'
+import { useEffect, useRef, useState, useCallback, type ComponentRef } from 'react'
 import { Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View, Modal, Switch, KeyboardAvoidingView, Keyboard, Animated as RNAnimated } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import NativeOrb from '../components/NativeOrb'
 import { CameraView, CameraType, useCameraPermissions } from 'expo-camera'
-import { useAudioRecorder } from '@siteed/expo-audio-studio'
-import type { AudioDataEvent } from '@siteed/expo-audio-studio'
-import { Audio, AVPlaybackStatus } from 'expo-av'
+import { useAudioRecorder } from '@siteed/audio-studio'
+import type { AudioDataEvent } from '@siteed/audio-studio'
+import {createAudioPlayer,setAudioModeAsync} from 'expo-audio'
 import * as FileSystem from 'expo-file-system/legacy'
 import * as DocumentPicker from 'expo-document-picker'
 import * as Haptics from 'expo-haptics'
@@ -126,6 +126,7 @@ export default function LiveScreen() {
   const [bridgeAuthError, setBridgeAuthError] = useState('')
   const [passkeySupported, setPasskeySupported] = useState(isWeb ? isPasskeySupported() : false)
   const [passkeyConfigured, setPasskeyConfigured] = useState(false)
+  const [passwordConfigured,setPasswordConfigured] = useState(false)
   const [passkeyBusy, setPasskeyBusy] = useState(false)
 
   // Permissions
@@ -170,7 +171,7 @@ export default function LiveScreen() {
 
   const modelBufRef = useRef('')
   const userBufRef = useRef('')
-  const chatScrollRef = useRef<ScrollView | null>(null)
+  const chatScrollRef = useRef<ComponentRef<typeof ScrollView> | null>(null)
   const micAnimRef = useRef<number>(0)
   const memoryContextRef = useRef('')
 
@@ -182,6 +183,9 @@ export default function LiveScreen() {
   const nativePlaybackStartedRef = useRef(false)
   const NATIVE_BUFFER_THRESHOLD = 1
   const NATIVE_BATCH_SIZE = 3
+  const playbackRateRef = useRef(24000)
+  const nativePlaybackCancelRef = useRef<(() => void) | null>(null)
+  const [supportsVision,setSupportsVision] = useState(false)
 
   useEffect(() => { stateRef.current = state }, [state])
 
@@ -341,17 +345,17 @@ export default function LiveScreen() {
     try {
       if (!audioModeSetRef.current) {
         audioModeSetRef.current = true
-        await Audio.setAudioModeAsync({
-          allowsRecordingIOS: false,
-          playsInSilentModeIOS: true,
-          staysActiveInBackground: false,
-          shouldDuckAndroid: false,
+        await setAudioModeAsync({
+          allowsRecording: false,
+          playsInSilentMode: true,
+          shouldPlayInBackground: false,
+          interruptionMode: 'doNotMix',
         })
       }
 
       const rawBytes = Uint8Array.from(atob(b64), c => c.charCodeAt(0))
       const dataLen = rawBytes.length
-      const sampleRate = 24000
+      const sampleRate = playbackRateRef.current
       const channels = 1
       const bitsPerSample = 16
       const byteRate = sampleRate * channels * (bitsPerSample / 8)
@@ -378,24 +382,27 @@ export default function LiveScreen() {
 
       const playSource = async (uri: string, cleanup?: () => void) => {
         await new Promise<void>((resolve, reject) => {
-          Audio.Sound.createAsync(
-            { uri },
-            { shouldPlay: true, volume: 1.0 }
-          ).then(({ sound }) => {
-            sound.setOnPlaybackStatusUpdate((status: AVPlaybackStatus) => {
-              if ('didJustFinish' in status && status.didJustFinish) {
-                sound.unloadAsync().catch(() => {})
-                cleanup?.()
-                resolve()
-              }
-            })
-          }).catch((e) => {
+          const player = createAudioPlayer({ uri }, { updateInterval: 40 })
+          let settled = false
+          const finish = (error?: Error) => {
+            if (settled) return
+            settled = true
+            clearTimeout(timeout)
+            subscription.remove()
+            player.release()
+            nativePlaybackCancelRef.current = null
             cleanup?.()
-            reject(e)
+            error ? reject(error) : resolve()
+          }
+          const timeout = setTimeout(() => finish(new Error('Voice playback timed out')), 20000)
+          const subscription = player.addListener('playbackStatusUpdate', (status) => {
+            if (status.didJustFinish) finish()
           })
+          nativePlaybackCancelRef.current = () => finish()
+          player.volume = 1
+          player.play()
         })
       }
-
       try {
         await playSource(`data:audio/wav;base64,${wavB64}`)
       } catch {
@@ -457,7 +464,7 @@ export default function LiveScreen() {
     if (speakerMutedRef.current) return
     if (isWeb) {
       const ctx = await getAudioCtx()
-      const buf = pcm16ToAudioBuffer(ctx, b64, 24000)
+      const buf = pcm16ToAudioBuffer(ctx, b64, playbackRateRef.current)
       const src = ctx.createBufferSource()
       src.buffer = buf
       // Route through output analyser for orb reactivity
@@ -476,6 +483,7 @@ export default function LiveScreen() {
 
   // Clear audio queue on interruption
   const clearAudioQueue = () => {
+    nativePlaybackCancelRef.current?.()
     if (audioCtxRef.current) {
       nextStartRef.current = audioCtxRef.current.currentTime
     }
@@ -923,6 +931,14 @@ export default function LiveScreen() {
         }
 
         if (msg.setupComplete !== undefined) {
+          const setup = msg.setupComplete as {
+            provider?: string
+            sampleRate?: number
+            capabilities?: { vision?: boolean }
+          }
+          setSupportsVision(setup.provider !== 'spark' || setup.capabilities?.vision === true)
+          if ([16000, 22050, 24000, 44100, 48000].includes(Number(setup.sampleRate)))
+            playbackRateRef.current = Number(setup.sampleRate)
           setState('ready')
           const pendingWake = pendingWakeRef.current
           if (pendingWake && injectWakeIntoGemini(pendingWake)) pendingWakeRef.current = null
@@ -965,6 +981,8 @@ export default function LiveScreen() {
           for (const part of parts) {
             const id = part.inlineData as Record<string, string> | undefined
             if (id?.data && String(id.mimeType || '').startsWith('audio/pcm')) {
+              const rate = Number(String(id.mimeType).match(/rate=(\d+)/)?.[1] || playbackRateRef.current)
+              if ([16000, 22050, 24000, 44100, 48000].includes(rate)) playbackRateRef.current = rate
               pcmParts.push(id.data)
             }
           }
@@ -1133,6 +1151,7 @@ export default function LiveScreen() {
     setBridgeAuthenticated(Boolean(status.authenticated))
     setPasskeySupported(Boolean(status.passkeySupported ?? isPasskeySupported()))
     setPasskeyConfigured(Boolean(status.passkeyConfigured))
+    setPasswordConfigured(Boolean(status.passwordConfigured))
     return status
   }, [])
 
@@ -1150,6 +1169,7 @@ export default function LiveScreen() {
       setBridgeAuthenticated(true)
       setPasskeySupported(Boolean(status.passkeySupported ?? isPasskeySupported()))
       setPasskeyConfigured(Boolean(status.passkeyConfigured))
+    setPasswordConfigured(Boolean(status.passwordConfigured))
       setBridgePassword('')
       setError('')
     } catch (e) {
@@ -1203,6 +1223,7 @@ export default function LiveScreen() {
         setBridgeAuthenticated(Boolean(status.authenticated))
         setPasskeySupported(Boolean(status.passkeySupported ?? isPasskeySupported()))
         setPasskeyConfigured(Boolean(status.passkeyConfigured))
+    setPasswordConfigured(Boolean(status.passwordConfigured))
       })
       .catch((e) => {
         if (!mounted) return
@@ -1345,37 +1366,82 @@ export default function LiveScreen() {
       {isWeb && (!bridgeAuthenticated || bridgeChecking) && (
         <View style={s.authOverlay}>
           <View style={s.authCard}>
-            <Text style={s.authTitle}>Unlock bridge</Text>
+            <Text style={s.authTitle}>
+              {passkeyConfigured || passwordConfigured ? 'Sign in to voice' : 'Voice access is not ready'}
+            </Text>
             <Text style={s.authCopy}>
-              You can unlock with a passkey, which uses your phone fingerprint or system PIN, or fall back to the bridge password.
+              {passkeyConfigured
+                ? 'Use your passkey to continue.'
+                : passwordConfigured
+                  ? 'Sign in, then add a passkey for future access.'
+                  : 'Ask your administrator to finish access setup, then check again.'}
             </Text>
             {passkeySupported && passkeyConfigured && (
               <Pressable
                 style={[s.authButton, (bridgeChecking || passkeyBusy) && { opacity: 0.6 }]}
-                onPress={() => { if (!bridgeChecking && !passkeyBusy) void unlockWithPasskey() }}
+                onPress={() => {
+                  if (!bridgeChecking && !passkeyBusy) void unlockWithPasskey()
+                }}
                 disabled={bridgeChecking || passkeyBusy}
               >
-                <Text style={s.authButtonText}>{bridgeChecking ? 'Checking...' : passkeyBusy ? 'Waiting for biometric...' : 'Use fingerprint or PIN'}</Text>
+                <Text style={s.authButtonText}>
+                  {bridgeChecking
+                    ? 'Checking...'
+                    : passkeyBusy
+                      ? 'Waiting for biometric...'
+                      : 'Use fingerprint or PIN'}
+                </Text>
               </Pressable>
             )}
-            <TextInput
-              value={bridgePassword}
-              onChangeText={(value) => { setBridgePassword(value); if (bridgeAuthError) setBridgeAuthError('') }}
-              placeholder="Bridge password"
-              placeholderTextColor="rgba(255,255,255,0.28)"
-              secureTextEntry
-              editable={!bridgeChecking && !bridgeAuthBusy && !passkeyBusy}
-              style={s.authInput}
-              onSubmitEditing={() => { if (!bridgeChecking && !bridgeAuthBusy && !passkeyBusy) void unlockBridge() }}
-            />
-            {!!bridgeAuthError && <Text style={s.authError}>{bridgeAuthError}</Text>}
-            <Pressable
-              style={[s.authButtonSecondary, (bridgeChecking || bridgeAuthBusy || passkeyBusy) && { opacity: 0.6 }]}
-              onPress={() => { if (!bridgeChecking && !bridgeAuthBusy && !passkeyBusy) void unlockBridge() }}
-              disabled={bridgeChecking || bridgeAuthBusy || passkeyBusy}
-            >
-              <Text style={s.authButtonSecondaryText}>{bridgeChecking ? 'Checking...' : bridgeAuthBusy ? 'Unlocking...' : 'Unlock with password'}</Text>
-            </Pressable>
+            {passwordConfigured && (
+              <>
+                {' '}
+                <TextInput
+                  value={bridgePassword}
+                  onChangeText={(value) => {
+                    setBridgePassword(value)
+                    if (bridgeAuthError) setBridgeAuthError('')
+                  }}
+                  placeholder="Bridge password"
+                  placeholderTextColor="rgba(255,255,255,0.28)"
+                  secureTextEntry
+                  editable={!bridgeChecking && !bridgeAuthBusy && !passkeyBusy}
+                  style={s.authInput}
+                  onSubmitEditing={() => {
+                    if (!bridgeChecking && !bridgeAuthBusy && !passkeyBusy) void unlockBridge()
+                  }}
+                />
+                {!!bridgeAuthError && <Text style={s.authError}>{bridgeAuthError}</Text>}
+                <Pressable
+                  style={[
+                    s.authButtonSecondary,
+                    (bridgeChecking || bridgeAuthBusy || passkeyBusy) && { opacity: 0.6 }
+                  ]}
+                  onPress={() => {
+                    if (!bridgeChecking && !bridgeAuthBusy && !passkeyBusy) void unlockBridge()
+                  }}
+                  disabled={bridgeChecking || bridgeAuthBusy || passkeyBusy}
+                >
+                  <Text style={s.authButtonSecondaryText}>
+                    {bridgeChecking
+                      ? 'Checking...'
+                      : bridgeAuthBusy
+                        ? 'Unlocking...'
+                        : 'Unlock with password'}
+                  </Text>
+                </Pressable>
+              </>
+            )}
+            {!passkeyConfigured && !passwordConfigured && (
+              <Pressable
+                style={s.authButtonSecondary}
+                onPress={() => {
+                  void refreshBridgeStatus()
+                }}
+              >
+                <Text style={s.authButtonSecondaryText}>Check access</Text>
+              </Pressable>
+            )}
           </View>
         </View>
       )}
@@ -1523,6 +1589,7 @@ export default function LiveScreen() {
                 boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)',
               }}>
                 {/* Camera button */}
+                {supportsVision && (
                 <Pressable
                   style={[s.dockBtn, !isConnected && { opacity: 0.3 }]}
                   onPress={() => videoMode === 'camera' ? stopVideo() : startVideo('camera')}
@@ -1534,6 +1601,7 @@ export default function LiveScreen() {
                     color={videoMode === 'camera' ? '#f87171' : 'rgba(255,255,255,0.7)'}
                   />
                 </Pressable>
+                )}
                 {/* Mic hero button */}
                 <Pressable
                   style={[s.micHeroBtn, !micOn && isConnected && s.micHeroBtnOff]}
@@ -1555,7 +1623,7 @@ export default function LiveScreen() {
                   <Ionicons name={speakerMuted ? 'volume-mute' : 'volume-high'} size={22} color={speakerMuted ? '#f87171' : 'rgba(255,255,255,0.7)'} />
                 </Pressable>
                 {/* Screen share -- web only */}
-                {isWeb && (
+                {isWeb && supportsVision && (
                   <Pressable
                     style={[s.dockBtn, !isConnected && { opacity: 0.3 }]}
                     onPress={() => videoMode === 'screen' ? stopVideo() : startVideo('screen')}
@@ -1569,6 +1637,7 @@ export default function LiveScreen() {
               /* Native: no backdrop-filter, use semi-transparent bg */
               <View style={s.glassDockNative}>
                 {/* Camera */}
+                {supportsVision && (
                 <Pressable
                   style={[s.dockBtn, !isConnected && { opacity: 0.3 }]}
                   onPress={() => videoMode === 'camera' ? stopVideo() : startVideo('camera')}
@@ -1580,6 +1649,7 @@ export default function LiveScreen() {
                     color={videoMode === 'camera' ? '#f87171' : 'rgba(255,255,255,0.7)'}
                   />
                 </Pressable>
+                )}
                 {/* Mic hero */}
                 <Pressable
                   style={[s.micHeroBtn, !micOn && isConnected && s.micHeroBtnOff]}
@@ -1633,13 +1703,13 @@ export default function LiveScreen() {
           {/* Chat bottom bar */}
           <View style={s.bottomBar}>
             <View style={s.waInputRow}>
-              <Pressable
+              {supportsVision && (              <Pressable
                 onPress={attachFile}
                 disabled={!isConnected}
                 style={[s.waIconBtn, !isConnected && { opacity: 0.3 }]}
               >
                 <Ionicons name="attach" size={22} color="#9ca3af" />
-              </Pressable>
+              </Pressable>)}
               <TextInput
                 value={draft}
                 onChangeText={setDraft}

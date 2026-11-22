@@ -7,7 +7,7 @@ import engine from "../engine-adapter.mjs";
 import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
-test("voice relay fixes the existing model and rejects tools, remote URLs and arbitrary commands", () => {
+test("voice relay fixes English and rejects model changes, tools and arbitrary commands", () => {
   const setup = liveMessage(
     {
       setup: {
@@ -17,7 +17,8 @@ test("voice relay fixes the existing model and rejects tools, remote URLs and ar
     },
     false,
   );
-  assert.equal(setup.setup.model, "models/gemini-3.1-flash-live-preview");
+  assert.equal(setup.setup.language, "en-US");
+  assert.equal(setup.setup.model, undefined);
   assert.equal(setup.setup.tools, undefined);
   assert.equal(liveMessage({ setup: {} }, true), null);
   assert.equal(
@@ -152,7 +153,8 @@ test("voice upgrades require the configured origin and verified service identity
     }),
   );
   const setup = await received;
-  assert.equal(setup.setup.model, "models/gemini-3.1-flash-live-preview");
+  assert.equal(setup.setup.language, "en-US");
+  assert.equal(setup.setup.model, undefined);
   assert.equal(setup.setup.tools, undefined);
   assert.equal((await response).includes(privateToken), false);
   const closed = new Promise((resolve) => client.once("close", resolve));

@@ -6,16 +6,12 @@ export default function Setup() {
 
   return (
     <View style={s.container}>
-      <Text style={s.title}>m8live Setup</Text>
-      <Text style={s.copy}>Backend bridge runs locally and exposes:</Text>
-      <Text style={s.code}>POST /api/token</Text>
-      <Text style={s.code}>POST /api/tools/openclaw-command</Text>
-      <Text style={s.code}>POST /api/tools/openclaw-message</Text>
-      <Text style={s.code}>WS /events</Text>
-      <Text style={s.copy}>Set secrets in .env before running the bridge.</Text>
+      <Text style={s.title}>Set up voice access</Text>
+      <Text style={s.copy}>Sign in with a passkey to use your private voice connection.</Text>
+      <Text style={s.copy}>Voice credentials stay on the server. Your conversation uses an English voice.</Text>
 
       <TouchableOpacity style={s.btn} onPress={() => router.replace('/live')}>
-        <Text style={s.btnText}>Go to Live</Text>
+        <Text style={s.btnText}>Open conversation</Text>
       </TouchableOpacity>
     </View>
   )
