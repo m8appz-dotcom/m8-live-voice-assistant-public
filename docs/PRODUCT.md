@@ -4,16 +4,18 @@ The original Expo screen with its green/cyan audio spectrum, Live/Chat views and
 
 ## Desktop
 
-![Original screen at the passkey access gate on desktop](images/original-wave-desktop.jpg)
+![Published original screen during an authenticated microphone conversation](images/original-wave-desktop.jpg)
 
 ## Phone
 
-![Original screen at the passkey access gate at a 390px viewport](images/original-wave-mobile.jpg)
+![Published original screen at a 390px viewport during the same conversation](images/original-wave-mobile.jpg)
 
 ## Try it
 
 Open [M8 Live](https://voice.kennethyepez.com). Sign in with the existing passkey, then use the microphone control to connect. Chat supports typed turns; the speaker control mutes spoken replies. New private accounts require an administrator invitation and passkey. Live conversations require available session capacity. Settings retains the [previous saved workspace](https://voice.kennethyepez.com/workspace/), without moving or overwriting saved data.
 
-These unmodified browser captures show the restored screen's access gate in an isolated preview. They establish desktop/phone rendering, not a completed authentication or acoustic test. The spectrum component and native visual source are preserved. Holder sign-in, recovery and physical microphone/playback acceptance on this restored screen must be checked at the final secure origin.
+These unmodified captures show the public screen after the holder signed in with the existing passkey on 22 November 2026. The microphone produced the transcript “The Green Wave is back.” and an English response; the holder confirmed recognition and audible playback. The wave responded to microphone input. A separate typed question returned “The original interface is ready.” through the real engine. Opening Settings and returning retained both turns. The microphone was stopped after the check.
+
+The 390px capture is a browser viewport check, not a native phone test. Second-authenticator enrollment/recovery remains incomplete; the original passkey and saved copy remain available. These short observations do not establish recognition accuracy, acoustic quality or latency distributions.
 
 [Watch the previous workspace recording](examples/workspace-walkthrough.mp4). This retained historical recording shows the authored replay now available under `/workspace/`. It does not show the restored screen or a completed human authentication flow.
