@@ -19,7 +19,7 @@ export default function HostedVoiceSettings() {
   }
   return <View style={[s.container, { paddingTop: Math.max(insets.top, 16) }]}>
     <View style={s.header}>
-      <TouchableOpacity accessibilityRole="button" onPress={() => router.replace('/live')}><Text style={s.backBtn}>Back</Text></TouchableOpacity>
+      <TouchableOpacity accessibilityRole="button" onPress={() => { if (router.canGoBack()) router.back(); else router.replace('/live') }}><Text style={s.backBtn}>Back</Text></TouchableOpacity>
       <Text style={s.title}>Settings</Text><View style={{ width: 40 }} />
     </View>
     <ScrollView contentContainerStyle={s.scrollContent}>

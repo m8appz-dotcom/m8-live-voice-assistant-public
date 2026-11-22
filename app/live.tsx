@@ -1163,6 +1163,7 @@ export default function LiveScreen() {
 
   const sendText = async () => {
     const text = draft.trim()
+    if (hostedWorkspace && text.length > 4000) { setError('Keep your message within 4,000 characters. Your draft is still here to edit.'); return }
     if (!text || !isConnected) return
     setDraft('')
     addMsg('user', text)
@@ -1422,6 +1423,7 @@ export default function LiveScreen() {
             </Text>
             {passkeySupported && passkeyConfigured && (
               <Pressable
+                accessibilityRole="button"
                 style={[s.authButton, (bridgeChecking || passkeyBusy) && { opacity: 0.6 }]}
                 onPress={() => {
                   if (!bridgeChecking && !passkeyBusy) void unlockWithPasskey()
@@ -1738,7 +1740,7 @@ export default function LiveScreen() {
           >
             {chat.length === 0 && (
               <Text style={s.emptyHint}>
-                {isConnected ? 'Tap mic or type a message' : 'Connecting...'}
+                {isConnected ? 'Tap mic or type a message' : hostedWorkspace && state !== 'connecting' ? 'Tap the power button to connect.' : 'Connecting...'}
               </Text>
             )}
             {chat.map(m => (
@@ -1764,6 +1766,7 @@ export default function LiveScreen() {
                 <Ionicons name="attach" size={22} color="#9ca3af" />
               </Pressable>)}
               <TextInput
+                accessibilityLabel="Message"
                 value={draft}
                 onChangeText={setDraft}
                 onSubmitEditing={sendText}
@@ -1773,15 +1776,18 @@ export default function LiveScreen() {
                 style={s.waInput}
                 blurOnSubmit={false}
                 editable={isConnected}
+                maxLength={hostedWorkspace ? 4000 : undefined}
                 returnKeyType="send"
                 multiline={Platform.OS !== 'web'}
               />
               <Pressable
-                onPress={sendText}
-                disabled={!draft.trim() || !isConnected}
-                style={[s.waSendBtn, (!draft.trim() || !isConnected) && { opacity: 0.3 }]}
+                accessibilityRole="button"
+                accessibilityLabel={hostedWorkspace && !isConnected ? 'Connect conversation' : 'Send message'}
+                onPress={() => { if (hostedWorkspace && !isConnected) void connect(); else void sendText() }}
+                disabled={hostedWorkspace && !isConnected ? !bridgeAuthenticated || bridgeChecking || state === 'connecting' : !draft.trim() || !isConnected}
+                style={[s.waSendBtn, (hostedWorkspace && !isConnected ? !bridgeAuthenticated || bridgeChecking || state === 'connecting' : !draft.trim() || !isConnected) && { opacity: 0.3 }]}
               >
-                <Ionicons name="send" size={20} color="#fff" />
+                <Ionicons name={hostedWorkspace && !isConnected ? 'power' : 'send'} size={20} color="#fff" />
               </Pressable>
             </View>
           </View>
