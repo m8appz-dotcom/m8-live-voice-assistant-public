@@ -4,15 +4,15 @@ An English voice assistant connecting an Expo 58 client to private speech recogn
 
 This repository exposes application source for architecture review: realtime audio transport, client state, a backend bridge, and browser authentication helpers.
 
-## Interactive English demo
+## See the workspace
 
-[Run the interactive demo](demo/README.md) to explore the approved product interface, local example workflows and downloadable outputs. The isolated demo uses English throughout and preserves the original application below. See its README for the exact example boundaries and passkey acceptance status.
+An English conversation workspace with a private speech and model relay.
 
-## Demonstration
+![The current M8 Live Voice Assistant workspace](docs/images/workspace-desktop.jpg)
 
-![Application output from the documented walkthrough](docs/images/demo.png)
+[Run locally](demo/README.md) · [Desktop and phone views](docs/PRODUCT.md) · [Engineering case](docs/CASE-STUDY.md) · [Watch the workspace recording](https://raw.githubusercontent.com/m8appz-dotcom/m8-live-voice-assistant-public/main/docs/examples/workspace-walkthrough.mp4)
 
-See the [reproducible walkthrough and its validation scope](docs/DEMO.md).
+The recording shows the authored example workflow. Engine evidence and its validation limits are documented separately in the case.
 
 ## Project direction and use
 
