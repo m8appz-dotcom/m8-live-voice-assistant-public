@@ -68,7 +68,7 @@ A functional voice session also needs microphone permission, a compatible browse
 
 The client source includes web microphone capture with PCM downsampling, audio playback, text input, tool calls, and native audio/camera paths. The [current architecture](ARCHITECTURE.md) explains transport, authentication, module boundaries, and the offline checks.
 
-See [the private voice pathway and acceptance limits](docs/SPARK-VOICE.md). Recorded local tests exercised real text-to-voice and recorded-audio-to-voice requests. Physical holder passkey enrollment/recovery and microphone/device acceptance remain pending; they are not inferred from machine tests.
+See [the private voice pathway and acceptance limits](docs/SPARK-VOICE.md). Recorded local tests exercised real text-to-voice and recorded-audio-to-voice requests. The holder completed real passkey sign-in and confirmed English microphone recognition and audible playback in the hosted browser on 22 November 2026. Native device testing and optional second-authenticator recovery remain separate, unverified checks; they are not inferred from machine tests or prerequisites for repeating this browser demonstration.
 
 Earlier plans and diagnostic scripts are preserved under [docs/history](docs/history/README.md).
 

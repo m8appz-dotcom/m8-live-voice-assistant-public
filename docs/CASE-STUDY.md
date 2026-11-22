@@ -2,7 +2,7 @@
 
 The application connects English speech through existing private inference services. Its server-owned relay connects transcription, streamed model text and streaming speech, keeps provider credentials off the browser and cancels outstanding work when a turn closes or is interrupted.
 
-[Current screens](PRODUCT.md) · [Workspace recording](examples/workspace-walkthrough.mp4) · [Recorded service evidence](examples/voice-acceptance.json)
+[Current screens](PRODUCT.md) · [Earlier authored recording](examples/workspace-walkthrough.mp4) · [Recorded service evidence](examples/voice-acceptance.json)
 
 [Open the HTTPS workspace](https://voice.kennethyepez.com). Live inference requires passkey sign-in and available session capacity; new accounts require an administrator invitation. The original Expo web screen uses the same SparkVoiceSession through the isolated hosted process. Native device acceptance remains separate. The previous authored example and saved-copy interface is retained at `/workspace/`. [Deployment and recovery](../demo/HOSTING.md) describe private storage and finite account capacity.
 
