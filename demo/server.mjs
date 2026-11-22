@@ -1,5 +1,7 @@
 import { engineGateway } from "./engine-gateway.mjs";
+import { validateJsonValue } from "./process.mjs";
 import http from "node:http";
+import { isIP } from "node:net";
 import {
   readFileSync,
   writeFileSync,
@@ -42,33 +44,179 @@ const safeFile = (root, name) => {
   if (!full.startsWith(path.resolve(root) + path.sep)) return null;
   return full;
 };
+export const workspaceStorageLimits = Object.freeze({
+  entryBytes: 192 * 1024,
+  userBytes: 384 * 1024,
+  totalBytes: 4 * 1024 * 1024,
+  userNodes: 30000,
+  totalNodes: 100000,
+  metadataBytes: 1024 * 1024,
+  recordBytes: 8 * 1024,
+  storeBytes: 8 * 1024 * 1024,
+});
+function jsonNodeCount(value) {
+  let count = 0;
+  const pending = [value];
+  while (pending.length) {
+    const node = pending.pop();
+    count++;
+    if (node && typeof node === "object")
+      for (const child of Object.values(node)) pending.push(child);
+  }
+  return count;
+}
+export function storedCredential(credential, user) {
+  const allowed = new Set([
+    "usb",
+    "nfc",
+    "ble",
+    "smart-card",
+    "hybrid",
+    "internal",
+  ]);
+  return {
+    id: credential.id,
+    publicKey: encode(credential.publicKey),
+    counter: credential.counter,
+    transports: Array.isArray(credential.transports)
+      ? [
+          ...new Set(
+            credential.transports.filter((value) => allowed.has(value)),
+          ),
+        ]
+      : [],
+    user,
+  };
+}
+function validateWorkspaceStorage(candidate) {
+  let metadataBytes = 0;
+  for (const records of [candidate.users, candidate.credentials]) {
+    for (const [key, value] of Object.entries(records)) {
+      validateJsonValue(value);
+      const bytes =
+        Buffer.byteLength(JSON.stringify(value), "utf8") +
+        Buffer.byteLength(JSON.stringify(key), "utf8") +
+        2;
+      metadataBytes += bytes;
+      if (
+        bytes > workspaceStorageLimits.recordBytes ||
+        metadataBytes > workspaceStorageLimits.metadataBytes
+      )
+        throw Error(
+          "Workspace access is at capacity. Your saved work is safe.",
+        );
+    }
+  }
+  const byUser = new Map();
+  const nodesByUser = new Map();
+  let total = 0,
+    totalNodes = 0;
+  for (const [key, value] of Object.entries(candidate.workspaces)) {
+    validateJsonValue(value);
+    const bytes =
+      Buffer.byteLength(JSON.stringify(value), "utf8") +
+      Buffer.byteLength(JSON.stringify(key), "utf8") +
+      2;
+    const user = key.slice(0, key.lastIndexOf(":"));
+    const userBytes = (byUser.get(user) || 0) + bytes;
+    const nodes = jsonNodeCount(value);
+    const userNodes = (nodesByUser.get(user) || 0) + nodes;
+    total += bytes;
+    totalNodes += nodes;
+    if (
+      bytes > workspaceStorageLimits.entryBytes ||
+      userBytes > workspaceStorageLimits.userBytes ||
+      total > workspaceStorageLimits.totalBytes ||
+      userNodes > workspaceStorageLimits.userNodes ||
+      totalNodes > workspaceStorageLimits.totalNodes
+    )
+      throw Error(
+        "Saved workspace storage is full. Export a local copy or reduce your saved work and try again.",
+      );
+    byUser.set(user, userBytes);
+    nodesByUser.set(user, userNodes);
+  }
+}
+function persistWorkspaceCandidate(storePath, candidate) {
+  // Bound individual values and cumulative storage before serializing the shared DB.
+  validateWorkspaceStorage(candidate);
+  // Serialize before any shared in-memory state changes or filesystem mutation.
+  const serialized = JSON.stringify(candidate);
+  if (Buffer.byteLength(serialized, "utf8") > workspaceStorageLimits.storeBytes)
+    throw Error(
+      "Saved workspace storage is full. Export a local copy and try again.",
+    );
+  mkdirSync(path.dirname(storePath), { recursive: true, mode: 0o700 });
+  const temporary = storePath + ".tmp";
+  writeFileSync(temporary, serialized, { mode: 0o600 });
+  renameSync(temporary, storePath);
+  return candidate;
+}
+export function saveWorkspaceCopy(database, user, key, state, storePath) {
+  validateJsonValue(state);
+  if (state === null || typeof state !== "object")
+    throw Error("That workspace could not be saved.");
+  const candidate = {
+    ...database,
+    workspaces: { ...database.workspaces, [user + ":" + key]: state },
+  };
+  return persistWorkspaceCandidate(storePath, candidate);
+}
 export function createDemoServer({
   root = path.join(HERE, "site"),
   storePath = path.join(HERE, ".demo-state", "workspaces.json"),
   origin = "http://localhost:8875",
+  hosted = false,
   enableCapture = false,
   engine = null,
 } = {}) {
   const url = new URL(origin);
-  if (url.hostname !== "localhost" || url.protocol !== "http:")
+  const secureHost =
+    hosted === true &&
+    url.protocol === "https:" &&
+    origin === url.origin &&
+    !url.port &&
+    !url.username &&
+    !url.password &&
+    /^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)+$/.test(
+      url.hostname,
+    ) &&
+    !/^[0-9.]+$/.test(url.hostname) &&
+    !url.hostname.endsWith(".localhost");
+  if (
+    hosted
+      ? !secureHost
+      : url.hostname !== "localhost" || url.protocol !== "http:"
+  )
     throw new Error(
       "This local demo server only supports its documented localhost origin. Configure production separately.",
     );
+  if (
+    hosted &&
+    (enableCapture ||
+      path.resolve(storePath).startsWith(path.resolve(root) + path.sep))
+  )
+    throw Error("Hosted access requires private storage and capture disabled.");
+  const rpID = url.hostname;
   const sessions = new Map(),
     challenges = new Map(),
     rates = new Map(),
     captureToken = encode(randomBytes(32));
   let db = { version: 1, users: {}, credentials: {}, workspaces: {} };
-  if (existsSync(storePath)) db = JSON.parse(readFileSync(storePath, "utf8"));
+  if (existsSync(storePath)) {
+    if (statSync(storePath).size > workspaceStorageLimits.storeBytes)
+      throw Error(
+        "Workspace store exceeds its safe capacity. Preserve it for offline recovery.",
+      );
+    db = JSON.parse(readFileSync(storePath, "utf8"));
+  }
   if (db.version !== 1 || !db.users || !db.credentials || !db.workspaces)
     throw new Error(
       "Unrecognized workspace store. Preserve it and investigate.",
     );
-  const persist = () => {
-    mkdirSync(path.dirname(storePath), { recursive: true, mode: 0o700 });
-    const temporary = storePath + ".tmp";
-    writeFileSync(temporary, JSON.stringify(db), { mode: 0o600 });
-    renameSync(temporary, storePath);
+  validateWorkspaceStorage(db);
+  const persist = (candidate) => {
+    db = persistWorkspaceCandidate(storePath, candidate);
   };
   const cookies = (req) =>
     Object.fromEntries(
@@ -89,11 +237,15 @@ export function createDemoServer({
     return s && s.until > Date.now() ? s : null;
   };
   const sessionCookie = (user) => {
+    if (hosted && sessions.size >= 1024)
+      throw Error("Workspace access is busy. Try again later.");
     const token = encode(randomBytes(32));
     sessions.set(token, { user, until: Date.now() + 3_600_000 });
     return cookie("__Host-workspace", token);
   };
   const pending = (res, data) => {
+    if (hosted && challenges.size >= 512)
+      throw Error("Workspace access is busy. Try again later.");
     const token = encode(randomBytes(32));
     challenges.set(token, { ...data, until: Date.now() + 120000 });
     res.setHeader("Set-Cookie", cookie("__Host-challenge", token, 120));
@@ -119,15 +271,22 @@ export function createDemoServer({
         );
       chunks.push(chunk);
     }
-    return JSON.parse(Buffer.concat(chunks).toString("utf8") || "{}");
+    return validateJsonValue(
+      JSON.parse(Buffer.concat(chunks).toString("utf8") || "{}"),
+    );
   };
   const handleEngine = engineGateway({
-    engine,
+    engine:
+      hosted && engine
+        ? { ...engine, protectedActions: engine.actions }
+        : engine,
     origin,
     stateRoot: path.dirname(storePath),
     authenticated: signedIn,
+    storedJobsLimit: hosted ? 300 : Infinity,
   });
   const server = http.createServer(async (req, res) => {
+    if (hosted) res.setHeader("Strict-Transport-Security", "max-age=31536000");
     res.setHeader("X-Content-Type-Options", "nosniff");
     res.setHeader("Referrer-Policy", "no-referrer");
     res.setHeader(
@@ -142,7 +301,7 @@ export function createDemoServer({
     );
     if (req.headers.host !== url.host) {
       json(res, 400, {
-        error: "Open this demo using its configured localhost address.",
+        error: "Open this workspace using its configured address.",
       });
       return;
     }
@@ -166,8 +325,22 @@ export function createDemoServer({
       for (const map of [sessions, challenges])
         for (const [id, value] of map) if (value.until < now) map.delete(id);
       for (const [id, value] of rates) if (value.until < now) rates.delete(id);
-      const ip = req.socket.remoteAddress,
-        rate = rates.get(ip) || { count: 0, until: now + 60000 };
+      const remote = req.socket.remoteAddress;
+      const forwarded = req.headers["cf-connecting-ip"];
+      const ip =
+        hosted &&
+        ["127.0.0.1", "::1", "::ffff:127.0.0.1"].includes(remote) &&
+        typeof forwarded === "string" &&
+        isIP(forwarded)
+          ? forwarded
+          : remote;
+      if (!rates.has(ip) && rates.size >= 4096) {
+        json(res, 429, {
+          error: "Workspace access is busy. Try again shortly.",
+        });
+        return;
+      }
+      const rate = rates.get(ip) || { count: 0, until: now + 60000 };
       rate.count++;
       rates.set(ip, rate);
       if (rate.count > 120) {
@@ -194,6 +367,14 @@ export function createDemoServer({
         const input = await body(req),
           session = signedIn(req);
         if (pathname === "/auth/register/options") {
+          if (
+            hosted &&
+            ((!session && Object.keys(db.users).length >= 250) ||
+              Object.keys(db.credentials).length >= 1000)
+          )
+            throw Error(
+              "This workspace has reached its access capacity. Existing passkeys still work.",
+            );
           const user = session?.user || encode(randomBytes(24)),
             record = db.users[user] || {
               id: user,
@@ -205,7 +386,7 @@ export function createDemoServer({
           );
           const options = await generateRegistrationOptions({
             rpName: "Portfolio demo workspace",
-            rpID: "localhost",
+            rpID,
             userID: new Uint8Array(
               Buffer.from(record.webauthnUserID, "base64url"),
             ),
@@ -241,7 +422,7 @@ export function createDemoServer({
             response: input,
             expectedChallenge: expected.challenge,
             expectedOrigin: origin,
-            expectedRPID: "localhost",
+            expectedRPID: rpID,
             requireUserVerification: true,
           });
           if (!result.verified || !result.registrationInfo)
@@ -249,13 +430,22 @@ export function createDemoServer({
           const c = result.registrationInfo.credential;
           if (db.credentials[c.id])
             throw new Error("That passkey is already registered.");
-          db.users[expected.user] = expected.record;
-          db.credentials[c.id] = {
-            ...c,
-            publicKey: encode(c.publicKey),
-            user: expected.user,
-          };
-          persist();
+          // Verification yields: capacity may have changed since options were issued.
+          if (
+            hosted &&
+            ((!db.users[expected.user] &&
+              Object.keys(db.users).length >= 250) ||
+              Object.keys(db.credentials).length >= 1000)
+          )
+            throw Error(
+              "This workspace has reached its access capacity. Existing passkeys still work.",
+            );
+          const credential = storedCredential(c, expected.user);
+          persist({
+            ...db,
+            users: { ...db.users, [expected.user]: expected.record },
+            credentials: { ...db.credentials, [c.id]: credential },
+          });
           json(
             res,
             200,
@@ -266,7 +456,7 @@ export function createDemoServer({
         }
         if (pathname === "/auth/login/options") {
           const options = await generateAuthenticationOptions({
-            rpID: "localhost",
+            rpID,
             userVerification: "required",
           });
           pending(res, { kind: "login", challenge: options.challenge });
@@ -289,7 +479,7 @@ export function createDemoServer({
             response: input,
             expectedChallenge: expected.challenge,
             expectedOrigin: origin,
-            expectedRPID: "localhost",
+            expectedRPID: rpID,
             credential: {
               ...record,
               publicKey: new Uint8Array(
@@ -300,8 +490,16 @@ export function createDemoServer({
           });
           if (!result.verified)
             throw new Error("That passkey could not be verified.");
-          record.counter = result.authenticationInfo.newCounter;
-          persist();
+          persist({
+            ...db,
+            credentials: {
+              ...db.credentials,
+              [input.id]: {
+                ...record,
+                counter: result.authenticationInfo.newCounter,
+              },
+            },
+          });
           json(
             res,
             200,
@@ -339,8 +537,13 @@ export function createDemoServer({
           if (pathname.endsWith("/save")) {
             if (input.state === null || typeof input.state !== "object")
               throw new Error("That workspace could not be saved.");
-            db.workspaces[key] = input.state;
-            persist();
+            db = saveWorkspaceCopy(
+              db,
+              session.user,
+              input.key,
+              input.state,
+              storePath,
+            );
             json(res, 200, { saved: true });
           } else json(res, 200, { state: db.workspaces[key] ?? null });
           return;
@@ -349,7 +552,7 @@ export function createDemoServer({
       } catch (e) {
         json(res, 400, {
           error:
-            /expired|already used|not registered|Sign in again|not match|already registered|too large|workspace type/.test(
+            /expired|already used|not registered|Sign in again|not match|already registered|too large|workspace type|Saved workspace storage is full|Workspace access is at capacity/.test(
               e.message,
             )
               ? e.message
@@ -448,6 +651,12 @@ export function createDemoServer({
     else res.end(readFileSync(file));
   });
   engine?.attach?.(server, { origin, authenticated: signedIn });
+  if (hosted) {
+    server.requestTimeout = 15000;
+    server.headersTimeout = 10000;
+    server.keepAliveTimeout = 5000;
+    server.maxRequestsPerSocket = 100;
+  }
   return server;
 }
 if (

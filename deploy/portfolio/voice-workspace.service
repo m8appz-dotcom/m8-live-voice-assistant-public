@@ -1,0 +1,26 @@
+[Unit]
+Description=Isolated English voice portfolio workspace
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h/apps/portfolio-voice/current
+EnvironmentFile=%h/.config/portfolio-voice/runtime.env
+ExecStart=/usr/bin/node demo/hosted-server.mjs
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=15
+KillMode=control-group
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=%h/.local/state/portfolio-voice
+MemoryMax=256M
+CPUQuota=50%
+TasksMax=64
+
+[Install]
+WantedBy=default.target

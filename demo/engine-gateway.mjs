@@ -1,8 +1,22 @@
 import { randomBytes, randomUUID, timingSafeEqual } from "node:crypto";
-import { mkdirSync, createReadStream, statSync, writeFileSync } from "node:fs";
+import {
+  mkdirSync,
+  createReadStream,
+  statSync,
+  writeFileSync,
+  readdirSync,
+  existsSync,
+} from "node:fs";
 import path from "node:path";
+import { validateJsonValue } from "./process.mjs";
 
-export function engineGateway({ engine, origin, stateRoot, authenticated }) {
+export function engineGateway({
+  engine,
+  origin,
+  stateRoot,
+  authenticated,
+  storedJobsLimit = Infinity,
+}) {
   const jobs = new Map(),
     limits = new Map();
   let active = 0;
@@ -89,7 +103,9 @@ export function engineGateway({ engine, origin, stateRoot, authenticated }) {
           if (size > 180000) throw Error();
           chunks.push(part);
         }
-        input = JSON.parse(Buffer.concat(chunks).toString("utf8"));
+        input = validateJsonValue(
+          JSON.parse(Buffer.concat(chunks).toString("utf8")),
+        );
       } catch {
         reply(res, 400, {
           error: "The request is unreadable or too large.",
@@ -121,7 +137,8 @@ export function engineGateway({ engine, origin, stateRoot, authenticated }) {
         return true;
       }
       const who = owner(req, res, true),
-        rate = limits.get(who) || { count: 0, until: now + 60000 };
+        principal = authenticated(req)?.user || who,
+        rate = limits.get(principal) || { count: 0, until: now + 60000 };
       if (rate.count >= 12 || active >= 2 || jobs.size >= 60) {
         reply(res, 429, {
           error: "The engine is busy. Wait for the current task, then retry.",
@@ -130,7 +147,20 @@ export function engineGateway({ engine, origin, stateRoot, authenticated }) {
         return true;
       }
       rate.count++;
-      limits.set(who, rate);
+      limits.set(principal, rate);
+      const engineRoot = path.join(stateRoot, "engine");
+      if (
+        Number.isFinite(storedJobsLimit) &&
+        existsSync(engineRoot) &&
+        readdirSync(engineRoot).length >= storedJobsLimit
+      ) {
+        reply(res, 429, {
+          error:
+            "This workspace has reached its saved task capacity. Export your existing work; contact the administrator for more space.",
+          code: "storage_capacity",
+        });
+        return true;
+      }
       const id = randomUUID(),
         directory = path.join(stateRoot, "engine", id);
       mkdirSync(directory, { recursive: true });

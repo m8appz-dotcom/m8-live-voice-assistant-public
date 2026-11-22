@@ -35,9 +35,11 @@ The included server integrates FIDO2/WebAuthn for optional private workspace cop
 
 ## Boundaries
 
+For a stable HTTPS deployment, use the separate [hosted workspace](HOSTING.md) entry point. It uses the exact domain for passkeys, private durable state and conservative live-session quotas. An explicit direct Spark transport reuses the actual repository voice engine without an additional bridge hop. Physical holder and microphone acceptance remain required; a machine test cannot complete them.
+
 Authored replay remains separate from the optional live connection. Live voice requires an operating private M8 bridge and a real passkey session. The private Spark relay was exercised with actual text and recorded speech. Human passkey access and a physical microphone/device still require holder acceptance. No external tools are executed.
 
-The local server supports its documented localhost origin. This change does not deploy a public service or make these local workspaces production-ready. A public deployment needs a stable HTTPS origin/RP ID, durable protected storage, retention policy and completed holder acceptance. No provider keys or production data are included. No Spark data or services are touched.
+The local launcher supports its documented localhost origin. The separate hosted entry point requires a stable HTTPS origin/RP ID, private durable storage, the documented retention policy and holder acceptance. Source changes alone do not prove a deployment. No provider keys or production data are included; existing Spark services and data are preserved.
 
 ## Verification
 
