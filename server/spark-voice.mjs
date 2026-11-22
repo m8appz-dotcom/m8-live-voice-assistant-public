@@ -162,6 +162,10 @@ export class SparkVoiceSession extends EventEmitter {
         return;
       }
       const input = message.realtimeInput || message.realtime_input;
+      if (typeof input?.text === "string" && Object.keys(input).length === 1) {
+        await this.answer(input.text);
+        return;
+      }
       if (input?.audioStreamEnd) {
         await this.transcribe();
         return;

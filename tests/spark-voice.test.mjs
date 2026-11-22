@@ -212,3 +212,45 @@ test("spoken phrase extraction consumes the exact whitespace-prefixed input", ()
   const remaining = original.slice(first.length);
   assert.equal(first + spokenChunk(remaining, true), original);
 });
+
+test("spoken notification text keeps the existing bounded realtime input contract", async (t) => {
+  const requests = [],
+    events = [];
+  const session = new SparkVoiceSession(config, {
+    fetcher: async (url, options) => {
+      requests.push({ url, options });
+      if (url.includes("chat/completions"))
+        return new Response(
+          "data: " +
+            JSON.stringify({
+              choices: [{ delta: { content: "Your update is ready. " } }],
+            }) +
+            "\n\ndata: [DONE]\n\n",
+        );
+      return new Response(Buffer.alloc(2000), {
+        headers: {
+          "Content-Type": "audio/pcm",
+          "X-Audio-Sample-Rate": "22050",
+        },
+      });
+    },
+  });
+  t.after(() => session.close());
+  session.on("message", (raw) => events.push(JSON.parse(raw)));
+  await once(session, "open");
+  await session.send(JSON.stringify({ setup: {} }));
+  const text =
+    "System notification. Read this update: the authored test is complete.";
+  await session.send(JSON.stringify({ realtimeInput: { text } }));
+  assert.equal(
+    JSON.parse(requests[0].options.body).messages.at(-1).content,
+    text,
+  );
+  assert.ok(events.some((e) => e.serverContent?.turnComplete));
+  assert.equal(requests.length, 2);
+  await session.send(
+    JSON.stringify({ realtimeInput: { text: "x".repeat(4001) } }),
+  );
+  assert.equal(requests.length, 2);
+  assert.ok(events.at(-1).error);
+});
