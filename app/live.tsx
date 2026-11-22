@@ -1,3 +1,4 @@
+import {PlaybackDrain} from '../src/audio/playbackDrain'
 import { ThreeOrb, PulseBadge, AudioSpectrum } from '../components/LiveVisuals'
 import { hostedWorkspace } from '../src/services/hostedWorkspace'
 import type { SessionState } from '../src/types/session'
@@ -147,6 +148,8 @@ export default function LiveScreen() {
   const processSpokenNotificationQueueRef = useRef<() => void>(() => {})
   const audioCtxRef = useRef<AudioContext | null>(null)
   const nextStartRef = useRef(0)
+  const playbackDrainRef = useRef(new PlaybackDrain())
+  const webSourcesRef = useRef(new Set<AudioBufferSourceNode>())
   const micStreamRef = useRef<MediaStream | null>(null)
   const audioSrcRef = useRef<MediaStreamAudioSourceNode | null>(null)
   const audioProcRef = useRef<ScriptProcessorNode | null>(null)
@@ -468,19 +471,27 @@ export default function LiveScreen() {
   const playAudio = useCallback(async (b64: string) => {
     if (speakerMutedRef.current) return
     if (isWeb) {
-      const ctx = await getAudioCtx()
-      const buf = pcm16ToAudioBuffer(ctx, b64, playbackRateRef.current)
-      const src = ctx.createBufferSource()
-      src.buffer = buf
-      // Route through output analyser for orb reactivity
-      if (outputAnalyserRef.current) {
-        src.connect(outputAnalyserRef.current)
-      } else {
-        src.connect(ctx.destination)
+      const ticket = playbackDrainRef.current.begin()
+      let source: AudioBufferSourceNode | null = null
+      try {
+        const ctx = await getAudioCtx()
+        if (!ticket.current()) return
+        const buf = pcm16ToAudioBuffer(ctx, b64, playbackRateRef.current)
+        const src = ctx.createBufferSource()
+        source = src
+        src.buffer = buf
+        src.connect(outputAnalyserRef.current || ctx.destination)
+        webSourcesRef.current.add(src)
+        src.onended = () => { webSourcesRef.current.delete(src); src.disconnect(); ticket.end() }
+        const when = Math.max(ctx.currentTime, nextStartRef.current)
+        src.start(when)
+        nextStartRef.current = when + buf.duration
+      } catch {
+        if(source){webSourcesRef.current.delete(source);source.disconnect()}
+        ticket.end()
+      } finally {
+        if (!ticket.current()) ticket.end()
       }
-      const when = Math.max(ctx.currentTime, nextStartRef.current)
-      src.start(when)
-      nextStartRef.current = when + buf.duration
     } else {
       enqueueNativeAudio(b64)
     }
@@ -488,6 +499,9 @@ export default function LiveScreen() {
 
   // Clear audio queue on interruption
   const clearAudioQueue = () => {
+    playbackDrainRef.current.clear()
+    for (const source of webSourcesRef.current) { source.onended = null; try { source.stop() } catch {} source.disconnect() }
+    webSourcesRef.current.clear()
     nativePlaybackCancelRef.current?.()
     if (audioCtxRef.current) {
       nextStartRef.current = audioCtxRef.current.currentTime
@@ -905,7 +919,9 @@ export default function LiveScreen() {
       wsRef.current = ws
 
       ws.onopen = async () => {
+        if (ws !== wsRef.current) return
         const [remoteMemory, localMemory] = await Promise.all([hostedWorkspace ? Promise.resolve(null) : fetchMemoryContext(isWeb), getLocalMemory()])
+        if (ws !== wsRef.current) return
         const memoryContext = [
           remoteMemory?.summary ? `Durable memory:\n${remoteMemory.summary}` : '',
           formatLocalMemory(localMemory) ? `Recent local conversation:\n${formatLocalMemory(localMemory)}` : '',
@@ -943,6 +959,7 @@ export default function LiveScreen() {
       }
 
       ws.onmessage = async event => {
+        if (ws !== wsRef.current) return
         let msg: Record<string, unknown>
         try { msg = JSON.parse(event.data) } catch { return }
 
@@ -1036,15 +1053,21 @@ export default function LiveScreen() {
             drainAudioQueue()
           }
           nativePlaybackStartedRef.current = false
-          micPausedRef.current = false
           finalizeStreaming()
-          setAudioLevel(0)
-          setState(micOnRef.current ? 'listening' : 'ready')
+          const finish = () => {
+            micPausedRef.current = false
+            setAudioLevel(0)
+            setState(micOnRef.current ? 'listening' : 'ready')
+          }
+          if (isWeb) playbackDrainRef.current.complete(finish)
+          else finish()
         }
       }
 
-      ws.onerror = () => { setError('Connection failed.'); setState('error') }
+      ws.onerror = () => { if(ws !== wsRef.current)return; clearAudioQueue(); setError('Connection failed.'); setState('error') }
       ws.onclose = e => {
+        if (ws !== wsRef.current) return
+        clearAudioQueue()
         const wasIntentional = intentionalDisconnectRef.current
         console.warn('[m8live] gemini websocket closed', { code: e.code, reason: e.reason || '', wasIntentional })
         stopMic(); stopVideo()
@@ -1128,6 +1151,7 @@ export default function LiveScreen() {
   useEffect(() => { stopVideoActionRef.current = stopVideo }, [stopVideo])
 
   const disconnect = useCallback(() => {
+    clearAudioQueue()
     intentionalDisconnectRef.current = true
     if (reconnectTimerRef.current) {
       clearTimeout(reconnectTimerRef.current)
@@ -1165,6 +1189,7 @@ export default function LiveScreen() {
     const text = draft.trim()
     if (hostedWorkspace && text.length > 4000) { setError('Keep your message within 4,000 characters. Your draft is still here to edit.'); return }
     if (!text || !isConnected) return
+    clearAudioQueue()
     setDraft('')
     addMsg('user', text)
     setState('thinking')
