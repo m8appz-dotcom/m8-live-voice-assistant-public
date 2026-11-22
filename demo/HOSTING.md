@@ -18,6 +18,9 @@ Workspace data persists on disk; sessions and challenges expire in memory and cl
 
 Use the dedicated resource-bounded `deploy/portfolio/voice-workspace.service`. Preserve its current release target, private runtime environment and workspace store before an update. Install a new immutable release, verify runtime hashes/tests and atomically switch only this app's current symlink; restart only its unit. Roll back to the recorded target without replacing its workspace store. On first deployment, stop only the new unit and remove only its new public route if needed; preserve private state and original sources. No existing Spark service, model, data store or production configuration is migrated or restarted.
 
+
+Each admitted account retains a reserved 256 KiB and 6,000 JSON nodes across its five supported private workspace slots; a slot may use at most 192 KiB. Another account cannot consume that reservation. Private registration has 16 finite slots; when full, the administrator must review capacity before admitting more users. Public authored examples remain available without registering. Credential metadata and pre-read store sizes are bounded; invalid/orphaned historical stores are preserved for offline recovery rather than truncated.
+
 ## Acceptance
 
 Run `npm run check` in `demo`. Controlled HTTP fixtures test the direct transport, English voice/PCM contract, access rejection and public quotas without contacting a real provider. Existing voice engine tests retain cancellation, timeout and input checks. Separately verify the actual deployed inference path with a private machine identity and retain its exact source revision and artifacts. Such a measurement is a development observation, not a latency guarantee or a physical microphone test.

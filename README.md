@@ -10,9 +10,11 @@ An English conversation workspace with a private speech and model relay.
 
 ![The current M8 Live Voice Assistant workspace](docs/images/workspace-desktop.jpg)
 
-[Run locally](demo/README.md) · [Desktop and phone views](docs/PRODUCT.md) · [Engineering case](docs/CASE-STUDY.md) · [Watch the workspace recording](https://raw.githubusercontent.com/m8appz-dotcom/m8-live-voice-assistant-public/main/docs/examples/workspace-walkthrough.mp4)
+[Open the English workspace](https://voice.kennethyepez.com) · [Run locally](demo/README.md) · [Desktop and phone views](docs/PRODUCT.md) · [Engineering case](docs/CASE-STUDY.md) · [Watch the workspace recording](https://raw.githubusercontent.com/m8appz-dotcom/m8-live-voice-assistant-public/main/docs/examples/workspace-walkthrough.mp4)
 
 The recording shows the authored example workflow. Engine evidence and its validation limits are documented separately in the case.
+
+The HTTPS workspace lets visitors explore the authored example without an account. Live conversations and private server copies require a passkey; private account and session capacity is limited. The hosted workspace reuses the private voice engine directly and has its own isolated release and state. The Expo application is a separate client with its own device acceptance requirements. See [hosting, recovery and limits](demo/HOSTING.md).
 
 ## Project direction and use
 
