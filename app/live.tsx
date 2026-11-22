@@ -921,6 +921,7 @@ export default function LiveScreen() {
       ws.onopen = async () => {
         if (ws !== wsRef.current) return
         const [remoteMemory, localMemory] = await Promise.all([hostedWorkspace ? Promise.resolve(null) : fetchMemoryContext(isWeb), getLocalMemory()])
+        if (ws !== wsRef.current) return
         const memoryContext = [
           remoteMemory?.summary ? `Durable memory:\n${remoteMemory.summary}` : '',
           formatLocalMemory(localMemory) ? `Recent local conversation:\n${formatLocalMemory(localMemory)}` : '',
