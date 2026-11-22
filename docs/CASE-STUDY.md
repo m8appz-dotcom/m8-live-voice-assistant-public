@@ -1,8 +1,10 @@
 # A bounded English voice relay
 
-The client needed English speech through existing private inference services. Its server-owned relay connects transcription, streamed model text and streaming speech, keeps provider credentials off the browser and cancels outstanding work when a turn closes or is interrupted.
+The application connects English speech through existing private inference services. Its server-owned relay connects transcription, streamed model text and streaming speech, keeps provider credentials off the browser and cancels outstanding work when a turn closes or is interrupted.
 
 [Current screens](PRODUCT.md) · [Workspace recording](examples/workspace-walkthrough.mp4) · [Recorded service evidence](examples/voice-acceptance.json)
+
+[Open the HTTPS workspace](https://voice.kennethyepez.com). Authored example browsing works without an account; live inference requires a passkey and is bounded by public session quotas. The isolated hosted process uses the same SparkVoiceSession directly. The Expo/native client remains a separate acceptance path. [Deployment and recovery](../demo/HOSTING.md) describe private storage and finite account capacity.
 
 ## Responsibility and decisions
 
@@ -42,4 +44,4 @@ Read [the private pathway](SPARK-VOICE.md), [server source](../server/spark-voic
 
 ## Remaining acceptance
 
-A fresh current-revision benchmark needs verified private routes. Holder passkey registration/login/recovery, physical microphone/playback and native device acceptance remain pending. Tests, the JVM parser check and a web export do not replace those steps. Connected public use needs a stable secure origin. No active inference service, production data or remote configuration changed for this portfolio work.
+The hosted HTTPS page and unauthenticated access gate have been checked in the real browser on desktop and phone layouts. Holder passkey registration/login/recovery, physical microphone/playback and native device acceptance remain pending. Tests, the JVM parser check and a web export do not replace those steps. A representative current-release benchmark remains separate from the historical samples above. Only new isolated portfolio services and their dedicated public routing were added; existing inference services, production data and configuration remain unchanged.
