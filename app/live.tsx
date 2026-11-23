@@ -126,6 +126,7 @@ export default function LiveScreen() {
   const [bridgeChecking, setBridgeChecking] = useState(isWeb)
   const [bridgePassword, setBridgePassword] = useState('')
   const [workspaceInvite, setWorkspaceInvite] = useState('')
+  const [inviteExpanded, setInviteExpanded] = useState(false)
   const [registrationOpen, setRegistrationOpen] = useState(false)
   const webMicPendingRef = useRef(false)
   const [bridgeAuthBusy, setBridgeAuthBusy] = useState(false)
@@ -1449,12 +1450,14 @@ export default function LiveScreen() {
             {passkeySupported && passkeyConfigured && (
               <Pressable
                 accessibilityRole="button"
+                accessibilityLabel={hostedWorkspace ? 'Sign in with a passkey' : 'Use fingerprint or PIN'}
                 style={[s.authButton, (bridgeChecking || passkeyBusy) && { opacity: 0.6 }]}
                 onPress={() => {
                   if (!bridgeChecking && !passkeyBusy) void unlockWithPasskey()
                 }}
                 disabled={bridgeChecking || passkeyBusy}
               >
+                <Ionicons name="finger-print-outline" size={20} color="#b8eeee" accessible={false} />
                 <Text style={s.authButtonText}>
                   {bridgeChecking
                     ? 'Checking...'
@@ -1465,13 +1468,26 @@ export default function LiveScreen() {
               </Pressable>
             )}
             {hostedWorkspace && registrationOpen && (
-              <>
-                <TextInput accessibilityLabel="Invitation code" value={workspaceInvite} onChangeText={setWorkspaceInvite}
-                  placeholder="Invitation code" placeholderTextColor="rgba(255,255,255,0.28)" secureTextEntry
-                  maxLength={43} autoCapitalize="none" autoCorrect={false} style={s.authInput} editable={!passkeyBusy} />
-                <Pressable accessibilityRole="button" style={s.authButtonSecondary} disabled={passkeyBusy || bridgeChecking || workspaceInvite.trim().length !== 43}
-                  onPress={() => void enablePasskey()}><Text style={s.authButtonSecondaryText}>Create access with a passkey</Text></Pressable>
-              </>
+              <View style={s.authInvite}>
+                <Pressable accessibilityRole="button" accessibilityLabel="Have an invitation?" aria-expanded={inviteExpanded}
+                  style={s.authInviteToggle} disabled={passkeyBusy || bridgeChecking}
+                  onPress={() => setInviteExpanded(value => !value)}>
+                  <Text style={s.authInviteText}>Have an invitation?</Text>
+                  <Ionicons name={inviteExpanded ? 'chevron-up-outline' : 'chevron-down-outline'} size={14} color="#a3a8aa" accessible={false} />
+                </Pressable>
+                {inviteExpanded && <View style={s.authInviteFields}>
+                  <TextInput accessibilityLabel="Invitation code" value={workspaceInvite} onChangeText={setWorkspaceInvite}
+                    placeholder="Invitation code" placeholderTextColor="rgba(255,255,255,0.35)" secureTextEntry
+                    maxLength={43} autoCapitalize="none" autoCorrect={false} style={s.authInput} editable={!passkeyBusy} />
+                  <Pressable accessibilityRole="button" accessibilityLabel="Create access with a passkey"
+                    style={[s.authButtonSecondary, (passkeyBusy || bridgeChecking || workspaceInvite.trim().length !== 43) && { opacity: 0.45 }]}
+                    disabled={passkeyBusy || bridgeChecking || workspaceInvite.trim().length !== 43}
+                    onPress={() => void enablePasskey()}>
+                    <Text style={s.authButtonSecondaryText}>Create access with a passkey</Text>
+                    <Ionicons name="arrow-forward-outline" size={16} color="#d4d9da" accessible={false} />
+                  </Pressable>
+                </View>}
+              </View>
             )}
             {passwordConfigured && (
               <>
@@ -1863,43 +1879,57 @@ const s = StyleSheet.create({
     paddingHorizontal: 20,
   },
   authCard: {
-    width: '100%', maxWidth: 420,
-    backgroundColor: '#111111',
-    borderRadius: 18,
+    width: '100%', maxWidth: 400,
+    backgroundColor: '#0d1011',
+    borderRadius: 16,
     borderWidth: 1,
     borderColor: 'rgba(255,255,255,0.08)',
-    padding: 18,
-    gap: 12,
+    padding: 28,
+    gap: 14,
   },
-  authTitle: { color: '#ffffff', fontSize: 22, fontWeight: '700' },
-  authCopy: { color: 'rgba(255,255,255,0.72)', fontSize: 14, lineHeight: 20 },
+  authTitle: { color: '#f0f3f3', fontSize: 24, fontWeight: '300', letterSpacing: -0.4 },
+  authCopy: { color: '#a3a8aa', fontSize: 13, lineHeight: 20, marginBottom: 6 },
   authInput: {
-    borderRadius: 12,
-    backgroundColor: '#1a1a1a',
+    borderRadius: 10,
+    backgroundColor: 'rgba(255,255,255,0.025)',
     borderWidth: 1,
     borderColor: 'rgba(255,255,255,0.08)',
     color: '#ffffff',
     paddingHorizontal: 14,
     paddingVertical: 12,
-    fontSize: 15,
+    fontSize: 14,
   },
   authError: { color: '#f87171', fontSize: 13 },
   authButton: {
     height: 46,
-    borderRadius: 12,
-    backgroundColor: '#00ffff',
+    borderRadius: 10,
+    backgroundColor: 'rgba(0,255,255,0.065)',
+    borderWidth: 1,
+    borderColor: 'rgba(0,255,255,0.22)',
+    flexDirection: 'row', gap: 10,
     alignItems: 'center', justifyContent: 'center',
   },
-  authButtonText: { color: '#041010', fontSize: 14, fontWeight: '800' },
+  authButtonText: { color: '#c9eeee', fontSize: 13, fontWeight: '500', letterSpacing: 0.1 },
   authButtonSecondary: {
     height: 46,
-    borderRadius: 12,
-    backgroundColor: '#1a1a1a',
+    borderRadius: 10,
+    backgroundColor: 'transparent',
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.1)',
+    borderColor: 'rgba(255,255,255,0.09)',
+    flexDirection: 'row', gap: 8,
     alignItems: 'center', justifyContent: 'center',
   },
-  authButtonSecondaryText: { color: '#ffffff', fontSize: 14, fontWeight: '700' },
+  authButtonSecondaryText: { color: '#d4d9da', fontSize: 13, fontWeight: '400' },
+  authInvite: { width: '100%' },
+  authInviteToggle: {
+    minHeight: 36, flexDirection: 'row', gap: 6,
+    alignItems: 'center', justifyContent: 'center',
+  },
+  authInviteText: { color: '#a3a8aa', fontSize: 12, fontWeight: '400' },
+  authInviteFields: {
+    borderTopWidth: 1, borderColor: 'rgba(255,255,255,0.07)',
+    paddingTop: 16, marginTop: 8, gap: 12,
+  },
   passkeyHintWrap: {
     position: 'absolute',
     top: 72,
