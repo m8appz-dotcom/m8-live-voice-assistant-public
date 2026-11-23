@@ -1450,6 +1450,7 @@ export default function LiveScreen() {
             {passkeySupported && passkeyConfigured && (
               <Pressable
                 accessibilityRole="button"
+                accessibilityLabel={hostedWorkspace ? 'Sign in with a passkey' : 'Use fingerprint or PIN'}
                 style={[s.authButton, (bridgeChecking || passkeyBusy) && { opacity: 0.6 }]}
                 onPress={() => {
                   if (!bridgeChecking && !passkeyBusy) void unlockWithPasskey()
@@ -1468,7 +1469,7 @@ export default function LiveScreen() {
             )}
             {hostedWorkspace && registrationOpen && (
               <View style={s.authInvite}>
-                <Pressable accessibilityRole="button" accessibilityState={{ expanded: inviteExpanded }}
+                <Pressable accessibilityRole="button" accessibilityLabel="Have an invitation?" aria-expanded={inviteExpanded}
                   style={s.authInviteToggle} disabled={passkeyBusy || bridgeChecking}
                   onPress={() => setInviteExpanded(value => !value)}>
                   <Text style={s.authInviteText}>Have an invitation?</Text>
@@ -1478,7 +1479,7 @@ export default function LiveScreen() {
                   <TextInput accessibilityLabel="Invitation code" value={workspaceInvite} onChangeText={setWorkspaceInvite}
                     placeholder="Invitation code" placeholderTextColor="rgba(255,255,255,0.35)" secureTextEntry
                     maxLength={43} autoCapitalize="none" autoCorrect={false} style={s.authInput} editable={!passkeyBusy} />
-                  <Pressable accessibilityRole="button"
+                  <Pressable accessibilityRole="button" accessibilityLabel="Create access with a passkey"
                     style={[s.authButtonSecondary, (passkeyBusy || bridgeChecking || workspaceInvite.trim().length !== 43) && { opacity: 0.45 }]}
                     disabled={passkeyBusy || bridgeChecking || workspaceInvite.trim().length !== 43}
                     onPress={() => void enablePasskey()}>
